@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ceria_purple">#7C4DFF</color>
+    <color name="ceria_pink">#FF4081</color>
+    <color name="ceria_sky">#40C4FF</color>
+    <color name="ceria_lime">#76FF03</color>
+    <color name="ceria_sun">#FFD600</color>
+    <color name="ceria_orange">#FF9100</color>
+    <color name="ceria_white">#FFFFFF</color>
+    <color name="ceria_dark">#2A1B54</color>
+</resources>
