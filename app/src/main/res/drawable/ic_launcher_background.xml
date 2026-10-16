@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Soft pastel sky used behind the mascot in the adaptive icon. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:startColor="#9FE8FF"
+        android:centerColor="#CDEBFF"
+        android:endColor="#FFC7E6"
+        android:angle="270" />
+</shape>

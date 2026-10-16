@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cute chibi robot mascot used as the adaptive icon foreground. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Antenna stalk -->
+    <path
+        android:strokeColor="#B39DDB"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M54,36 L54,24" />
+
+    <!-- Heart on the antenna -->
+    <path
+        android:fillColor="#FF7BAC"
+        android:pathData="M54,31 C50.5,27 45.5,25.5 44.5,21.5 C43.8,18.4 46.2,15.6 49.2,15.6 C51.2,15.6 53,16.6 54,18.3 C55,16.6 56.8,15.6 58.8,15.6 C61.8,15.6 64.2,18.4 63.5,21.5 C62.5,25.5 57.5,27 54,31 Z" />
+
+    <!-- Head -->
+    <path
+        android:fillColor="#FFFDF6"
+        android:strokeColor="#B39DDB"
+        android:strokeWidth="3"
+        android:pathData="M32,38 L76,38 A14,14 0 0 1 90,52 L90,68 A14,14 0 0 1 76,82 L32,82 A14,14 0 0 1 18,68 L18,52 A14,14 0 0 1 32,38 Z" />
+
+    <!-- Cheeks -->
+    <path
+        android:fillColor="#FF9EB5"
+        android:fillAlpha="0.75"
+        android:pathData="M32,63 m-6,0 a6,5 0 1,0 12,0 a6,5 0 1,0 -12,0" />
+    <path
+        android:fillColor="#FF9EB5"
+        android:fillAlpha="0.75"
+        android:pathData="M76,63 m-6,0 a6,5 0 1,0 12,0 a6,5 0 1,0 -12,0" />
+
+    <!-- Eyes -->
+    <path
+        android:fillColor="#332B5E"
+        android:pathData="M44,51 m-6.5,0 a6.5,8 0 1,0 13,0 a6.5,8 0 1,0 -13,0" />
+    <path
+        android:fillColor="#332B5E"
+        android:pathData="M64,51 m-6.5,0 a6.5,8 0 1,0 13,0 a6.5,8 0 1,0 -13,0" />
+
+    <!-- Sparkles in the eyes -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M41.5,47 m-2.6,0 a2.6,2.6 0 1,0 5.2,0 a2.6,2.6 0 1,0 -5.2,0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.85"
+        android:pathData="M66,55 m-1.6,0 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0" />
+
+    <!-- Open happy smile -->
+    <path
+        android:fillColor="#332B5E"
+        android:pathData="M47,66 A7,6 0 0 0 61,66 Z" />
+    <!-- Tongue -->
+    <path
+        android:fillColor="#FF8FA3"
+        android:pathData="M54,69 m-3.4,0 a3.4,2.4 0 1,0 6.8,0 a3.4,2.4 0 1,0 -6.8,0" />
+</vector>
