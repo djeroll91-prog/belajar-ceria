@@ -210,6 +210,33 @@ public class HomeLayoutTest {
     }
 
     @Test
+    public void newGameBoardsHaveRealTiles() {
+        MainActivity host = launch();
+        for (int i = 0; i < 2; i++) {
+            MainActivity.Screen screen = i == 0 ? new SpellGame(host) : new OddOneOutGame(host);
+            host.open(screen);
+            View decor = host.getWindow().getDecorView();
+            layout(decor, 822, 1782);
+
+            int sized = 0, labelled = 0;
+            for (View v : allViews(decor)) {
+                if (v.isClickable() && v.getMeasuredWidth() > 40 && v.getMeasuredHeight() > 40) {
+                    sized++;
+                }
+                if (v instanceof TextView) {
+                    CharSequence t = ((TextView) v).getText();
+                    if (t != null && t.length() > 0) {
+                        labelled++;
+                    }
+                }
+            }
+            String name = screen.getClass().getSimpleName();
+            assertTrue(name + " needs tappable tiles, found=" + sized, sized >= 4);
+            assertTrue(name + " needs on-screen text, found=" + labelled, labelled >= 3);
+        }
+    }
+
+    @Test
     public void malayLanguagePillShowsMalaysiaFlag() {
         MainActivity a = launch();
         a.progress().setLang(Content.Lang.MS);
