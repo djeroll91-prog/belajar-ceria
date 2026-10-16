@@ -72,7 +72,19 @@ for each new APK. The generated release APK is signed with `keystore/belajar.jks
 
 ## Testing
 
-`app/src/test` holds JUnit data tests and Robolectric UI smoke tests. The smoke
-test inflates the activity and every screen; add new screens there so layout
-regressions are caught without a device.
+`app/src/test` holds JUnit data tests and Robolectric UI smoke tests.
+
+**Screens must be rendered, not just built.** A screen can build without
+throwing and still show nothing: `showHome()` once returned a view it never
+attached to the frame, so the app opened to a blank screen and the old smoke
+test still passed. `HomeLayoutTest` now measures and draws the home screen and
+every other screen, then asserts the drawing has more than 20 distinct colours
+and at least two clickable views. Add any new screen to those lists.
+
+`HomeLayoutTest.dumpHomeTree` prints the measured view tree with sizes and text;
+run it when a layout looks wrong. A container that measures to `0x0` or a
+`FrameLayout` with no children is the usual cause.
+
+Robolectric needs `@GraphicsMode(NATIVE)` to draw real pixels. Colour counts
+come from `Bitmap.getPixel`, so a fully transparent or blank screen fails.
 
