@@ -83,7 +83,14 @@ public class MainActivity extends Activity {
 
     private void buildChrome() {
         rootFrame = new FrameLayout(this);
-        rootFrame.setBackground(Util.gradient(0xFFFFF176, 0xFF80DEEA, 0));
+        rootFrame.addView(new StorySceneView(this), new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        // A faint white wash keeps dark text readable over the painted sky.
+        View scrim = new View(this);
+        scrim.setBackgroundColor(0x1AFFFFFF);
+        rootFrame.addView(scrim, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         LinearLayout column = new LinearLayout(this);
         column.setOrientation(LinearLayout.VERTICAL);
@@ -183,7 +190,7 @@ public class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         mascot = new RobotView(this);
-        mascot.setBodyColor(Util.funColor(progress.points() / 50));
+        mascot.setBodyColor(Util.storyColor(progress.points() / 50));
         mascot.setOnClickListener(v -> {
             mascot.setTalking(true);
             voice.speak(lang(), lang() == Content.Lang.MS
@@ -207,56 +214,62 @@ public class MainActivity extends Activity {
         column.addView(grid, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        addTile(grid, "\uD83D\uDDFA\uFE0F", tr("Laluan Belajar", "Learning Path"), 0xFF7C4DFF,
+        addTile(grid, "\uD83D\uDDFA\uFE0F", tr("Laluan Belajar", "Learning Path"), 0xFF9A8FCF,
                 () -> open(new LevelMapScreen(this)));
-        addTile(grid, "\uD83D\uDD24", tr("Huruf ABC", "ABC Letters"), 0xFFFF5252,
+        addTile(grid, "\uD83D\uDD24", tr("Huruf ABC", "ABC Letters"), 0xFFE8877A,
                 () -> open(new LearnScreen(this, Content.LETTERS, LearnScreen.Mode.LETTER)));
-        addTile(grid, "\uD83D\uDD22", tr("Nombor 123", "Numbers 123"), 0xFF29B6F6,
+        addTile(grid, "\uD83D\uDD22", tr("Nombor 123", "Numbers 123"), 0xFF7FB4D9,
                 () -> open(new LearnScreen(this, Content.NUMBERS, LearnScreen.Mode.NUMBER)));
-        addTile(grid, "\uD83D\uDCD6", tr("Perkataan", "Words"), 0xFF66BB6A,
+        addTile(grid, "\uD83D\uDCD6", tr("Perkataan", "Words"), 0xFF8FBF7F,
                 () -> open(new LearnScreen(this, Content.WORDS, LearnScreen.Mode.WORD)));
-        addTile(grid, "\uD83D\uDCDD", tr("Ayat", "Sentences"), 0xFFAB47BC,
+        addTile(grid, "\uD83D\uDCDD", tr("Ayat", "Sentences"), 0xFFB48FC9,
                 () -> open(new SentenceScreen(this)));
-        addTile(grid, "\uD83C\uDFA8", tr("Warna", "Colours"), 0xFFFFB300,
+        addTile(grid, "\uD83C\uDFA8", tr("Warna", "Colours"), 0xFFF2B457,
                 () -> open(new LearnScreen(this, Content.COLOR_ITEMS, LearnScreen.Mode.WORD)
                         .withTitle("\uD83C\uDFA8 Colours", "\uD83C\uDFA8 Warna")));
-        addTile(grid, "\uD83D\uDC41", tr("Tubuh Badan", "My Body"), 0xFFFF4081,
+        addTile(grid, "\uD83D\uDC41", tr("Tubuh Badan", "My Body"), 0xFFE39BB5,
                 () -> open(new LearnScreen(this, Content.BODY, LearnScreen.Mode.WORD)
                         .withTitle("\uD83D\uDC41 My Body", "\uD83D\uDC41 Tubuh Badan")));
-        addTile(grid, "\uD83D\uDC3E", tr("Haiwan", "Animals"), 0xFF66BB6A,
+        addTile(grid, "\uD83D\uDC3E", tr("Haiwan", "Animals"), 0xFF8FBF7F,
                 () -> open(new LearnScreen(this, Content.ANIMALS, LearnScreen.Mode.WORD)
                         .withTitle("\uD83D\uDC3E Animals", "\uD83D\uDC3E Haiwan")));
-        addTile(grid, "\uD83C\uDF31", tr("Tumbuhan", "Plants"), 0xFF26A69A,
+        addTile(grid, "\uD83C\uDF31", tr("Tumbuhan", "Plants"), 0xFF7FC7C0,
                 () -> open(new LearnScreen(this, Content.PLANTS, LearnScreen.Mode.WORD)
                         .withTitle("\uD83C\uDF31 Plants", "\uD83C\uDF31 Tumbuh-tumbuhan")));
-        addTile(grid, "\uD83C\uDF4E", tr("Buah-buahan", "Fruits"), 0xFFEC407A,
+        addTile(grid, "\uD83C\uDF4E", tr("Buah-buahan", "Fruits"), 0xFFE39BB5,
                 () -> open(new LearnScreen(this, Content.FRUITS, LearnScreen.Mode.WORD)
                         .withTitle("\uD83C\uDF4E Fruits", "\uD83C\uDF4E Buah-buahan")));
-        addTile(grid, "\uD83C\uDF89", tr("Benda Hidup", "Living Things"), 0xFF5C6BC0,
+        addTile(grid, "\uD83C\uDF89", tr("Benda Hidup", "Living Things"), 0xFF8C9CC9,
                 () -> open(new LearnScreen(this, Content.LIVING, LearnScreen.Mode.WORD)
                         .withTitle("\uD83C\uDF89 Living Things", "\uD83C\uDF89 Benda Hidup")));
-        addTile(grid, "\u0645", tr("Huruf Jawi", "Jawi Letters"), 0xFF00897B,
+        addTile(grid, "\u0645", tr("Huruf Jawi", "Jawi Letters"), 0xFF7FC7C0,
                 () -> open(new LearnScreen(this, Content.JAWI, LearnScreen.Mode.WORD)
                         .withTitle("\u0645 Jawi", "\u0645 Jawi")));
-        addTile(grid, "\u0639", tr("Huruf Arab", "Arabic Letters"), 0xFF6D4C41,
+        addTile(grid, "\u0639", tr("Huruf Arab", "Arabic Letters"), 0xFFC9A227,
                 () -> open(new LearnScreen(this, Content.ARABIC, LearnScreen.Mode.WORD)
                         .withTitle("\u0639 Arabic", "\u0639 Arab")));
-        addTile(grid, "\uD83C\uDFA4", tr("Sebut & Menang", "Say & Win"), 0xFFFF9100,
+        addTile(grid, "\uD83C\uDFA4", tr("Sebut & Menang", "Say & Win"), 0xFFF09B5B,
                 () -> open(new SpeakScreen(this)));
-        addTile(grid, "\uD83C\uDFAF", tr("Kuiz", "Quiz"), 0xFFEC407A,
+        addTile(grid, "\uD83C\uDFAF", tr("Kuiz", "Quiz"), 0xFFE8877A,
                 () -> open(new QuizGame(this)));
-        addTile(grid, "\uD83D\uDD22", tr("Kira Objek", "Count"), 0xFF26A69A,
+        addTile(grid, "\uD83D\uDD24", tr("Susun Huruf", "Spell the Word"), 0xFF9A8FCF,
+                () -> open(new SpellGame(this)));
+        addTile(grid, "\uD83D\uDD0D", tr("Cari Yang Berbeza", "Odd One Out"), 0xFF7FC7C0,
+                () -> open(new OddOneOutGame(this)));
+        addTile(grid, "\uD83D\uDD22", tr("Kira Objek", "Count"), 0xFF7FC7C0,
                 () -> open(new CountGame(this)));
-        addTile(grid, "\uD83E\uDDE9", tr("Memori", "Memory"), 0xFF5C6BC0,
+        addTile(grid, "\uD83E\uDDE9", tr("Memori", "Memory"), 0xFF8C9CC9,
                 () -> open(new MemoryGame(this)));
-        addTile(grid, "\uD83C\uDFA8", tr("Mewarna", "Colouring"), 0xFFFF4081,
+        addTile(grid, "\uD83C\uDFA8", tr("Mewarna", "Colouring"), 0xFFE39BB5,
                 () -> open(new ColoringScreen(this)));
-        addTile(grid, "\uD83C\uDFC6", tr("Ganjaran", "Rewards"), 0xFFFFB300,
+        addTile(grid, "\uD83C\uDFC6", tr("Ganjaran", "Rewards"), 0xFFF2B457,
                 () -> open(new RewardsScreen(this)));
-        addTile(grid, "\uD83D\uDD0A", tr("Suara Bacaan", "Reading Voice"), 0xFF5C6BC0,
+        addTile(grid, "\uD83D\uDD0A", tr("Suara Bacaan", "Reading Voice"), 0xFF8C9CC9,
                 () -> open(new VoiceScreen(this)));
-        addTile(grid, "\uD83C\uDF99\uFE0F", tr("Studio Rakaman", "Recording Studio"), 0xFF00897B,
+        addTile(grid, "\uD83C\uDF99\uFE0F", tr("Studio Rakaman", "Recording Studio"), 0xFF7FC7C0,
                 () -> open(new RecordingStudioScreen(this)));
+        addTile(grid, "\uD83C\uDFA4", tr("Kredit Suara", "Voice Credits"), 0xFFC9A227,
+                () -> open(new CreditsScreen(this)));
     }
 
     private String tr(String ms, String en) {
@@ -268,8 +281,10 @@ public class MainActivity extends Activity {
         tile.setOrientation(LinearLayout.VERTICAL);
         tile.setGravity(Gravity.CENTER);
         tile.setPadding(Util.dp(this, 8), Util.dp(this, 16), Util.dp(this, 8), Util.dp(this, 16));
-        tile.setBackground(Util.rounded(color, Util.dp(this, 22)));
-        tile.setElevation(Util.dp(this, 5));
+        // A soft white rim gives the tiles a painted-card feel against the sky.
+        tile.setBackground(Util.roundedStroke(color, Util.dp(this, 24),
+                0xCCFFFFFF, Util.dp(this, 3)));
+        tile.setElevation(Util.dp(this, 6));
         tile.setClickable(true);
         tile.setOnClickListener(v -> {
             clickBee(v);

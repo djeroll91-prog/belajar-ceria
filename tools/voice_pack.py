@@ -135,9 +135,10 @@ def cmd_bundle(args):
         if src is None:
             missing.append(key)
             continue
-        # res/raw names must be lower case with underscores; mp3 is the one
-        # format every Android version decodes, so name it that way.
-        shutil.copyfile(src, RAW / f"clip_{key}.mp3")
+        # res/raw names must be lower case with underscores. The extension is
+        # kept as-is: the app plays the bytes without transcoding, so an Ogg
+        # clip from Commons must stay Ogg rather than be labelled mp3.
+        shutil.copyfile(src, RAW / f"clip_{key}{src.suffix.lower()}")
         copied += 1
 
     print(f"bundled {copied} / {len(wanted)} clips into {RAW.relative_to(ROOT)}")
@@ -159,6 +160,9 @@ def cmd_check(_args):
         print(f"{lang}: {len(have)} / {len(wanted)} bundled ({pct}%)")
     if not clips:
         print("No bundled clips; every phrase is synthesised.")
+    else:
+        from collections import Counter
+        print("formats:", dict(Counter(p.suffix.lower() for p in clips.values())))
 
 
 def main():

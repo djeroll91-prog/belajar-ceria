@@ -19,9 +19,31 @@ public final class Util {
             0xFFFF9100, 0xFF9CCC65, 0xFFAB47BC, 0xFF5C6BC0
     };
 
+    /** Soft Storybook palette: muted pastels with warm, hand-painted feel. */
+    public static final int[] STORY_COLORS = {
+            0xFFE8877A, 0xFFF2B457, 0xFFEFD680, 0xFF8FBF7F,
+            0xFF7FB4D9, 0xFF9A8FCF, 0xFFE39BB5, 0xFF7FC7C0,
+            0xFFF09B5B, 0xFFA8C97F, 0xFFB48FC9, 0xFF8C9CC9
+    };
+
+    public static final int SKY_TOP = 0xFF9FD8EF;
+    public static final int SKY_MID = 0xFFE8F4F8;
+    public static final int SKY_WARM = 0xFFFFF3D6;
+    public static final int MEADOW = 0xFFA8D08D;
+    public static final int MEADOW_DEEP = 0xFF7FB069;
+    public static final int SUN_GLOW = 0xFFFFF0B8;
+    public static final int CLOUD = 0xF2FFFFFF;
+    public static final int INK = 0xFF4A3F5C;
+    public static final int INK_SOFT = 0xFF6E6280;
+
     private static final Random RANDOM = new Random();
 
     private Util() {
+    }
+
+    /** Storybook colour by index, for a calmer look than the candy palette. */
+    public static int storyColor(int index) {
+        return STORY_COLORS[Math.abs(index) % STORY_COLORS.length];
     }
 
     public static int dp(Context c, float value) {

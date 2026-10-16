@@ -12,6 +12,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Smoke test that actually inflates the activity and every screen on the home
  * grid. It catches the kind of crash a unit test on plain data would miss:
@@ -54,12 +57,15 @@ public class ScreenSmokeTest {
                 new SentenceScreen(host),
                 new SpeakScreen(host),
                 new QuizGame(host),
+                new SpellGame(host),
+                new OddOneOutGame(host),
                 new CountGame(host),
                 new MemoryGame(host),
                 new ColoringScreen(host),
                 new RewardsScreen(host),
                 new VoiceScreen(host),
-                new RecordingStudioScreen(host)
+                new RecordingStudioScreen(host),
+                new CreditsScreen(host)
         };
 
         for (MainActivity.Screen screen : screens) {
@@ -70,6 +76,44 @@ public class ScreenSmokeTest {
                     view instanceof android.view.ViewGroup
                             && ((android.view.ViewGroup) view).getChildCount() > 0);
         }
+    }
+
+    @Test
+    public void newGamesBuildInBothLanguages() {
+        MainActivity host = launch();
+        for (Content.Lang lang : Content.Lang.values()) {
+            host.progress().setLang(lang);
+            for (MainActivity.Screen screen : new MainActivity.Screen[]{
+                    new SpellGame(host), new OddOneOutGame(host)}) {
+                String name = screen.getClass().getSimpleName() + " (" + lang + ")";
+                View view = screen.build();
+                assertNotNull("failed to build " + name, view);
+                assertTrue(name + " has no children", view instanceof android.view.ViewGroup
+                        && ((android.view.ViewGroup) view).getChildCount() > 0);
+            }
+        }
+    }
+
+    @Test
+    public void everySpellableWordCanBeBuiltFromItsOwnLetters() {
+        MainActivity host = launch();
+        SpellGame game = new SpellGame(host);
+        List<String> words = game.spellableWords();
+        assertTrue("spell game needs a pool of words, found=" + words.size(), words.size() >= 20);
+        for (String word : words) {
+            assertTrue("word must be plain letters: " + word,
+                    word.matches("[a-z]{3,6}"));
+        }
+        // Two rounds must be able to pick different words, or the game would be dull.
+        assertTrue("pool is too small to vary rounds", words.size() >= 8);
+    }
+
+    @Test
+    public void oddOneOutHasEnoughDistinctGroups() {
+        MainActivity host = launch();
+        OddOneOutGame game = new OddOneOutGame(host);
+        assertTrue("need at least two groups to pick an odd one out, found="
+                + game.groupCount(), game.groupCount() >= 2);
     }
 
     @Test

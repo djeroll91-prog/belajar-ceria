@@ -85,12 +85,15 @@ public class HomeLayoutTest {
                 new SentenceScreen(host),
                 new SpeakScreen(host),
                 new QuizGame(host),
+                new SpellGame(host),
+                new OddOneOutGame(host),
                 new CountGame(host),
                 new MemoryGame(host),
                 new ColoringScreen(host),
                 new RewardsScreen(host),
                 new VoiceScreen(host),
-                new RecordingStudioScreen(host)
+                new RecordingStudioScreen(host),
+                new CreditsScreen(host)
         };
 
         for (MainActivity.Screen screen : screens) {

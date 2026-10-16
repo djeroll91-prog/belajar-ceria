@@ -34,9 +34,16 @@ public abstract class BaseScreen implements MainActivity.Screen {
 
     @Override
     public View build() {
+        FrameLayout backdrop = new FrameLayout(host);
+        backdrop.addView(new StorySceneView(host), new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        View scrim = new View(host);
+        scrim.setBackgroundColor(0x1AFFFFFF);
+        backdrop.addView(scrim, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
         LinearLayout root = new LinearLayout(host);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackground(Util.gradient(0xFFFFF9C4, 0xFFB3E5FC, 0));
 
         LinearLayout bar = new LinearLayout(host);
         bar.setOrientation(LinearLayout.HORIZONTAL);
@@ -67,7 +74,10 @@ public abstract class BaseScreen implements MainActivity.Screen {
         View built = buildBody();
         body.addView(built, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        return root;
+
+        backdrop.addView(root, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        return backdrop;
     }
 
     protected abstract String titleText();

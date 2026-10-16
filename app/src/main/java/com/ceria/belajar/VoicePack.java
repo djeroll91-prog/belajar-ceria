@@ -18,7 +18,8 @@ import java.util.Set;
 /**
  * Plays the best available source for a phrase: a human recording if one exists,
  * otherwise the phone's speech engine. Recordings may be bundled in res/raw
- * (clip_&lt;key&gt;.mp3) or added on the device by a parent.
+ * (clip_&lt;key&gt;.mp3 or .ogg; the extension does not matter to the lookup) or added
+ * on the device by a parent.
  *
  * Recordings are played in preference to synthesis because a child learning to
  * read should hear real, natural speech; synthesised speech is the fallback that

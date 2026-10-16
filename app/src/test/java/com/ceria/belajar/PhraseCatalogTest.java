@@ -3,6 +3,7 @@ package com.ceria.belajar;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -104,5 +105,112 @@ public class PhraseCatalogTest {
             }
         }
         throw new AssertionError("missing phrase " + key);
+    }
+
+    /**
+     * A bundled clip must be named clip_&lt;key&gt;.&lt;ext&gt; for VoicePack to find it.
+     * A typo here is silent: the app simply keeps using the robot voice, so the
+     * naming is checked rather than trusted.
+     */
+    @Test
+    public void bundledClipsAreNamedAfterKnownPhrases() {
+        java.io.File raw = findRawDir();
+        java.io.File[] files = raw == null ? null
+                : raw.listFiles((dir, name) -> name.startsWith("clip_"));
+        if (files == null || files.length == 0) {
+            return;     // no pack bundled yet; nothing to check
+        }
+        Set<String> known = new HashSet<>();
+        for (Content.Lang lang : Content.Lang.values()) {
+            for (PhraseCatalog.Phrase phrase : PhraseCatalog.forLang(lang)) {
+                known.add(phrase.key());
+            }
+        }
+        for (java.io.File file : files) {
+            String name = file.getName();
+            int dot = name.lastIndexOf('.');
+            assertTrue("clip has no extension: " + name, dot > 0);
+            String key = name.substring("clip_".length(), dot);
+            assertTrue("clip does not match any phrase: " + name, known.contains(key));
+        }
+    }
+
+    /** Clips are served to MediaPlayer as-is, so the bytes must be real audio. */
+    @Test
+    public void bundledClipsAreRealAudio() throws Exception {
+        java.io.File raw = findRawDir();
+        java.io.File[] files = raw == null ? null
+                : raw.listFiles((dir, name) -> name.startsWith("clip_"));
+        if (files == null || files.length == 0) {
+            return;
+        }
+        byte[] header = new byte[4];
+        for (java.io.File file : files) {
+            try (java.io.FileInputStream in = new java.io.FileInputStream(file)) {
+                assertEquals("short clip: " + file.getName(), 4, in.read(header));
+            }
+            String magic = new String(header, "ISO-8859-1");
+            assertTrue("not Ogg or MP4 audio: " + file.getName() + " (" + magic + ")",
+                    magic.equals("OggS") || magic.startsWith("\u0000\u0000\u0000"));
+        }
+    }
+
+    /**
+     * Every bundled Commons clip must carry attribution, because the licence is
+     * CC BY-SA. A clip with no credit row would make the app breach the licence
+     * silently, so the two lists are checked against each other.
+     */
+    @Test
+    public void everyBundledClipHasACreditEntry() throws Exception {
+        java.io.File raw = findRawDir();
+        java.io.File[] files = raw == null ? null
+                : raw.listFiles((dir, name) -> name.startsWith("clip_"));
+        if (files == null || files.length == 0) {
+            return;     // no pack bundled yet; nothing to credit
+        }
+
+        java.io.File credits = null;
+        for (String candidate : new String[]{"app/src/main/assets/voice-credits.csv",
+                "src/main/assets/voice-credits.csv", "../app/src/main/assets/voice-credits.csv"}) {
+            java.io.File f = new java.io.File(candidate);
+            if (f.isFile()) {
+                credits = f;
+                break;
+            }
+        }
+        assertNotNull("clips are bundled but there is no credit file", credits);
+
+        Set<String> credited = new HashSet<>();
+        try (java.io.BufferedReader in = new java.io.BufferedReader(
+                new java.io.InputStreamReader(new java.io.FileInputStream(credits), "UTF-8"))) {
+            String line = in.readLine();     // header
+            while ((line = in.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+                String[] parts = line.split(",", -1);
+                if (parts.length > 0) {
+                    credited.add(parts[0].trim());
+                }
+            }
+        }
+
+        for (java.io.File file : files) {
+            String name = file.getName();
+            String key = name.substring("clip_".length(), name.lastIndexOf('.'));
+            assertTrue("bundled clip has no attribution row: " + name, credited.contains(key));
+        }
+    }
+
+    private java.io.File findRawDir() {
+        String[] candidates = {
+                "app/src/main/res/raw", "src/main/res/raw", "../app/src/main/res/raw"};
+        for (String candidate : candidates) {
+            java.io.File dir = new java.io.File(candidate);
+            if (dir.isDirectory()) {
+                return dir;
+            }
+        }
+        return null;
     }
 }

@@ -6,16 +6,19 @@ the Android framework so the APK stays small and offline-friendly.
 
 ## Build
 
-The Android SDK, JDK 21 and Gradle 8.9 are installed in this environment:
+The container can be reset, which wipes `/opt` and the system JDK. Everything
+needed is kept under `/workspace` so it survives:
 
-- `ANDROID_HOME=/opt/android-sdk` (platform 34, build-tools 34.0.0)
-- `JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64`
-- `GRADLE_HOME=/opt/gradle/gradle-8.9`
+- `ANDROID_HOME=/workspace/android-sdk` (platform 34, build-tools 34.0.0)
+- `JAVA_HOME=/workspace/tools/jdk-21.0.12.1+1` (portable JDK, if the system one
+  is gone run `apt-get install -y openjdk-21-jdk-headless`, or re-download from
+  the Adoptium API)
+- `PATH=$PATH:/workspace/tools/gradle-8.9/bin`
 
 ```bash
-export ANDROID_HOME=/opt/android-sdk
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
-export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:/opt/gradle/gradle-8.9/bin
+export ANDROID_HOME=/workspace/android-sdk
+export JAVA_HOME=/workspace/tools/jdk-21.0.12.1+1
+export PATH=$JAVA_HOME/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:/workspace/tools/gradle-8.9/bin:$PATH
 
 gradle :app:assembleDebug          # debug APK
 gradle :app:assembleRelease        # release APK, signed with keystore/belajar.jks
@@ -24,6 +27,9 @@ gradle :app:testDebugUnitTest      # unit + Robolectric UI smoke tests
 
 Release output: `app/build/outputs/apk/release/app-release.apk`.
 Signing config lives in `app/build.gradle`; keystore password is `ceriabelajar`.
+
+Long Gradle runs must go to the background with a log file; the terminal soft
+timeout kills foreground commands that take more than a few minutes.
 
 ## Architecture
 
@@ -37,7 +43,12 @@ Signing config lives in `app/build.gradle`; keystore password is `ceriabelajar`.
 - `Progress` - SharedPreferences store: points, stars, badges, streak, language
   and the per-level best score / unlock state.
 - Custom views: `RobotView` (animated mascot "Bobo"), `CelebrationView`
-  (confetti), `ColorPageView` (colouring canvas).
+  (confetti), `ColorPageView` (colouring canvas), `StorySceneView` (painted
+  backdrop shared by every screen).
+- Mini games: `QuizGame`, `MemoryGame`, `CountGame`, `SpellGame` (build a word
+  from letter tiles), `OddOneOutGame` (pick the item from a different group),
+  `ColoringScreen`. `SpellGame` and `OddOneOutGame` both derive their data from
+  `Content` groups, so new content automatically appears in them.
 
 ## Product rules that must not regress
 
@@ -75,7 +86,7 @@ for each new APK. The generated release APK is signed with `keystore/belajar.jks
 Every phrase the app says has a stable key from `PhraseCatalog.key`, e.g. `ms_epal`.
 The same key is used in three places, so never rename one after recording:
 
-1. `res/raw/clip_<key>.mp3` — clips bundled into the APK
+1. `res/raw/clip_<key>.<ext>` — clips bundled into the APK
 2. `filesDir/voice/<key>.m4a` — clips added on the device by a parent
 3. `docs/voice-script-<lang>.csv` — the script a voice artist reads from
 
@@ -88,17 +99,39 @@ Generate the scripts and bundle a finished pack:
 
 ```bash
 python3 tools/voice_pack.py list        # writes docs/voice-script-{ms,en}.csv
-python3 tools/voice_pack.py bundle DIR  # DIR holds <key>.m4a, copies to res/raw
+python3 tools/voice_pack.py bundle DIR  # DIR holds <key>.m4a or <key>.ogg
 python3 tools/voice_pack.py check       # coverage report
 ```
 
 The generator compiles `Content` and `PhraseCatalog` and runs them, so the CSV,
 the APK resource names and the recordings cannot drift apart. `PhraseCatalogTest`
-pins the key rules.
+pins the key rules and checks that every bundled clip is named after a real
+phrase and starts with real audio bytes.
 
 A parent can also record everything from the app itself, under the
 **Studio Rakaman** tile: record, preview, delete, and export/import a zip of all
 clips. That path needs no computer and no rebuild.
+
+### Free human recordings from Wikimedia Commons
+
+`tools/fetch_commons_voice.py` downloads real human pronunciations instead of
+using a robot voice. Malay clips are `Ms-MY-<word>.ogg` and English ones are
+`En-us-<word>.ogg`. Coverage is partial, so untranslated phrases keep the engine.
+
+```bash
+python3 tools/fetch_commons_voice.py              # report coverage
+python3 tools/fetch_commons_voice.py --download   # fetch + write the credit list
+./tools/refetch_loop.sh 40                        # keep retrying throttled clips
+```
+
+Commons throttles bursts of downloads with HTTP 429, so fetching is resumable:
+each pass skips clips already on disk and merges the credit list rather than
+rewriting it. Run it in the background over several passes.
+
+The clips are **CC BY-SA 4.0** and require attribution, so the credit list is
+bundled at `app/src/main/assets/voice-credits.csv` and shown on the
+**Voice Credits** screen. Never bundle Commons clips without that screen: doing
+so would breach the licence.
 
 ## Testing
 
@@ -110,6 +143,12 @@ attached to the frame, so the app opened to a blank screen and the old smoke
 test still passed. `HomeLayoutTest` now measures and draws the home screen and
 every other screen, then asserts the drawing has more than 20 distinct colours
 and at least two clickable views. Add any new screen to those lists.
+
+**Attribution is tested, not assumed.** `everyBundledClipHasACreditEntry` fails
+if a clip exists in `res/raw` without a matching row in `voice-credits.csv`, so
+a new clip cannot ship uncredited. The fetch script rewrites the CSV after every
+single clip for the same reason: an interrupted pass must never leave an
+unattributed clip on disk.
 
 `HomeLayoutTest.dumpHomeTree` prints the measured view tree with sizes and text;
 run it when a layout looks wrong. A container that measures to `0x0` or a

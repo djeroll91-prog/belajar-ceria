@@ -26,7 +26,7 @@ public class RobotView extends View {
     private float blink;        // 0 = open, 1 = fully closed
     private boolean talking;
     private float mouth;        // 0..1 mouth open amount
-    private int bodyColor = 0xFF40C4FF;
+    private int bodyColor = 0xFF7FB4D9;
 
     private ValueAnimator bobAnim;
     private ValueAnimator blinkAnim;
@@ -37,7 +37,7 @@ public class RobotView extends View {
 
     public RobotView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        bodyColor = Util.randomFunColor();
+        bodyColor = Util.storyColor(0);
         startAnimations();
     }
 
