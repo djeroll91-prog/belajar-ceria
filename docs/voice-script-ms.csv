@@ -1,0 +1,193 @@
+key,group,text
+ms_a,letters,A
+ms_apel,letters,Apel
+ms_b,letters,B
+ms_bola,letters,Bola
+ms_c,letters,C
+ms_kucing,letters,Kucing
+ms_d,letters,D
+ms_itik,letters,Itik
+ms_e,letters,E
+ms_gajah,letters,Gajah
+ms_f,letters,F
+ms_ikan,letters,Ikan
+ms_g,letters,G
+ms_anggur,letters,Anggur
+ms_h,letters,H
+ms_rumah,letters,Rumah
+ms_i,letters,I
+ms_ais_krim,letters,Ais krim
+ms_j,letters,J
+ms_jus,letters,Jus
+ms_k,letters,K
+ms_layang_layang,letters,Layang-layang
+ms_l,letters,L
+ms_singa,letters,Singa
+ms_m,letters,M
+ms_bulan,letters,Bulan
+ms_n,letters,N
+ms_hidung,letters,Hidung
+ms_o,letters,O
+ms_oren,letters,Oren
+ms_p,letters,P
+ms_panda,letters,Panda
+ms_q,letters,Q
+ms_ratu,letters,Ratu
+ms_r,letters,R
+ms_arnab,letters,Arnab
+ms_s,letters,S
+ms_matahari,letters,Matahari
+ms_t,letters,T
+ms_harimau,letters,Harimau
+ms_u,letters,U
+ms_payung,letters,Payung
+ms_v,letters,V
+ms_van,letters,Van
+ms_w,letters,W
+ms_ikan_paus,letters,Ikan paus
+ms_x,letters,X
+ms_xilofon,letters,Xilofon
+ms_y,letters,Y
+ms_kapal_layar,letters,Kapal layar
+ms_z,letters,Z
+ms_zebra,letters,Zebra
+ms_satu,numbers,satu
+ms_dua,numbers,dua
+ms_tiga,numbers,tiga
+ms_empat,numbers,empat
+ms_lima,numbers,lima
+ms_enam,numbers,enam
+ms_tujuh,numbers,tujuh
+ms_lapan,numbers,lapan
+ms_sembilan,numbers,sembilan
+ms_sepuluh,numbers,sepuluh
+ms_sebelas,numbers,sebelas
+ms_dua_belas,numbers,dua belas
+ms_tiga_belas,numbers,tiga belas
+ms_empat_belas,numbers,empat belas
+ms_lima_belas,numbers,lima belas
+ms_enam_belas,numbers,enam belas
+ms_tujuh_belas,numbers,tujuh belas
+ms_lapan_belas,numbers,lapan belas
+ms_sembilan_belas,numbers,sembilan belas
+ms_dua_puluh,numbers,dua puluh
+ms_cat,words,cat
+ms_dog,words,dog
+ms_sun,words,sun
+ms_hat,words,hat
+ms_bus,words,bus
+ms_cup,words,cup
+ms_pen,words,pen
+ms_bed,words,bed
+ms_star,words,star
+ms_moon,words,moon
+ms_fish,words,fish
+ms_bird,words,bird
+ms_ibu,words,ibu
+ms_ayah,words,ayah
+ms_kaki,words,kaki
+ms_baju,words,baju
+ms_buku,words,buku
+ms_meja,words,meja
+ms_susu,words,susu
+ms_mata,words,mata
+ms_nasi,words,nasi
+ms_bunga,words,bunga
+ms_kucing_itu_besar,sentences,Kucing itu besar.
+ms_saya_suka_bermain,sentences,Saya suka bermain.
+ms_matahari_sangat_panas,sentences,Matahari sangat panas.
+ms_bola_saya_berwarna_merah,sentences,Bola saya berwarna merah.
+ms_saya_boleh_membaca,sentences,Saya boleh membaca.
+ms_ikan_boleh_berenang,sentences,Ikan boleh berenang.
+ms_saya_sayang_ibu_saya,sentences,Saya sayang ibu saya.
+ms_ini_buku_saya,sentences,Ini buku saya.
+ms_merah,colours,merah
+ms_jingga,colours,jingga
+ms_kuning,colours,kuning
+ms_hijau,colours,hijau
+ms_biru,colours,biru
+ms_ungu,colours,ungu
+ms_merah_jambu,colours,merah jambu
+ms_coklat,colours,coklat
+ms_kelabu,colours,kelabu
+ms_hitam,colours,hitam
+ms_putih,colours,putih
+ms_telinga,body,telinga
+ms_mulut,body,mulut
+ms_tangan,body,tangan
+ms_gigi,body,gigi
+ms_lidah,body,lidah
+ms_rambut,body,rambut
+ms_otak,body,otak
+ms_jantung,body,jantung
+ms_tulang,body,tulang
+ms_anjing,animals,anjing
+ms_lembu,animals,lembu
+ms_babi,animals,babi
+ms_kambing_biri_biri,animals,kambing biri-biri
+ms_katak,animals,katak
+ms_monyet,animals,monyet
+ms_ayam,animals,ayam
+ms_burung,animals,burung
+ms_kuda,animals,kuda
+ms_kura_kura,animals,kura-kura
+ms_lebah,animals,lebah
+ms_kupu_kupu,animals,kupu-kupu
+ms_ular,animals,ular
+ms_pokok,plants,pokok
+ms_anak_pokok,plants,anak pokok
+ms_daun,plants,daun
+ms_kaktus,plants,kaktus
+ms_tulip,plants,tulip
+ms_bunga_matahari,plants,bunga matahari
+ms_herba,plants,herba
+ms_padi,plants,padi
+ms_pokok_kelapa,plants,pokok kelapa
+ms_epal,fruits,epal
+ms_pisang,fruits,pisang
+ms_strawberi,fruits,strawberi
+ms_tembikai,fruits,tembikai
+ms_nanas,fruits,nanas
+ms_mangga,fruits,mangga
+ms_pic,fruits,pic
+ms_ceri,fruits,ceri
+ms_pir,fruits,pir
+ms_kiwi,fruits,kiwi
+ms_budak_lelaki,living,budak lelaki
+ms_budak_perempuan,living,budak perempuan
+ms_tumbuhan,living,tumbuhan
+ms_alif,jawi,alif
+ms_ba,jawi,ba
+ms_ta,jawi,ta
+ms_tha,jawi,tha
+ms_jim,jawi,jim
+ms_ca,jawi,ca
+ms_ha,jawi,ha
+ms_kha,jawi,kha
+ms_dal,jawi,dal
+ms_dzal,jawi,dzal
+ms_ra,jawi,ra
+ms_zai,jawi,zai
+ms_sin,jawi,sin
+ms_syin,jawi,syin
+ms_sad,jawi,sad
+ms_dhad,jawi,dhad
+ms_zha,jawi,zha
+ms_ain,jawi,ain
+ms_ghain,jawi,ghain
+ms_fa,jawi,fa
+ms_pa,jawi,pa
+ms_qaf,jawi,qaf
+ms_kaf,jawi,kaf
+ms_ga,jawi,ga
+ms_lam,jawi,lam
+ms_mim,jawi,mim
+ms_nun,jawi,nun
+ms_wau,jawi,wau
+ms_va,jawi,va
+ms_ya,jawi,ya
+ms_nya,jawi,nya
+ms_bagus_sekali,praise,Bagus sekali!
+ms_hebat,praise,Hebat!
+ms_cuba_lagi_ya,praise,Cuba lagi ya
+ms_hai_kawan_jom_belajar_sama_sama,praise,Hai kawan! Jom belajar sama-sama!

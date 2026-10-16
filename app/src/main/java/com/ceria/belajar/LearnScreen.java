@@ -168,7 +168,8 @@ public class LearnScreen extends BaseScreen {
             case LETTER:
                 return Content.letterGlyph(item);
             case NUMBER:
-                return item.symbol;
+                // Speech recognition handles "satu" far better than the digit "1".
+                return item.name(lang);
             default:
                 return item.word != null ? item.word : item.name(lang);
         }
@@ -292,11 +293,11 @@ public class LearnScreen extends BaseScreen {
     }
 
     private void speakCurrent() {
-        host.speech().speak(displayName(), lang);
+        host.voice().speak(lang, displayName());
     }
 
     private void speakSlow() {
-        host.speech().speakSlowly(displayName(), lang);
+        host.voice().speakSlowly(lang, displayName());
     }
 
     private void startListening() {

@@ -318,6 +318,17 @@ public class SpeechHelper {
         speakAt(text, lang, rate());
     }
 
+    public void speak(String text, Content.Lang lang, float speechRate) {
+        speakAt(text, lang, speechRate);
+    }
+
+    /** Silences anything the engine is currently saying. */
+    public void stop() {
+        if (tts != null) {
+            tts.stop();
+        }
+    }
+
     public void speakSlowly(String text, Content.Lang lang) {
         speakAt(text, lang, 0.6f);
     }

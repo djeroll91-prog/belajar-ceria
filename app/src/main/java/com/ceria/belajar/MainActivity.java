@@ -3,6 +3,7 @@ package com.ceria.belajar;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     private SpeechHelper speech;
+    private VoicePack voice;
     private Progress progress;
     private FrameLayout rootFrame;
     private FrameLayout content;
@@ -31,6 +33,7 @@ public class MainActivity extends Activity {
     private TextView greeting;
     private RobotView mascot;
     private CelebrationView celebration;
+    private Screen currentScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class MainActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         progress = new Progress(this);
         speech = new SpeechHelper(this);
+        voice = new VoicePack(this, speech);
         speech.setOnDone(() -> {
             if (mascot != null) {
                 mascot.setTalking(false);
@@ -57,6 +61,16 @@ public class MainActivity extends Activity {
 
     public SpeechHelper speech() {
         return speech;
+    }
+
+    /** Prefers human recordings, falls back to the speech engine. */
+    public VoicePack voice() {
+        return voice;
+    }
+
+    /** Call after new recordings are added so the new clips are picked up. */
+    public void refreshVoicePack() {
+        voice.index();
     }
 
     public Content.Lang lang() {
@@ -152,6 +166,10 @@ public class MainActivity extends Activity {
     // ------------------------------------------------------------------
 
     public void showHome() {
+        if (currentScreen instanceof RecordingStudioScreen) {
+            ((RecordingStudioScreen) currentScreen).onLeave();
+        }
+        currentScreen = null;
         content.removeAllViews();
 
         ScrollView scroll = new ScrollView(this);
@@ -168,9 +186,9 @@ public class MainActivity extends Activity {
         mascot.setBodyColor(Util.funColor(progress.points() / 50));
         mascot.setOnClickListener(v -> {
             mascot.setTalking(true);
-            speech.speak(lang() == Content.Lang.MS
+            voice.speak(lang(), lang() == Content.Lang.MS
                     ? "Hai kawan! Jom belajar sama-sama!"
-                    : "Hi friend! Let's learn together!", lang());
+                    : "Hi friend! Let's learn together!");
         });
         LinearLayout.LayoutParams robotLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, Util.dp(this, 190));
@@ -237,6 +255,8 @@ public class MainActivity extends Activity {
                 () -> open(new RewardsScreen(this)));
         addTile(grid, "\uD83D\uDD0A", tr("Suara Bacaan", "Reading Voice"), 0xFF5C6BC0,
                 () -> open(new VoiceScreen(this)));
+        addTile(grid, "\uD83C\uDF99\uFE0F", tr("Studio Rakaman", "Recording Studio"), 0xFF00897B,
+                () -> open(new RecordingStudioScreen(this)));
     }
 
     private String tr(String ms, String en) {
@@ -277,6 +297,10 @@ public class MainActivity extends Activity {
 
     /** Replaces the content frame with a screen view. */
     public void open(Screen screen) {
+        if (currentScreen instanceof RecordingStudioScreen) {
+            ((RecordingStudioScreen) currentScreen).onLeave();
+        }
+        currentScreen = screen;
         content.removeAllViews();
         content.addView(screen.build(), new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -312,18 +336,40 @@ public class MainActivity extends Activity {
             return;
         }
         mascot.setTalking(true);
-        speech.speak(message, lang());
+        voice.speak(lang(), message);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         speech.handleResult(requestCode, resultCode, data);
+        if (requestCode == RecordingStudioScreen.REQUEST_ZIP
+                && currentScreen instanceof RecordingStudioScreen) {
+            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                ((RecordingStudioScreen) currentScreen).importZip(data.getData());
+            }
+            return;
+        }
+        if (currentScreen instanceof RecordingStudioScreen) {
+            ((RecordingStudioScreen) currentScreen).onLeave();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] results) {
+        super.onRequestPermissionsResult(requestCode, permissions, results);
+        if (currentScreen instanceof RecordingStudioScreen && results.length > 0) {
+            ((RecordingStudioScreen) currentScreen)
+                    .onPermissionResult(results[0] == PackageManager.PERMISSION_GRANTED);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (voice != null) {
+            voice.shutdown();
+        }
         if (speech != null) {
             speech.shutdown();
         }

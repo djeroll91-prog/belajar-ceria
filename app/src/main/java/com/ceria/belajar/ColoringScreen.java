@@ -46,7 +46,7 @@ public class ColoringScreen extends BaseScreen {
             host.progress().addCorrect();
             host.progress().earnedBadges();
             host.updateHeader();
-            host.speech().speak(colour, lang);
+            host.voice().speak(lang, colour);
             if (coloredCount % 6 == 0) {
                 host.progress().addStar();
                 host.updateHeader();
@@ -83,7 +83,7 @@ public class ColoringScreen extends BaseScreen {
             dot.setOnClickListener(v -> {
                 page.setActiveColor(swatch.color);
                 nameView.setText("\uD83D\uDD8C\uFE0F " + swatch.name(lang));
-                host.speech().speak(swatch.name(lang), lang);
+                host.voice().speak(lang, swatch.name(lang));
             });
             palette.addView(dot);
         }

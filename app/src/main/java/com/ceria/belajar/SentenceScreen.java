@@ -68,10 +68,10 @@ public class SentenceScreen extends BaseScreen {
         controls.addView(button("\u2B05\uFE0F", 0xFF5C6BC0, this::previous));
         controls.addView(gap());
         controls.addView(button("\uD83D\uDD0A", 0xFFFF9100, () ->
-                host.speech().speak(Content.SENTENCES.get(index).text(lang), lang)));
+                host.voice().speak(lang, Content.SENTENCES.get(index).text(lang))));
         controls.addView(gap());
         controls.addView(button("\uD83D\uDC22", 0xFF26A69A, () ->
-                host.speech().speakSlowly(Content.SENTENCES.get(index).text(lang), lang)));
+                host.voice().speakSlowly(lang, Content.SENTENCES.get(index).text(lang))));
         controls.addView(gap());
         controls.addView(button("\uD83C\uDFA4", 0xFFFF4081, this::listen));
         controls.addView(gap());
@@ -109,13 +109,13 @@ public class SentenceScreen extends BaseScreen {
     private void next() {
         index = (index + 1) % Content.SENTENCES.size();
         render();
-        host.speech().speak(Content.SENTENCES.get(index).text(lang), lang);
+        host.voice().speak(lang, Content.SENTENCES.get(index).text(lang));
     }
 
     private void previous() {
         index = (index - 1 + Content.SENTENCES.size()) % Content.SENTENCES.size();
         render();
-        host.speech().speak(Content.SENTENCES.get(index).text(lang), lang);
+        host.voice().speak(lang, Content.SENTENCES.get(index).text(lang));
     }
 
     private void listen() {

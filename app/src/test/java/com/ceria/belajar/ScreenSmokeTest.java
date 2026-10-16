@@ -58,7 +58,8 @@ public class ScreenSmokeTest {
                 new MemoryGame(host),
                 new ColoringScreen(host),
                 new RewardsScreen(host),
-                new VoiceScreen(host)
+                new VoiceScreen(host),
+                new RecordingStudioScreen(host)
         };
 
         for (MainActivity.Screen screen : screens) {

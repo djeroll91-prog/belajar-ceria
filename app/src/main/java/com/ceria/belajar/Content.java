@@ -31,8 +31,16 @@ public final class Content {
             return lang == Lang.MS ? ms : en;
         }
 
+        /**
+         * The text to say out loud. Number items keep their count emoji in
+         * {@link #word} purely for drawing, so fall back to the spoken name
+         * ("satu", not "🍎") when {@link #word} is not a real word.
+         */
         public String spokenText(Lang lang) {
-            return word != null ? word : name(lang);
+            if (word != null && word.matches("[A-Za-z][A-Za-z ]*")) {
+                return word;
+            }
+            return name(lang);
         }
     }
 

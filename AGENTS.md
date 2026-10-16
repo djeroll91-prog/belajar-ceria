@@ -70,6 +70,36 @@ Version lives in `app/build.gradle` (`versionCode` / `versionName`). Bump both
 for each new APK. The generated release APK is signed with `keystore/belajar.jks`
 (store/key password `ceriabelajar`, alias `belajar`).
 
+## Voice: human recordings with a synthesis fallback
+
+Every phrase the app says has a stable key from `PhraseCatalog.key`, e.g. `ms_epal`.
+The same key is used in three places, so never rename one after recording:
+
+1. `res/raw/clip_<key>.mp3` — clips bundled into the APK
+2. `filesDir/voice/<key>.m4a` — clips added on the device by a parent
+3. `docs/voice-script-<lang>.csv` — the script a voice artist reads from
+
+`VoicePack` plays a bundled clip, then a device clip, then falls back to the
+speech engine, which reads `SpokenText.forEngine` (phonetic fixes) rather than the
+raw text. Recordings are preferred over synthesis because a child learning to
+read should hear natural speech.
+
+Generate the scripts and bundle a finished pack:
+
+```bash
+python3 tools/voice_pack.py list        # writes docs/voice-script-{ms,en}.csv
+python3 tools/voice_pack.py bundle DIR  # DIR holds <key>.m4a, copies to res/raw
+python3 tools/voice_pack.py check       # coverage report
+```
+
+The generator compiles `Content` and `PhraseCatalog` and runs them, so the CSV,
+the APK resource names and the recordings cannot drift apart. `PhraseCatalogTest`
+pins the key rules.
+
+A parent can also record everything from the app itself, under the
+**Studio Rakaman** tile: record, preview, delete, and export/import a zip of all
+clips. That path needs no computer and no rebuild.
+
 ## Testing
 
 `app/src/test` holds JUnit data tests and Robolectric UI smoke tests.

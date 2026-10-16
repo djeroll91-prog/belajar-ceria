@@ -142,7 +142,7 @@ public class VoiceScreen extends BaseScreen {
             row.setOnClickListener(v -> {
                 host.speech().setVoiceByName(Content.Lang.MS, name);
                 refresh();
-                host.speech().speak("epal", Content.Lang.MS);
+                host.voice().speak(Content.Lang.MS, "epal");
             });
             voiceList.addView(row, rlp);
         }
