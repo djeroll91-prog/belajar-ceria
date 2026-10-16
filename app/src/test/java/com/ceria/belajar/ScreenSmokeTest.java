@@ -64,7 +64,33 @@ public class ScreenSmokeTest {
             View view = screen.build();
             assertNotNull("screen failed to build: " + screen.getClass().getSimpleName(), view);
             assertTrue(view.getVisibility() == View.VISIBLE);
+            assertTrue("screen has no children: " + screen.getClass().getSimpleName(),
+                    view instanceof android.view.ViewGroup
+                            && ((android.view.ViewGroup) view).getChildCount() > 0);
         }
+    }
+
+    @Test
+    public void homeShowsItsLearningTiles() {
+        MainActivity activity = launch();
+        View decor = activity.getWindow().getDecorView();
+        decor.measure(View.MeasureSpec.makeMeasureSpec(822, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(1782, View.MeasureSpec.EXACTLY));
+        decor.layout(0, 0, 822, 1782);
+
+        int clickable = countClickable(decor);
+        assertTrue("home should show its tiles, clickable views=" + clickable, clickable >= 15);
+    }
+
+    private int countClickable(View v) {
+        int count = v.isClickable() ? 1 : 0;
+        if (v instanceof android.view.ViewGroup) {
+            android.view.ViewGroup g = (android.view.ViewGroup) v;
+            for (int i = 0; i < g.getChildCount(); i++) {
+                count += countClickable(g.getChildAt(i));
+            }
+        }
+        return count;
     }
 
     @Test

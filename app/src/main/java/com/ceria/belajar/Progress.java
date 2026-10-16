@@ -46,7 +46,7 @@ public class Progress {
     }
 
     public Content.Lang getLang() {
-        return Content.Lang.MS.name().equals(prefs.getString(KEY_LANG, Content.Lang.EN.name()))
+        return Content.Lang.MS.name().equals(prefs.getString(KEY_LANG, Content.Lang.MS.name()))
                 ? Content.Lang.MS : Content.Lang.EN;
     }
 

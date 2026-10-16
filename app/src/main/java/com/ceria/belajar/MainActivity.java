@@ -119,7 +119,9 @@ public class MainActivity extends Activity {
                     + " " + (lang() == Content.Lang.MS ? "markah" : "pts"));
         }
         if (langPill != null) {
-            langPill.setText(lang() == Content.Lang.MS ? "\uD83C\uDDEE\uD83C\uDDE9 BM" : "\uD83C\uDDEC\uD83C\uDDE7 EN");
+            langPill.setText(lang() == Content.Lang.MS
+                    ? "\uD83C\uDDF2\uD83C\uDDFE BM"
+                    : "\uD83C\uDDEC\uD83C\uDDE7 EN");
         }
     }
 
@@ -147,6 +149,8 @@ public class MainActivity extends Activity {
         column.setPadding(Util.dp(this, 14), Util.dp(this, 14), Util.dp(this, 14), Util.dp(this, 24));
         scroll.addView(column, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        content.addView(scroll, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         mascot = new RobotView(this);
         mascot.setBodyColor(Util.funColor(progress.points() / 50));
