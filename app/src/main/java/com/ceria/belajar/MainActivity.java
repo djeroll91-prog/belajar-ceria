@@ -51,6 +51,10 @@ public class MainActivity extends Activity {
         return progress;
     }
 
+    public FrameLayout rootFrame() {
+        return rootFrame;
+    }
+
     public SpeechHelper speech() {
         return speech;
     }
@@ -103,6 +107,14 @@ public class MainActivity extends Activity {
         langPill.setBackground(Util.rounded(0xFFFFFFFF, Util.dp(this, 20)));
         langPill.setOnClickListener(v -> toggleLang());
         header.addView(langPill, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        TextView voiceButton = Util.text(this, "\uD83D\uDD0A", 18, 0xFF4A148C);
+        voiceButton.setPadding(Util.dp(this, 12), Util.dp(this, 6),
+                Util.dp(this, 12), Util.dp(this, 6));
+        voiceButton.setBackground(Util.rounded(0xFFFFFFFF, Util.dp(this, 20)));
+        voiceButton.setOnClickListener(v -> open(new VoiceScreen(this)));
+        header.addView(voiceButton, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         content = new FrameLayout(this);
@@ -223,6 +235,8 @@ public class MainActivity extends Activity {
                 () -> open(new ColoringScreen(this)));
         addTile(grid, "\uD83C\uDFC6", tr("Ganjaran", "Rewards"), 0xFFFFB300,
                 () -> open(new RewardsScreen(this)));
+        addTile(grid, "\uD83D\uDD0A", tr("Suara Bacaan", "Reading Voice"), 0xFF5C6BC0,
+                () -> open(new VoiceScreen(this)));
     }
 
     private String tr(String ms, String en) {

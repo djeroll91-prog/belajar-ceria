@@ -88,7 +88,8 @@ public class HomeLayoutTest {
                 new CountGame(host),
                 new MemoryGame(host),
                 new ColoringScreen(host),
-                new RewardsScreen(host)
+                new RewardsScreen(host),
+                new VoiceScreen(host)
         };
 
         for (MainActivity.Screen screen : screens) {
