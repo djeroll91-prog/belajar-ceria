@@ -12,8 +12,10 @@ import android.speech.tts.UtteranceProgressListener;
 import android.speech.tts.Voice;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -58,6 +60,12 @@ public class SpeechHelper {
     private boolean malayVoiceFound;
     private SpeechListener activeListener;
     private EngineListener engineListener;
+    /** Runs after every utterance, e.g. to stop the mascot's mouth. */
+    private Runnable globalDone;
+    /** Completion callbacks for individual utterances, keyed by utterance id. */
+    private final Map<String, Runnable> utteranceDone = new HashMap<>();
+    /** The voice picked for a language, so a song does not rescan them per word. */
+    private final Map<Content.Lang, Voice> chosenVoice = new HashMap<>();
 
     public SpeechHelper(Activity activity) {
         this.activity = activity;
@@ -67,8 +75,46 @@ public class SpeechHelper {
             if (ttsReady) {
                 applySavedVoice(Content.Lang.MS);
                 applySavedVoice(Content.Lang.EN);
+                installProgressListener();
             }
             notifyEngineState();
+        });
+    }
+
+    /**
+     * Reports the end of each utterance. A caller that speaks a whole song needs
+     * to know when one word has finished before starting the next, otherwise the
+     * words are cut off or flushed before they are audible.
+     */
+    private void installProgressListener() {
+        if (tts == null) {
+            return;
+        }
+        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) {
+            }
+
+            @Override
+            public void onDone(String utteranceId) {
+                finishUtterance(utteranceId);
+            }
+
+            @Override
+            public void onError(String utteranceId) {
+                // An engine that errors must not stall a caller waiting on us.
+                finishUtterance(utteranceId);
+            }
+
+            private void finishUtterance(String utteranceId) {
+                Runnable specific = utteranceDone.remove(utteranceId);
+                if (specific != null) {
+                    activity.runOnUiThread(specific);
+                }
+                if (globalDone != null) {
+                    activity.runOnUiThread(globalDone);
+                }
+            }
         });
     }
 
@@ -213,6 +259,7 @@ public class SpeechHelper {
 
     public void setVoiceByName(Content.Lang lang, String name) {
         prefs.edit().putString(lang == Content.Lang.MS ? KEY_VOICE_MS : KEY_VOICE_EN, name).apply();
+        chosenVoice.remove(lang);
         applySavedVoice(lang);
         notifyEngineState();
     }
@@ -221,25 +268,10 @@ public class SpeechHelper {
         if (tts == null || !ttsReady) {
             return;
         }
-        String saved = activeVoiceName(lang);
-        if (saved != null) {
+        Voice chosen = voiceFor(lang);
+        if (chosen != null) {
             try {
-                Set<Voice> voices = tts.getVoices();
-                if (voices != null) {
-                    for (Voice v : voices) {
-                        if (saved.equals(v.getName())) {
-                            tts.setVoice(v);
-                            return;
-                        }
-                    }
-                }
-            } catch (RuntimeException ignored) {
-            }
-        }
-        Voice best = bestVoice(lang);
-        if (best != null) {
-            try {
-                tts.setVoice(best);
+                tts.setVoice(chosen);
             } catch (RuntimeException ignored) {
             }
         }
@@ -252,6 +284,7 @@ public class SpeechHelper {
 
     public void setAllowOnline(boolean value) {
         prefs.edit().putBoolean(KEY_ONLINE, value).apply();
+        chosenVoice.clear();
         applySavedVoice(Content.Lang.MS);
         applySavedVoice(Content.Lang.EN);
         notifyEngineState();
@@ -293,52 +326,48 @@ public class SpeechHelper {
     // ------------------------------------------------------------------
 
     public void setOnDone(final Runnable action) {
-        if (tts == null) {
-            return;
-        }
-        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override
-            public void onStart(String utteranceId) {
-            }
-
-            @Override
-            public void onDone(String utteranceId) {
-                if (action != null) {
-                    activity.runOnUiThread(action);
-                }
-            }
-
-            @Override
-            public void onError(String utteranceId) {
-            }
-        });
+        globalDone = action;
     }
 
     public void speak(String text, Content.Lang lang) {
-        speakAt(text, lang, rate());
+        speakAt(text, lang, rate(), null);
     }
 
     public void speak(String text, Content.Lang lang, float speechRate) {
-        speakAt(text, lang, speechRate);
+        speakAt(text, lang, speechRate, null);
+    }
+
+    /**
+     * Speaks and runs {@code done} when the utterance finishes, so a caller can
+     * chain phrases (a song, a story) without a fixed timer that either clips a
+     * long word or leaves a gap after a short one.
+     */
+    public void speakThen(String text, Content.Lang lang, float speechRate, Runnable done) {
+        speakAt(text, lang, speechRate, done);
     }
 
     /** Silences anything the engine is currently saying. */
     public void stop() {
+        utteranceDone.clear();
         if (tts != null) {
             tts.stop();
         }
     }
 
     public void speakSlowly(String text, Content.Lang lang) {
-        speakAt(text, lang, 0.6f);
+        speakAt(text, lang, 0.6f, null);
     }
 
-    private void speakAt(String text, Content.Lang lang, float speechRate) {
+    private void speakAt(String text, Content.Lang lang, float speechRate, Runnable done) {
         if (tts == null || !ttsReady || text == null || text.isEmpty()) {
+            // Nothing will be spoken, so a caller waiting on us must not hang.
+            if (done != null) {
+                activity.runOnUiThread(done);
+            }
             return;
         }
         if (lang == Content.Lang.MS) {
-            Voice voice = bestVoice(Content.Lang.MS);
+            Voice voice = voiceFor(Content.Lang.MS);
             malayVoiceFound = voice != null;
             if (voice != null) {
                 try {
@@ -351,7 +380,7 @@ public class SpeechHelper {
             tts.setLanguage(new Locale("ms", "MY"));
             notifyEngineState();
         } else {
-            Voice voice = bestVoice(Content.Lang.EN);
+            Voice voice = voiceFor(Content.Lang.EN);
             if (voice != null) {
                 try {
                     tts.setVoice(voice);
@@ -362,11 +391,52 @@ public class SpeechHelper {
         }
         tts.setPitch(pitch());
         tts.setSpeechRate(speechRate);
+        String id = "ceria-" + System.nanoTime();
+        if (done != null) {
+            utteranceDone.put(id, done);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "ceria-" + System.nanoTime());
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, id);
         } else {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+            // Pre-Lollipop cannot tag an utterance, so the completion callback is
+            // unusable there; let the caller continue rather than wait forever.
+            if (done != null) {
+                utteranceDone.remove(id);
+                activity.runOnUiThread(done);
+            }
         }
+    }
+
+    /**
+     * The voice to use for a language, remembered after the first lookup.
+     *
+     * Scanning every installed voice on each word is wasted work on the speech
+     * thread, and in a song it adds enough delay that words overlap or get
+     * flushed before they are heard.
+     */
+    private Voice voiceFor(Content.Lang lang) {
+        if (chosenVoice.containsKey(lang)) {
+            return chosenVoice.get(lang);
+        }
+        String saved = activeVoiceName(lang);
+        if (saved != null) {
+            try {
+                Set<Voice> voices = tts == null ? null : tts.getVoices();
+                if (voices != null) {
+                    for (Voice v : voices) {
+                        if (saved.equals(v.getName())) {
+                            chosenVoice.put(lang, v);
+                            return v;
+                        }
+                    }
+                }
+            } catch (RuntimeException ignored) {
+            }
+        }
+        Voice best = bestVoice(lang);
+        chosenVoice.put(lang, best);
+        return best;
     }
 
     /** Starts the microphone. The result arrives in onActivityResult of the activity. */

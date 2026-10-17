@@ -190,19 +190,132 @@ public class ChildFeedbackTest {
     public void abcSongCoversTheWholeAlphabet() {
         MainActivity host = launch();
         KaraokeScreen screen = new KaraokeScreen(host);
+        // The shadow player reports completion instantly, so the song would race
+        // through all 26 cards before anything could be inspected. Hold each
+        // callback back so the strip can be checked while the song is still going.
+        java.util.List<Runnable> held = new ArrayList<>();
+        screen.setSpeakerForTest((word, done) -> held.add(done));
+        screen.setStallTimeoutForTest(60_000);
+
         View root = screen.build();
         host.setContentView(root);
-
-        // Press "ABC Song" and let the ticker lay out every card.
         View abc = findClickableWithText(root, "ABC");
         assertNotNull("the ABC song button is missing", abc);
         abc.performClick();
-        org.robolectric.shadows.ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
+        org.robolectric.shadows.ShadowLooper.idleMainLooper();
+
+        // Let each letter finish in turn, exactly as the audio would.
+        for (int i = 0; i < Content.LETTERS.size(); i++) {
+            assertTrue("the song stopped after " + i + " letters",
+                    held.size() > i);
+            held.get(i).run();
+            org.robolectric.shadows.ShadowLooper.idleMainLooper();
+        }
 
         String shown = textsOf(root);
         for (char c = 'A'; c <= 'Z'; c++) {
-            String letter = String.valueOf(c);
-            assertTrue("the ABC song never reached " + letter, shown.contains(letter));
+            assertTrue("the ABC song never reached " + c, shown.contains(String.valueOf(c)));
+        }
+    }
+
+    @Test
+    public void abcSongWaitsForEachLetterToFinish() {
+        MainActivity host = launch();
+        KaraokeScreen screen = new KaraokeScreen(host);
+        java.util.List<String> spoken = new ArrayList<>();
+        java.util.List<Runnable> held = new ArrayList<>();
+        screen.setSpeakerForTest((word, done) -> {
+            spoken.add(word);
+            held.add(done);
+        });
+        screen.setStallTimeoutForTest(60_000);
+
+        View root = screen.build();
+        host.setContentView(root);
+        findClickableWithText(root, "ABC").performClick();
+        org.robolectric.shadows.ShadowLooper.idleMainLooper();
+
+        // The old code advanced on a fixed 1.2 s timer, so it asked for every
+        // letter at once and clipped the ones longer than the tick. Only one
+        // letter may be in flight until its audio reports that it has ended.
+        assertEquals("the song raced ahead of the audio", 1, spoken.size());
+        assertEquals("the first letter must be spoken by name", "A", spoken.get(0));
+
+        held.get(0).run();
+        org.robolectric.shadows.ShadowLooper.idleMainLooper();
+        assertEquals("the second letter did not start after the first ended",
+                2, spoken.size());
+        assertEquals("B", spoken.get(1));
+    }
+
+    @Test
+    public void abcSongNeverStallsWhenAudioNeverReportsBack() {
+        MainActivity host = launch();
+        KaraokeScreen screen = new KaraokeScreen(host);
+        // A device whose engine never calls back must not freeze the song: the
+        // stall timeout has to carry it on.
+        screen.setSpeakerForTest((word, done) -> { /* never finishes */ });
+        screen.setStallTimeoutForTest(50);
+
+        View root = screen.build();
+        host.setContentView(root);
+        findClickableWithText(root, "ABC").performClick();
+        org.robolectric.shadows.ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
+
+        // Every letter was reached even though no audio ever completed.
+        String shown = textsOf(root);
+        for (char c = 'A'; c <= 'Z'; c++) {
+            assertTrue("the song stalled before " + c, shown.contains(String.valueOf(c)));
+        }
+    }
+
+    @Test
+    public void stoppingTheSongDoesNotRestartIt() {
+        MainActivity host = launch();
+        KaraokeScreen screen = new KaraokeScreen(host);
+        java.util.List<Runnable> held = new ArrayList<>();
+        screen.setSpeakerForTest((word, done) -> held.add(done));
+        screen.setStallTimeoutForTest(60_000);
+
+        View root = screen.build();
+        host.setContentView(root);
+        findClickableWithText(root, "ABC").performClick();
+        org.robolectric.shadows.ShadowLooper.idleMainLooper();
+        assertEquals(1, held.size());
+
+        // Press Stop, then let the in-flight audio report completion. A retired
+        // card must be ignored, so the song stays stopped.
+        View stop = findClickableWithText(root, "Stop");
+        if (stop == null) {
+            stop = findClickableWithText(root, "Berhenti");
+        }
+        assertNotNull("the Stop button is missing", stop);
+        stop.performClick();
+        // The button runs its action after a short press animation, so let that
+        // queued work run before pretending the audio reports back.
+        org.robolectric.shadows.ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
+
+        // Now let the in-flight audio report completion. A retired card must be
+        // ignored, so the song stays stopped.
+        held.get(0).run();
+        org.robolectric.shadows.ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
+        assertEquals("the song restarted after Stop was pressed", 1, held.size());
+    }
+
+    @Test
+    public void everySongPhraseHasAudioThatEnds() {
+        // The karaoke now chains phrases on their completion callback, so a phrase
+        // with no bundled clip and no working engine would leave the child in
+        // silence. Letters are the known gap: they rely on the engine, which is
+        // why the song also has a stall timeout. This pins the clips that do ship.
+        MainActivity host = launch();
+        for (int i = 0; i < 10; i++) {
+            Content.Item number = Content.NUMBERS.get(i);
+            int id = host.getResources().getIdentifier(
+                    "clip_" + PhraseCatalog.key(Content.Lang.MS, number.spokenText(Content.Lang.MS)),
+                    "raw", host.getPackageName());
+            assertTrue("the number song has no clip for " + number.spokenText(Content.Lang.MS),
+                    id != 0);
         }
     }
 

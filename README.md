@@ -9,7 +9,7 @@ perpustakaan pihak ketiga.
 ## Muat turun
 
 Pergi ke halaman [Releases](../../releases/latest) dan muat turun
-`BelajarCeria-v1.6.apk`.
+`BelajarCeria-v1.7.apk`.
 
 1. Buka fail APK pada telefon.
 2. Benarkan "Pasang aplikasi tidak dikenali" jika diminta.
@@ -49,6 +49,22 @@ Android 5.0 ke atas.
   Ibu bapa boleh matikan muzik tanpa kehilangan bunyi tepukan dan pujian.
   Muzik latar berhenti sendiri dalam semua permainan supaya kanak-kanak boleh
   berfikir dan mendengar soalan dengan jelas.
+
+## Perubahan v1.7
+
+- Lagu karaoke tidak lagi terpotong. Dahulu setiap kad diberi masa tetap 1.2
+  saat, sedangkan klip nombor berjalan 1.4-1.5 saat, jadi setiap perkataan
+  dipotong di hujungnya. Kini kad seterusnya bermula hanya selepas audio
+  perkataan semasa benar-benar tamat.
+- Lagu karaoke tidak lagi senyap di sana sini. Huruf belum ada klip rakaman,
+  jadi ia bergantung pada enjin suara telefon; enjin kadangkala lambat memulakan
+  sebutan lalu dipotong oleh pemasa lama. Penantian audio ini juga membetulkannya.
+- Ada jaring keselamatan: jika telefon tidak pernah melaporkan audio tamat, lagu
+  bergerak sendiri selepas 4 saat supaya tidak tersekat pada satu huruf.
+- Butang Berhenti kini benar-benar menghentikan audio, dan lagu tidak akan
+  bermula semula selepas ditekan.
+- Suara yang dipilih diingati, jadi lagu tidak menyemak semula senarai suara pada
+  setiap perkataan. Ini mengurangkan kependaman dan tumpang tindih bunyi.
 
 ## Perubahan v1.6
 

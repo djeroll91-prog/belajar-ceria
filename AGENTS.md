@@ -70,6 +70,15 @@ timeout kills foreground commands that take more than a few minutes.
 - Music and sound effects have separate toggles in the header. Do not fold them
   back into one switch: a parent who finds the tune distracting should not have to
   lose the tap and reward sounds.
+- The karaoke song is driven by the audio, not a timer. `VoicePack.speakThen` runs
+  a callback when the clip or the utterance actually ends, and `KaraokeScreen`
+  waits for it before showing the next card. A fixed delay cannot work here: the
+  number clips run 1.4-1.5 s while the old tick was 1.2 s, so every word was
+  clipped, and a synthesised letter has no fixed length at all. A stall timeout
+  (4 s) is kept purely as a safety net for an engine that never reports back, and
+  a token retires the card so the timeout and the real completion cannot both
+  advance the song. `KaraokeScreen.setSpeakerForTest` exists because the shadow
+  player finishes instantly in tests, which would otherwise hide this.
 - Shared feedback animations live on `MainActivity`: `pop`, `hop`, `shake` and
   `wrongFeedback`. New games should call these instead of rolling their own
   `animate()` chains, so praise and correction feel the same everywhere.

@@ -26,7 +26,42 @@ public class KaraokeScreen extends BaseScreen {
     private TextView status;
     private java.util.List<Content.Item> queue = new java.util.ArrayList<>();
     private int step;
-    private Runnable ticker;
+    /**
+     * Identifies the card whose audio is in flight. Both the audio-completion
+     * callback and the stall timeout call {@link #finishCard}, and only the first
+     * of them may move the song on; without this the song would skip a letter
+     * whenever the timeout and the clip finished close together.
+     */
+    private long cardToken;
+    /** The posted stall timeout, kept so it can be cancelled. */
+    private Runnable pendingTimeout;
+    /**
+     * Test seam. A unit test cannot hear audio, and the shadow player reports
+     * completion instantly, so a test that wants to prove the song waits for one
+     * letter before starting the next must be able to hold the callback back.
+     */
+    interface Speaker {
+        void speak(String word, Runnable done);
+    }
+
+    private Speaker speaker;
+
+    void setSpeakerForTest(Speaker speaker) {
+        this.speaker = speaker;
+    }
+
+    /**
+     * A safety net under the audio completion callback. If a device never reports
+     * that a clip ended (a stuck engine, a clip that fails silently) the song must
+     * still move on rather than freeze on one letter. Set well above the longest
+     * clip so it only fires when something has actually gone wrong.
+     */
+    private static final long STALL_TIMEOUT_MS = 4000;
+    private long stallTimeoutMs = STALL_TIMEOUT_MS;
+
+    void setStallTimeoutForTest(long ms) {
+        this.stallTimeoutMs = ms;
+    }
 
     public KaraokeScreen(MainActivity host) {
         super(host);
@@ -76,7 +111,11 @@ public class KaraokeScreen extends BaseScreen {
 
         LinearLayout row2 = horizontal();
         row2.addView(bigButton("\u23F9", t("Stop", "Berhenti"), 0xFF78909C,
-                this::stopSinging));
+                () -> {
+                    stopSinging();
+                    host.voice().stop();
+                    status.setText(t("Pick a song!", "Pilih lagu!"));
+                }));
         column.addView(row2, matchWrap());
 
         return scrollWrap(column);
@@ -93,8 +132,7 @@ public class KaraokeScreen extends BaseScreen {
             strip.addView(card(items.get(i), i), cardParams());
         }
         step = 0;
-        ticker = this::advance;
-        ui.post(ticker);
+        ui.post(this::advance);
     }
 
     private View card(Content.Item item, int index) {
@@ -134,17 +172,43 @@ public class KaraokeScreen extends BaseScreen {
         highlight(card);
         scrollTo(card);
         Content.Item item = itemAt(step);
-        if (item != null) {
-            host.music().duck();
-            // Letters are sung by name, so the ABC song says "A, B, C" rather
-            // than naming the picture that happens to start with the letter.
-            String word = Content.LETTERS.contains(item)
-                    ? Content.letterGlyph(item)
-                    : item.spokenText(lang);
-            host.voice().speak(lang, word);
-        }
         step++;
-        ui.postDelayed(this::advance, 1200);
+        if (item == null) {
+            ui.post(this::advance);
+            return;
+        }
+        host.music().duck();
+        // Letters are sung by name, so the ABC song says "A, B, C" rather
+        // than naming the picture that happens to start with the letter.
+        String word = Content.LETTERS.contains(item)
+                ? Content.letterGlyph(item)
+                : item.spokenText(lang);
+        // The next letter starts only when this one has finished playing, so a
+        // 1.5 s clip is never cut off at a fixed 1.2 s and a slow engine is never
+        // flushed before it makes a sound. The timeout is only a safety net.
+        long token = ++cardToken;
+        Runnable onDone = () -> finishCard(token);
+        if (speaker != null) {
+            speaker.speak(word, onDone);
+        } else {
+            host.voice().speakThen(lang, word, host.speech().rate(), onDone);
+        }
+        pendingTimeout = () -> finishCard(token);
+        ui.postDelayed(pendingTimeout, stallTimeoutMs);
+    }
+
+    /**
+     * Called by whichever comes first, the audio ending or the stall timeout.
+     * The token makes the second caller a no-op, so a letter is never skipped.
+     */
+    private void finishCard(long token) {
+        if (token != cardToken) {
+            return;
+        }
+        cardToken++;    // retire this card so the other signal does nothing
+        ui.removeCallbacks(pendingTimeout);
+        pendingTimeout = null;
+        ui.post(this::advance);
     }
 
     /** Keeps the card being sung visible as the song moves along the strip. */
@@ -194,6 +258,10 @@ public class KaraokeScreen extends BaseScreen {
 
     private void stopSinging() {
         ui.removeCallbacksAndMessages(null);
+        // Retire any audio callback still in flight: it must not restart the song
+        // after the child has stopped it or left the screen.
+        cardToken++;
+        pendingTimeout = null;
         resetCards();
     }
 

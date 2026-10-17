@@ -130,26 +130,41 @@ public class VoicePack {
      * phonetically corrected form.
      */
     public void speak(Content.Lang lang, String text, float rate) {
+        speakThen(lang, text, rate, null);
+    }
+
+    /**
+     * Speaks a phrase and runs {@code done} when the audio actually ends.
+     *
+     * A caller that chains phrases (the karaoke song) must not guess at the
+     * length: a clip is up to 1.5 s and the engine's own latency varies, so a
+     * fixed timer either cuts a word off or leaves dead air. The clip player and
+     * the engine both report completion here.
+     */
+    public void speakThen(Content.Lang lang, String text, float rate, Runnable done) {
         if (text == null || text.isEmpty()) {
+            if (done != null) {
+                done.run();
+            }
             return;
         }
         stop();
         String key = PhraseCatalog.key(lang, text);
 
         File userFile = new File(userDir(), key + ".m4a");
-        if (userFile.exists() && play(userFile)) {
+        if (userFile.exists() && play(userFile, done)) {
             return;
         }
         Integer bundledId = bundled.get(key);
-        if (bundledId != null && playBundled(bundledId)) {
+        if (bundledId != null && playBundled(bundledId, done)) {
             return;
         }
-        speech.speak(SpokenText.forEngine(lang, text), lang, rate);
+        speech.speakThen(SpokenText.forEngine(lang, text), lang, rate, done);
     }
 
-    private boolean playBundled(int resId) {
+    private boolean playBundled(int resId, Runnable done) {
         try {
-            player = openPlayer();
+            player = openPlayer(done);
             android.content.res.AssetFileDescriptor fd =
                     context.getResources().openRawResourceFd(resId);
             if (fd == null) {
@@ -165,9 +180,9 @@ public class VoicePack {
         }
     }
 
-    private boolean play(File file) {
+    private boolean play(File file, Runnable done) {
         try (FileInputStream in = new FileInputStream(file)) {
-            player = openPlayer();
+            player = openPlayer(done);
             player.setDataSource(in.getFD());
             player.start();
             return true;
@@ -177,12 +192,21 @@ public class VoicePack {
         }
     }
 
-    private MediaPlayer openPlayer() {
+    private MediaPlayer openPlayer(Runnable done) {
         MediaPlayer mp = new MediaPlayer();
         mp.setAudioAttributes(new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                 .build());
+        if (done != null) {
+            // A clip that fails to finish (or is stopped) must not strand the
+            // caller, so errors release it as well as normal completion.
+            mp.setOnCompletionListener(media -> done.run());
+            mp.setOnErrorListener((media, what, extra) -> {
+                done.run();
+                return true;
+            });
+        }
         return mp;
     }
 
