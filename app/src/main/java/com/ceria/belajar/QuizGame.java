@@ -177,7 +177,9 @@ public class QuizGame extends BaseScreen {
             icon.setText(item.symbol);
             icon.setTextSize(44);
         } else {
-            icon.setText(item.symbol);
+            // Letters carry their picture inside the symbol ("A|🍎"), so the
+            // raw value would draw "A|🍎" instead of just "A".
+            icon.setText(Content.glyphOf(item));
         }
         tile.addView(icon);
 

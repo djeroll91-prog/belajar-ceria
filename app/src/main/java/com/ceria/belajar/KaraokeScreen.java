@@ -1,7 +1,6 @@
 package com.ceria.belajar;
 
 import android.animation.ObjectAnimator;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,6 +22,7 @@ public class KaraokeScreen extends BaseScreen {
 
     private final Handler ui = new Handler(Looper.getMainLooper());
     private LinearLayout strip;
+    private android.widget.HorizontalScrollView scroll;
     private TextView status;
     private java.util.List<Content.Item> queue = new java.util.ArrayList<>();
     private int step;
@@ -50,14 +50,22 @@ public class KaraokeScreen extends BaseScreen {
         strip.setOrientation(LinearLayout.HORIZONTAL);
         strip.setGravity(Gravity.CENTER);
         strip.setPadding(dp(4), dp(4), dp(4), dp(4));
-        column.addView(strip, matchWrap());
+
+        // The whole alphabet is 26 cards, far wider than any phone. A plain row
+        // would squeeze them all to a sliver, so the strip scrolls sideways and
+        // the current card is scrolled into view as the song moves along.
+        scroll = new android.widget.HorizontalScrollView(host);
+        scroll.setHorizontalScrollBarEnabled(false);
+        scroll.addView(strip, new android.widget.FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        column.addView(scroll, matchWrap());
 
         column.addView(spacer(16));
 
         LinearLayout row1 = horizontal();
         row1.addView(bigButton("\uD83D\uDD24", t("ABC Song", "Lagu ABC"), 0xFFE8877A,
                 () -> sing(t("Now sing the ABC!", "Jom nyanyi ABC!"),
-                        Content.LETTERS, 1)));
+                        Content.LETTERS, Content.LETTERS.size())));
         row1.addView(space(10));
         row1.addView(bigButton("\uD83D\uDD22", t("1 to 10", "1 hingga 10"), 0xFF7FB4D9,
                 () -> sing(t("Now count to ten!", "Jom kira sampai sepuluh!"),
@@ -102,10 +110,13 @@ public class KaraokeScreen extends BaseScreen {
         bg.setStroke(dp(2), 0xFFCE93D8);
         card.setBackground(bg);
 
-        TextView icon = Util.text(host, item.symbol, 26, Color.WHITE);
+        // In the ABC song the card shows the letter itself; showing the picture
+        // emoji would put the alphabet behind a row of unrelated objects.
+        String face = Content.LETTERS.contains(item) ? Content.letterGlyph(item) : item.symbol;
+        TextView icon = Util.text(host, face, 30, 0xFF4A148C);
+        icon.setTypeface(null, android.graphics.Typeface.BOLD);
         card.addView(icon);
-        TextView label = Util.text(host, item.name(lang), 13, 0xFF4A148C);
-        label.setTypeface(null, android.graphics.Typeface.BOLD);
+        TextView label = Util.text(host, item.name(lang), 12, 0xFF6A1B9A);
         card.addView(label);
         return card;
     }
@@ -121,13 +132,30 @@ public class KaraokeScreen extends BaseScreen {
         }
         View card = strip.getChildAt(step);
         highlight(card);
+        scrollTo(card);
         Content.Item item = itemAt(step);
         if (item != null) {
             host.music().duck();
-            host.voice().speak(lang, item.spokenText(lang));
+            // Letters are sung by name, so the ABC song says "A, B, C" rather
+            // than naming the picture that happens to start with the letter.
+            String word = Content.LETTERS.contains(item)
+                    ? Content.letterGlyph(item)
+                    : item.spokenText(lang);
+            host.voice().speak(lang, word);
         }
         step++;
         ui.postDelayed(this::advance, 1200);
+    }
+
+    /** Keeps the card being sung visible as the song moves along the strip. */
+    private void scrollTo(View card) {
+        if (scroll == null) {
+            return;
+        }
+        scroll.post(() -> {
+            int target = card.getLeft() - (scroll.getWidth() - card.getWidth()) / 2;
+            scroll.smoothScrollTo(Math.max(0, target), 0);
+        });
     }
 
     private Content.Item itemAt(int index) {
@@ -176,8 +204,11 @@ public class KaraokeScreen extends BaseScreen {
     }
 
     private LinearLayout.LayoutParams cardParams() {
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, dp(96), 1f);
-        lp.setMargins(dp(2), dp(4), dp(2), dp(4));
+        // A fixed width, not a weight: 26 weighted cards would each be about
+        // 15dp wide, so the alphabet would be unreadable. Fixed cards keep their
+        // size and the strip scrolls instead.
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(72), dp(96));
+        lp.setMargins(dp(3), dp(4), dp(3), dp(4));
         return lp;
     }
 }

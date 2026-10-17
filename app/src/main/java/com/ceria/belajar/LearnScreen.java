@@ -183,6 +183,27 @@ public class LearnScreen extends BaseScreen {
         return item.name(lang);
     }
 
+    /**
+     * What the voice says for the current card.
+     *
+     * In letter mode a child must hear the letter's name ("A", "B"), not the
+     * word for the picture beside it. The picture is there to make the letter
+     * memorable, but saying "Apple" when the letter "A" is on screen teaches the
+     * wrong thing, so the glyph is spoken instead.
+     *
+     * Package-private so the test that guards this rule can call it directly.
+     */
+    String spokenName() {
+        Content.Item item = current();
+        if (Content.isColorItem(item) || Content.isScriptItem(item)) {
+            return item.name(lang);
+        }
+        if (mode == Mode.LETTER) {
+            return Content.letterGlyph(item);
+        }
+        return displayName();
+    }
+
     private void render() {
         Content.Item item = current();
         LinearLayout.LayoutParams emojiLp = new LinearLayout.LayoutParams(
@@ -286,6 +307,11 @@ public class LearnScreen extends BaseScreen {
         speakCurrent();
     }
 
+    /** Advances without speaking, so a test can walk the list quietly. */
+    void nextForTest() {
+        index = (index + 1) % items.size();
+    }
+
     private void previous() {
         index = (index - 1 + items.size()) % items.size();
         render();
@@ -293,11 +319,11 @@ public class LearnScreen extends BaseScreen {
     }
 
     private void speakCurrent() {
-        host.voice().speak(lang, displayName());
+        host.voice().speak(lang, spokenName());
     }
 
     private void speakSlow() {
-        host.voice().speakSlowly(lang, displayName());
+        host.voice().speakSlowly(lang, spokenName());
     }
 
     private void startListening() {

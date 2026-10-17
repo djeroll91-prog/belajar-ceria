@@ -9,7 +9,7 @@ perpustakaan pihak ketiga.
 ## Muat turun
 
 Pergi ke halaman [Releases](../../releases/latest) dan muat turun
-`BelajarCeria-v1.5.apk`.
+`BelajarCeria-v1.6.apk`.
 
 1. Buka fail APK pada telefon.
 2. Benarkan "Pasang aplikasi tidak dikenali" jika diminta.
@@ -45,6 +45,24 @@ Android 5.0 ke atas.
 - Sistem markah, bintang, lencana, rentetan jawapan betul dan konfeti.
 - Tahap berkunci: tahap seterusnya hanya terbuka selepas lulus markah minimum.
 - Paparan trend kemajuan dan laluan belajar.
+- Dua suis berasingan di bar atas: 🔊 untuk kesan bunyi, 🎵 untuk muzik latar.
+  Ibu bapa boleh matikan muzik tanpa kehilangan bunyi tepukan dan pujian.
+  Muzik latar berhenti sendiri dalam semua permainan supaya kanak-kanak boleh
+  berfikir dan mendengar soalan dengan jelas.
+
+## Perubahan v1.6
+
+- Muzik latar tidak lagi berbunyi semasa permainan. Ia berhenti dalam semua
+  permainan, studio rakaman, karaoke dan skrin mikrofon, dan hanya berbunyi di
+  halaman utama serta skrin kad imbas.
+- Suis muzik dipisahkan daripada suis kesan bunyi.
+- Kuiz huruf tidak lagi memaparkan simbol mentah seperti `A|🍎`; hanya huruf
+  yang dipaparkan.
+- Skrin kad imbas huruf kini menyebut **nama huruf** ("A", "B", "C"), bukan nama
+  gambar di sebelahnya ("Apple", "Ball"). Nama huruf ikut sebutan Malaysia
+  (DBP): A = "ei", B = "bi", C = "si".
+- Lagu ABC di skrin karaoke kini menyanyikan keseluruhan 26 huruf, bukan hanya
+  "A", dan baris kad boleh diskrol dengan kad semasa sentiasa di tengah.
 
 ## Suara manusia (pilihan)
 

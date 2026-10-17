@@ -28,9 +28,66 @@ public final class SpokenText {
     private static final Set<String> LETTER_NAMES = new LinkedHashSet<>();
 
     static {
-        // Letter names: a lone "A" can be read as an article, "X" as "eks".
+        // Letter names, spelled the way the engine must say them.
+        //
+        // Malaysia, Brunei and Singapore follow the English letter names
+        // (A = "ei", B = "bi", C = "si"), unlike Indonesia which uses the Dutch
+        // ones ("be", "ce"). A Malay voice handed a lone "B" may read it as the
+        // English "bee" or spell it out, so the name is written phonetically.
+        // Source: Dewan Bahasa dan Pustaka, Pedoman Umum Ejaan Bahasa Melayu.
         EN.put("a", "ay");
+        EN.put("b", "bee");
+        EN.put("c", "see");
+        EN.put("d", "dee");
+        EN.put("e", "ee");
+        EN.put("f", "ef");
+        EN.put("g", "jee");
+        EN.put("h", "aitch");
+        EN.put("i", "eye");
+        EN.put("j", "jay");
+        EN.put("k", "kay");
+        EN.put("l", "el");
+        EN.put("m", "em");
+        EN.put("n", "en");
+        EN.put("o", "oh");
+        EN.put("p", "pee");
+        EN.put("q", "cue");
+        EN.put("r", "ar");
+        EN.put("s", "ess");
+        EN.put("t", "tee");
+        EN.put("u", "you");
+        EN.put("v", "vee");
+        EN.put("w", "double you");
         EN.put("x", "eks");
+        EN.put("y", "why");
+        EN.put("z", "zed");
+
+        MS.put("a", "ei");
+        MS.put("b", "bi");
+        MS.put("c", "si");
+        MS.put("d", "di");
+        MS.put("e", "i");
+        MS.put("f", "ef");
+        MS.put("g", "ji");
+        MS.put("h", "hec");
+        MS.put("i", "ai");
+        MS.put("j", "je");
+        MS.put("k", "ke");
+        MS.put("l", "el");
+        MS.put("m", "em");
+        MS.put("n", "en");
+        MS.put("o", "o");
+        MS.put("p", "pi");
+        MS.put("q", "kiu");
+        MS.put("r", "ar");
+        MS.put("s", "es");
+        MS.put("t", "ti");
+        MS.put("u", "yu");
+        MS.put("v", "vi");
+        MS.put("w", "dabliu");
+        MS.put("x", "eks");
+        MS.put("y", "wai");
+        MS.put("z", "zet");
 
         // Gently slow, syllable-friendly spelling for the youngest readers.
         EN.put("elephant", "el-e-fant");

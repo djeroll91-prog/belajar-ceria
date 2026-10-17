@@ -58,6 +58,18 @@ timeout kills foreground commands that take more than a few minutes.
   countable pictures), `TraceGame` (trace a letter/number/Jawi glyph; the guide
   path is sampled with `PathMeasure` and praise is only given once 55% of the
   outline has been covered), `JawiSpeakGame` (say the Jawi letter name).
+- Letter data gotcha: a letter's `Item.symbol` is stored as `"A|🍎"` (glyph, then
+  a pipe, then the picture emoji). Never draw `item.symbol` directly. Use
+  `Content.glyphOf(item)` for the glyph and `Content.letterEmoji(item)` for the
+  picture, or the tile shows the pipe and the emoji.
+- Background music is chosen per screen by `MainActivity.trackFor`. Screens whose
+  name ends in `Game`, plus everything in `QUIET_SCREENS` (microphone, karaoke,
+  recording studio, rewards), get `MusicPlayer.SILENT` and stop the loop, because
+  a tune under a child who is thinking or listening is noise. `MusicPlayer.SILENT`
+  is a real state, not a missing file, so `play` must release the player for it.
+- Music and sound effects have separate toggles in the header. Do not fold them
+  back into one switch: a parent who finds the tune distracting should not have to
+  lose the tap and reward sounds.
 - Shared feedback animations live on `MainActivity`: `pop`, `hop`, `shake` and
   `wrongFeedback`. New games should call these instead of rolling their own
   `animate()` chains, so praise and correction feel the same everywhere.
@@ -125,6 +137,14 @@ The same key is used in three places, so never rename one after recording:
 speech engine, which reads `SpokenText.forEngine` (phonetic fixes) rather than the
 raw text. Recordings are preferred over synthesis because a child learning to
 read should hear natural speech.
+
+Letter names are in `SpokenText` for both languages, because an engine handed a
+lone "B" may spell it out or read it in the wrong language. Malaysia, Brunei and
+Singapore follow the English letter names (A = "ei", B = "bi", C = "si"), not the
+Indonesian Dutch ones ("be", "ce"), so the Malay entries follow DBP's *Pedoman
+Umum Ejaan Bahasa Melayu*. In `LearnScreen` letter mode the voice is given the
+glyph via `spokenName()`, not the picture's name, so the card says "A" and not
+"Apple".
 
 Generate the scripts and bundle a finished pack:
 

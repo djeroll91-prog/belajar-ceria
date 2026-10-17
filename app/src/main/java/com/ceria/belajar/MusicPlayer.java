@@ -22,6 +22,8 @@ public class MusicPlayer {
     public static final String HOME = "music_home";
     public static final String LEARN = "music_learn";
     public static final String PLAY = "music_play";
+    /** No tune: used where the background music would compete with the task. */
+    public static final String SILENT = "music_silent";
 
     private final Context context;
     private MediaPlayer player;
@@ -63,6 +65,13 @@ public class MusicPlayer {
         // Remember the request even when music is off, so switching music back
         // on resumes the right tune rather than silence.
         if (!enabled) {
+            current = track;
+            return;
+        }
+        if (SILENT.equals(track)) {
+            // Silence is a real state, not a missing file: stop cleanly so a
+            // game screen has no tune running underneath it.
+            release();
             current = track;
             return;
         }

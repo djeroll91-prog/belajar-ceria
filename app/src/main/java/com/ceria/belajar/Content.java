@@ -419,4 +419,19 @@ public final class Content {
         int bar = item.symbol.indexOf('|');
         return bar < 0 ? "\u2B50" : item.symbol.substring(bar + 1);
     }
+
+    /**
+     * The character to draw when an item is shown as a single big symbol.
+     *
+     * A letter's {@link Item#symbol} is stored as "A|🍎" so the glyph and its
+     * picture travel together, which means drawing the raw symbol would print
+     * the pipe and the emoji next to the letter. Anything that shows one
+     * character must go through here instead.
+     */
+    public static String glyphOf(Item item) {
+        if (item == null) {
+            return "";
+        }
+        return LETTERS.contains(item) ? letterGlyph(item) : item.symbol;
+    }
 }

@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
     private TextView pointsPill;
     private TextView langPill;
     private TextView soundPill;
+    private TextView musicPill;
     private TextView greeting;
     private RobotView mascot;
     private CelebrationView celebration;
@@ -79,6 +80,11 @@ public class MainActivity extends Activity {
     public void setMusicOn(boolean on) {
         progress.setMusicOn(on);
         music.setEnabled(on);
+        // Turning music back on should restore the tune for wherever we are,
+        // rather than leaving the screen silent until the next navigation.
+        if (on) {
+            startMusic();
+        }
         updateHeader();
     }
 
@@ -179,12 +185,10 @@ public class MainActivity extends Activity {
                 Util.dp(this, 12), Util.dp(this, 6));
         soundPill.setBackground(Util.rounded(0xFFFFFFFF, Util.dp(this, 20)));
         soundPill.setOnClickListener(v -> {
-            boolean on = !(isSoundOn() && isMusicOn());
+            boolean on = !isSoundOn();
             setSoundOn(on);
-            setMusicOn(on);
             if (on) {
                 sfx.tap();
-                startMusic();
             }
             updateHeader();
         });
@@ -192,6 +196,21 @@ public class MainActivity extends Activity {
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         soundLp.setMargins(4, 0, 6, 0);
         header.addView(soundPill, soundLp);
+
+        // Music gets its own switch. A parent who finds the tune distracting
+        // should not have to give up the tap and reward sounds as well.
+        musicPill = Util.text(this, "", 18, 0xFF4A148C);
+        musicPill.setPadding(Util.dp(this, 12), Util.dp(this, 6),
+                Util.dp(this, 12), Util.dp(this, 6));
+        musicPill.setBackground(Util.rounded(0xFFFFFFFF, Util.dp(this, 20)));
+        musicPill.setOnClickListener(v -> {
+            setMusicOn(!isMusicOn());
+            updateHeader();
+        });
+        LinearLayout.LayoutParams musicLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        musicLp.setMargins(4, 0, 6, 0);
+        header.addView(musicPill, musicLp);
 
         TextView voiceButton = Util.text(this, "\uD83D\uDD0A", 18, 0xFF4A148C);
         voiceButton.setPadding(Util.dp(this, 12), Util.dp(this, 6),
@@ -220,9 +239,14 @@ public class MainActivity extends Activity {
                     : "\uD83C\uDDEC\uD83C\uDDE7 EN");
         }
         if (soundPill != null) {
-            boolean on = isSoundOn() && isMusicOn();
+            boolean on = isSoundOn();
             soundPill.setText(on ? "\uD83D\uDD0A" : "\uD83D\uDD07");
             soundPill.setAlpha(on ? 1f : 0.55f);
+        }
+        if (musicPill != null) {
+            boolean on = isMusicOn();
+            musicPill.setText(on ? "\uD83C\uDFB5" : "\uD83D\uDE36");
+            musicPill.setAlpha(on ? 1f : 0.55f);
         }
     }
 
@@ -231,21 +255,39 @@ public class MainActivity extends Activity {
     // ------------------------------------------------------------------
 
     /**
-     * Switches the background tune to the one that suits what is on screen, so
-     * the app never sits in silence and each activity has its own mood.
+     * Switches the background tune to the one that suits what is on screen.
+     *
+     * Games and the recording studio get no tune at all: a looping melody under
+     * a child who is trying to think, listen to a prompt, or record their voice
+     * is noise, not atmosphere. The home screen and the reading screens keep a
+     * gentle tune so the app never feels dead.
      */
     private void startMusic() {
-        String track = MusicPlayer.HOME;
-        if (currentScreen != null) {
-            String name = currentScreen.getClass().getSimpleName();
-            if (name.contains("Game") || name.contains("Speak") || name.contains("Coloring")) {
-                track = MusicPlayer.PLAY;
-            } else {
-                track = MusicPlayer.LEARN;
-            }
-        }
-        music.play(track);
+        music.play(trackFor(currentScreen));
     }
+
+    /** The tune that belongs on a given screen; null screen means the home page. */
+    private String trackFor(Screen screen) {
+        if (screen == null) {
+            return MusicPlayer.HOME;
+        }
+        String name = screen.getClass().getSimpleName();
+        if (name.endsWith("Game") || QUIET_SCREENS.contains(name)) {
+            return MusicPlayer.SILENT;
+        }
+        return MusicPlayer.LEARN;
+    }
+
+    /**
+     * Screens that need quiet: anything with a microphone, a music toy, or a
+     * task the child must concentrate on. A tune here competes with the very
+     * thing the screen is for.
+     */
+    private static final java.util.Set<String> QUIET_SCREENS = new java.util.HashSet<>(
+            java.util.Arrays.asList(
+                    "SpeakScreen", "ColoringScreen", "KaraokeScreen", "XylophoneScreen",
+                    "AnimalSoundScreen", "RecordingStudioScreen", "VoiceScreen",
+                    "CreditsScreen", "LevelMapScreen", "RewardsScreen"));
 
     /** Drops the music while a phrase is spoken, then brings it back. */
     private void duckMusic() {
