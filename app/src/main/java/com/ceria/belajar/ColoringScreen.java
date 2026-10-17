@@ -83,7 +83,13 @@ public class ColoringScreen extends BaseScreen {
             dot.setOnClickListener(v -> {
                 page.setActiveColor(swatch.color);
                 nameView.setText("\uD83D\uDD8C\uFE0F " + swatch.name(lang));
+                host.sfx().note(Math.min(SoundEffects.NOTES.length - 1,
+                        Math.max(0, Content.SWATCHES.indexOf(swatch))));
                 host.voice().speak(lang, swatch.name(lang));
+                v.animate().scaleX(1.25f).scaleY(1.25f).setDuration(120)
+                        .withEndAction(() -> v.animate().scaleX(1f).scaleY(1f)
+                                .setDuration(140).start())
+                        .start();
             });
             palette.addView(dot);
         }
@@ -117,7 +123,10 @@ public class ColoringScreen extends BaseScreen {
         lp.setMargins(dp(6), dp(10), dp(6), 0);
         b.setLayoutParams(lp);
         b.setTypeface(null, Typeface.BOLD);
-        b.setOnClickListener(v -> action.run());
+        b.setOnClickListener(v -> {
+            host.tapFeedback(v);
+            v.postDelayed(action, 120);
+        });
         return b;
     }
 }

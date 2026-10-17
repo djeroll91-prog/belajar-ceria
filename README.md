@@ -28,8 +28,21 @@ Android 5.0 ke atas.
   benda hidup, huruf Jawi dan huruf Arab.
 - Mini game: kuiz berperingkat, memori, kira objek, eja perkataan, cari yang
   berbeza dan permainan mewarna.
+- Permainan baharu untuk merangsang otak:
+  - **Apa Seterusnya?** - lengkapkan corak bergambar (latihan logik).
+  - **Letup Gelembung** - kenal huruf dan nombor dengan pantas.
+  - **Bakul Susun** - asingkan haiwan, tumbuhan dan buah ke bakul betul.
+  - **Tambah & Tolak** - operasi pertama, sentiasa bergambar untuk dikira.
+  - **Tulis Huruf / Nombor / Jawi** - surih dengan jari; pujian hanya diberi
+    selepas garis huruf benar-benar dilalui.
+  - **Sebut Jawi** - sebut nama huruf Jawi dengan tepat.
+- Sebutan Jawi yang betul: nama huruf ikut piawaian KSSR/DBP. Permainan **tidak**
+  menerima sebutan yang dieja satu-satu ("K-H-A"); kanak-kanak mesti menyebut
+  "kha" sekali gus. Enjin suara diberi frasa pembawa ("Ini kha") supaya ia tidak
+  mengeja nama huruf itu.
+- Animasi pada setiap tindakan: butang membesar, jawapan betul melompat (pop),
+  jawapan salah bergegar lembut, dan maskot robot berkelip serta bergerak mulut.
 - Sistem markah, bintang, lencana, rentetan jawapan betul dan konfeti.
-- Maskot robot animasi yang berkelip mata dan bergerak mulut.
 - Tahap berkunci: tahap seterusnya hanya terbuka selepas lulus markah minimum.
 - Paparan trend kemajuan dan laluan belajar.
 

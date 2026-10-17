@@ -210,6 +210,7 @@ public class QuizGame extends BaseScreen {
         } else {
             host.progress().resetStreak();
             feedbackView.setText(t("Oops, try again! \uD83D\uDE4B", "Alamak, cuba lagi! \uD83D\uDE4B"));
+            host.wrongFeedback(tile);
             host.mouthSay(t("Not that one, try again!", "Bukan itu, cuba lagi!"));
         }
     }

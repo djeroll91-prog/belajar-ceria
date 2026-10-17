@@ -152,6 +152,7 @@ public class SentenceScreen extends BaseScreen {
                     host.progress().resetStreak();
                     hintView.setText(t("Let's read it together again!",
                             "Jom baca sekali lagi!"));
+                    host.sfx().wrong();
                     host.mouthSay(target);
                 }
             }

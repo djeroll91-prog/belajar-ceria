@@ -140,6 +140,7 @@ public class SpeakScreen extends BaseScreen {
                     host.progress().resetStreak();
                     statusView.setText(t("I heard \"", "Saya dengar \"") + heard
                             + t("\". Try again!", "\". Cuba lagi!"));
+                    host.sfx().wrong();
                     host.mouthSay(expected);
                 }
                 updateScore();

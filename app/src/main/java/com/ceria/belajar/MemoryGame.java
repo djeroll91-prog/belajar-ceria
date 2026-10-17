@@ -128,6 +128,7 @@ public class MemoryGame extends BaseScreen {
                 }
             } else {
                 host.progress().resetStreak();
+                host.sfx().wrong();
                 handler.postDelayed(() -> {
                     hide(cards.get(a), (TextView) ((LinearLayout) cards.get(a)).getChildAt(0));
                     hide(cards.get(b), (TextView) ((LinearLayout) cards.get(b)).getChildAt(0));
@@ -147,6 +148,10 @@ public class MemoryGame extends BaseScreen {
         face.setText(top + "\n" + item.name(lang));
         face.setTextSize(16);
         card.setBackground(Util.rounded(0xFFFFB300, dp(16)));
+        host.sfx().tap();
+        card.setScaleX(0.9f);
+        card.setScaleY(0.9f);
+        card.animate().scaleX(1f).scaleY(1f).setDuration(180).start();
     }
 
     private void hide(View card, TextView face) {

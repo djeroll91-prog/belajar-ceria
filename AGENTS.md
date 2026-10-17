@@ -49,6 +49,35 @@ timeout kills foreground commands that take more than a few minutes.
   from letter tiles), `OddOneOutGame` (pick the item from a different group),
   `ColoringScreen`. `SpellGame` and `OddOneOutGame` both derive their data from
   `Content` groups, so new content automatically appears in them.
+- Brain-training games added in v1.5: `PatternGame` (finish a repeating pattern;
+  distractors come from the pattern's own pictures, never from a wider pool, or
+  the answer can be guessed by spotting the odd picture out), `BubblePopGame`
+  (tap the drifting bubbles that match the target; draws in `dispatchDraw` of a
+  `FrameLayout` and drives motion from an `ObjectAnimator` clock), `SortGame`
+  (tap a picture, then tap its basket), `MathGame` (first sums, always drawn with
+  countable pictures), `TraceGame` (trace a letter/number/Jawi glyph; the guide
+  path is sampled with `PathMeasure` and praise is only given once 55% of the
+  outline has been covered), `JawiSpeakGame` (say the Jawi letter name).
+- Shared feedback animations live on `MainActivity`: `pop`, `hop`, `shake` and
+  `wrongFeedback`. New games should call these instead of rolling their own
+  `animate()` chains, so praise and correction feel the same everywhere.
+
+## Jawi and Arabic pronunciation
+
+Getting this right is a product requirement, not a detail.
+
+- Letter names in `Content.JAWI` follow the Malaysian KSSR/DBP names (`kha`, not
+  an Arabic transliteration; `nga`, `hamzah` and `ya` are in the inventory).
+  `ContentAndGatingTest.jawiLetterNamesFollowTheSchoolStandard` pins them.
+- A speech engine reads a lone short token as an initialism, so a bare `kha`
+  comes out as "K-H-A". `SpokenText.forEngine` wraps every Jawi/Arabic letter name
+  in a carrier phrase (`"Ini kha"`) so the engine reads it as one syllable.
+- Speech recognition is the other half: a child who spells the name out must not
+  be praised. `SpeechHelper.spelledOut` detects that (single-letter tokens that
+  join up to spell the name) and `SpeechHelper.matchesStrict` rejects it. Use
+  `matchesStrict` for any script letter; use the looser `matches` for words.
+- The rejection must happen *before* the equality check in `matchesStrict`:
+  `normalize()` strips separators, so `k-h-a` would otherwise equal `kha`.
 
 ## Product rules that must not regress
 
@@ -58,6 +87,8 @@ timeout kills foreground commands that take more than a few minutes.
    remove points or stars, and always invite another attempt.
 3. Everything is bilingual. New content must provide English and Bahasa Melayu
    strings, and route spoken text through `SpeechHelper` so TTS picks the locale.
+4. Jawi letter names are never accepted when spelled out. See the section above;
+   `SpeechHelper.matchesStrict` is mandatory for script letters.
 
 ## Icons
 

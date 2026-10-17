@@ -93,7 +93,18 @@ public class HomeLayoutTest {
                 new RewardsScreen(host),
                 new VoiceScreen(host),
                 new RecordingStudioScreen(host),
-                new CreditsScreen(host)
+                new CreditsScreen(host),
+                new XylophoneScreen(host),
+                new AnimalSoundScreen(host),
+                new KaraokeScreen(host),
+                new PatternGame(host),
+                new BubblePopGame(host),
+                new SortGame(host),
+                new MathGame(host),
+                new TraceGame(host, TraceGame.Mode.LETTER),
+                new TraceGame(host, TraceGame.Mode.NUMBER),
+                new TraceGame(host, TraceGame.Mode.JAWI),
+                new JawiSpeakGame(host)
         };
 
         for (MainActivity.Screen screen : screens) {

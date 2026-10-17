@@ -40,6 +40,9 @@ public class RewardsScreen extends BaseScreen {
         TextView level = Util.text(host, "\uD83C\uDF96\uFE0F " + t("Level ", "Tahap ") + p.level(),
                 26, Color.WHITE);
         level.setTypeface(null, Typeface.BOLD);
+        level.setScaleX(0.7f);
+        level.setScaleY(0.7f);
+        level.animate().scaleX(1f).scaleY(1f).setDuration(500).start();
         hero.addView(level);
 
         TextView pts = Util.text(host, p.points() + t(" points", " markah"), 18, Color.WHITE);

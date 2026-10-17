@@ -61,11 +61,20 @@ public class ScreenSmokeTest {
                 new OddOneOutGame(host),
                 new CountGame(host),
                 new MemoryGame(host),
+                new PatternGame(host),
+                new BubblePopGame(host),
+                new SortGame(host),
+                new MathGame(host),
+                new TraceGame(host),
+                new JawiSpeakGame(host),
                 new ColoringScreen(host),
                 new RewardsScreen(host),
                 new VoiceScreen(host),
                 new RecordingStudioScreen(host),
-                new CreditsScreen(host)
+                new CreditsScreen(host),
+                new XylophoneScreen(host),
+                new AnimalSoundScreen(host),
+                new KaraokeScreen(host)
         };
 
         for (MainActivity.Screen screen : screens) {

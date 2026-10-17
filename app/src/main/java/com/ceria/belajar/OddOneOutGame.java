@@ -166,9 +166,7 @@ public class OddOneOutGame extends BaseScreen {
         if (!isOdd) {
             host.progress().resetStreak();
             hintView.setText(t("Look again closely! \uD83D\uDC40", "Perhatikan lagi! \uD83D\uDC40"));
-            card.animate().translationX(dp(8)).setDuration(60)
-                    .withEndAction(() -> card.animate().translationX(0).setDuration(60).start())
-                    .start();
+            host.wrongFeedback(card);
             return;
         }
 

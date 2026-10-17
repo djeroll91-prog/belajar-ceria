@@ -145,6 +145,7 @@ public class CountGame extends BaseScreen {
         } else {
             host.progress().resetStreak();
             feedbackView.setText(t("Count again slowly! \uD83D\uDD0E", "Kira semula perlahan-lahan! \uD83D\uDD0E"));
+            host.wrongFeedback(tile);
             host.mouthSay(t("Let's count together!", "Jom kira bersama!"));
         }
     }

@@ -96,4 +96,101 @@ public class ContentAndGatingTest {
         assertEquals("apple", SpeechHelper.normalize("  Apple! "));
         assertEquals("", SpeechHelper.normalize(null));
     }
+
+    @Test
+    public void jawiLetterNamesFollowTheSchoolStandard() {
+        // Names that were wrong before: they had been transliterated with Arabic
+        // letter values instead of the Malaysian KSSR letter names.
+        assertEquals("sa", jawiName("\u062B"));     // ث
+        assertEquals("zal", jawiName("\u0630"));    // ذ
+        assertEquals("dad", jawiName("\u0636"));    // ض
+        assertEquals("to", jawiName("\u0637"));     // ط
+        assertEquals("zho", jawiName("\u0638"));    // ظ
+        assertEquals("kha", jawiName("\u062E"));    // خ
+        assertEquals("ca", jawiName("\u0686"));     // چ
+        assertEquals("ra", jawiName("\u0631"));     // ر
+
+        // Letters that were missing from the inventory.
+        assertEquals("nga", jawiName("\u06A0"));    // ڠ
+        assertEquals("hamzah", jawiName("\u0621")); // ء
+        assertEquals("ya", jawiName("\u0649"));     // ى
+    }
+
+    private String jawiName(String glyph) {
+        for (Content.Item item : Content.JAWI) {
+            if (glyph.equals(item.symbol)) {
+                return item.ms;
+            }
+        }
+        return "<missing: " + glyph + ">";
+    }
+
+    @Test
+    public void everyJawiLetterHasAUniqueGlyphAndName() {
+        java.util.Set<String> glyphs = new java.util.HashSet<>();
+        for (Content.Item item : Content.JAWI) {
+            assertTrue("duplicate Jawi glyph " + item.symbol, glyphs.add(item.symbol));
+            assertFalse("Jawi letter without a name", item.ms.trim().isEmpty());
+            // Names are spoken, so they must be plain lower-case Rumi.
+            assertTrue("Jawi name must be lower case: " + item.ms,
+                    item.ms.equals(item.ms.toLowerCase(java.util.Locale.ROOT)));
+        }
+    }
+
+    @Test
+    public void strictMatchingRejectsSpelledOutLetterNames() {
+        // Saying the name is right...
+        assertTrue(SpeechHelper.matchesStrict("kha", "kha"));
+        assertTrue(SpeechHelper.matchesStrict("kha", "Kha"));
+        // ...and saying it inside a short phrase is still saying it.
+        assertTrue(SpeechHelper.matchesStrict("kha", "ini kha"));
+
+        // Spelling it out is not: this is the mistake the game must catch.
+        assertFalse(SpeechHelper.matchesStrict("kha", "k h a"));
+        assertFalse(SpeechHelper.matchesStrict("kha", "k-h-a"));
+        assertFalse(SpeechHelper.matchesStrict("kha", "K. H. A."));
+        assertFalse(SpeechHelper.matchesStrict("ba", "b a"));
+        assertFalse(SpeechHelper.matchesStrict("nga", "n g a"));
+        assertFalse(SpeechHelper.matchesStrict("syin", "s y i n"));
+
+        // A genuinely different sound is still wrong.
+        assertFalse(SpeechHelper.matchesStrict("kha", "ha"));
+        assertFalse(SpeechHelper.matchesStrict("kha", "ka"));
+    }
+
+    @Test
+    public void spellingDetectionOnlyFiresWhenTheLettersSpellTheName() {
+        assertTrue(SpeechHelper.spelledOut("k h a", "kha"));
+        assertTrue(SpeechHelper.spelledOut("b-a", "ba"));
+        assertFalse(SpeechHelper.spelledOut("kha", "kha"));
+        assertFalse(SpeechHelper.spelledOut("ini kha", "kha"));
+        // Single letters that do not spell the name are not "spelling it out".
+        assertFalse(SpeechHelper.spelledOut("x y", "kha"));
+    }
+
+    @Test
+    public void letterNamesAreNeverSentToTheEngineBare() {
+        // A lone syllable is read letter by letter, so the engine gets a frame.
+        assertEquals("Ini kha", SpokenText.forEngine(Content.Lang.MS, "kha"));
+        assertEquals("Ini ba", SpokenText.forEngine(Content.Lang.MS, "ba"));
+        assertEquals("Ini nya", SpokenText.forEngine(Content.Lang.MS, "nya"));
+        assertTrue(SpokenText.needsCarrier("kha"));
+        assertTrue(SpokenText.needsCarrier("KHA"));
+
+        // Ordinary words pass through untouched...
+        assertEquals("bola", SpokenText.forEngine(Content.Lang.MS, "bola"));
+        assertFalse(SpokenText.needsCarrier("bola"));
+        // ...and the deliberate respellings that already existed still apply.
+        assertEquals("ee-pal", SpokenText.forEngine(Content.Lang.MS, "epal"));
+        assertFalse(SpokenText.needsCarrier("epal"));
+    }
+
+    @Test
+    public void everyJawiLetterNameGetsACarrierPhrase() {
+        for (Content.Item item : Content.JAWI) {
+            String sent = SpokenText.forEngine(Content.Lang.MS, item.spokenText(Content.Lang.MS));
+            assertTrue("no carrier for " + item.ms + " -> " + sent,
+                    sent.startsWith("Ini "));
+        }
+    }
 }

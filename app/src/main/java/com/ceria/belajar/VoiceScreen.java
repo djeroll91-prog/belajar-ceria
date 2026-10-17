@@ -140,6 +140,7 @@ public class VoiceScreen extends BaseScreen {
             label.setGravity(Gravity.START);
             row.addView(label, weighted(0));
             row.setOnClickListener(v -> {
+                host.sfx().tap();
                 host.speech().setVoiceByName(Content.Lang.MS, name);
                 refresh();
                 host.voice().speak(Content.Lang.MS, "epal");

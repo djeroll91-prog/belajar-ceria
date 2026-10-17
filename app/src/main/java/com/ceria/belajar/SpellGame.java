@@ -199,11 +199,7 @@ public class SpellGame extends BaseScreen {
         }
 
         host.progress().resetStreak();
-        tile.animate().translationX(dp(6)).setDuration(60)
-                .withEndAction(() -> tile.animate().translationX(-dp(6)).setDuration(60)
-                        .withEndAction(() -> tile.animate().translationX(0).setDuration(60).start())
-                        .start())
-                .start();
+        host.wrongFeedback(tile);
         host.mouthSay(t("Try the next letter!", "Cuba huruf seterusnya!"));
     }
 

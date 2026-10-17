@@ -31,6 +31,8 @@ public class Progress {
 
     private static final String PREFS = "belajar_ceria_prefs";
     private static final String KEY_LANG = "lang";
+    private static final String KEY_SOUND = "sound_on";
+    private static final String KEY_MUSIC = "music_on";
     private static final String KEY_POINTS = "points";
     private static final String KEY_STARS = "stars";
     private static final String KEY_CORRECT = "correct";
@@ -52,6 +54,24 @@ public class Progress {
 
     public void setLang(Content.Lang lang) {
         prefs.edit().putString(KEY_LANG, lang.name()).apply();
+    }
+
+    /** Sound effects are on unless a parent turns them off. */
+    public boolean isSoundOn() {
+        return prefs.getBoolean(KEY_SOUND, true);
+    }
+
+    public void setSoundOn(boolean on) {
+        prefs.edit().putBoolean(KEY_SOUND, on).apply();
+    }
+
+    /** Background music is on unless a parent turns it off. */
+    public boolean isMusicOn() {
+        return prefs.getBoolean(KEY_MUSIC, true);
+    }
+
+    public void setMusicOn(boolean on) {
+        prefs.edit().putBoolean(KEY_MUSIC, on).apply();
     }
 
     public int points() {

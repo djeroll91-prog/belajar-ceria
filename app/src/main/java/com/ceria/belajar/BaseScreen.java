@@ -54,7 +54,10 @@ public abstract class BaseScreen implements MainActivity.Screen {
         TextView back = Util.text(host, "\u2B05\uFE0F", 22, Color.WHITE);
         back.setBackground(Util.rounded(0xFF7C4DFF, dp(18)));
         back.setPadding(dp(14), dp(4), dp(14), dp(4));
-        back.setOnClickListener(v -> host.showHome());
+        back.setOnClickListener(v -> {
+            host.sfx().tap();
+            host.showHome();
+        });
         bar.addView(back);
 
         TextView title = Util.text(host, titleText(), 19, 0xFF4A148C);
@@ -137,11 +140,8 @@ public abstract class BaseScreen implements MainActivity.Screen {
         t.setTypeface(null, android.graphics.Typeface.BOLD);
         b.addView(t);
         b.setOnClickListener(v -> {
-            v.animate().scaleX(0.92f).scaleY(0.92f).setDuration(90)
-                    .withEndAction(() -> {
-                        v.animate().scaleX(1f).scaleY(1f).setDuration(90).start();
-                        action.run();
-                    }).start();
+            host.tapFeedback(v);
+            v.postDelayed(action, 120);
         });
         return b;
     }

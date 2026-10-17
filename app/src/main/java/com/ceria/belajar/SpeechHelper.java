@@ -430,6 +430,65 @@ public class SpeechHelper {
         return distance <= tolerance;
     }
 
+    /**
+     * Strict comparison for letter names, where "close enough" is not good
+     * enough. Saying a letter name letter by letter ("K-H-A") is a different
+     * thing from saying the name ("kha"), and a child who spells it out has not
+     * learned the sound. The loose matcher would accept that, so this one is used
+     * wherever the exact sound is the whole point of the exercise.
+     */
+    public static boolean matchesStrict(String target, String spoken) {
+        String t = normalize(target);
+        String s = normalize(spoken);
+        if (t.isEmpty() || s.isEmpty()) {
+            return false;
+        }
+        // Spelling it out must be rejected before the equality shortcut below:
+        // normalize() drops the separators, so "k-h-a" becomes "kha" and would
+        // otherwise look exactly like the name.
+        if (spelledOut(spoken, t)) {
+            return false;
+        }
+        if (s.equals(t)) {
+            return true;
+        }
+        // The name may arrive inside a longer phrase, e.g. "ini kha".
+        for (String token : s.split(" ")) {
+            if (token.equals(t)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * True when the text looks like a name read out letter by letter, e.g.
+     * "k h a" or "k-h-a" for "kha". The recognizer hands back single letters
+     * separated by spaces or dashes when someone spells instead of speaks.
+     */
+    static boolean spelledOut(String spoken, String target) {
+        if (spoken == null) {
+            return false;
+        }
+        String flat = spoken.toLowerCase(Locale.ROOT).trim()
+                .replaceAll("[-_.]", " ")
+                .replaceAll("\\s+", " ")
+                .trim();
+        String[] tokens = flat.split(" ");
+        if (tokens.length < 2) {
+            return false;
+        }
+        StringBuilder joined = new StringBuilder();
+        for (String token : tokens) {
+            if (token.length() != 1) {
+                return false;
+            }
+            joined.append(token);
+        }
+        // Only counts as spelling when the letters actually spell the name.
+        return joined.toString().equals(target);
+    }
+
     private static int editDistance(String a, String b) {
         int[] prev = new int[b.length() + 1];
         int[] curr = new int[b.length() + 1];

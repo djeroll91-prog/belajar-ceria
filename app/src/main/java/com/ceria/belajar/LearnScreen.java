@@ -317,6 +317,18 @@ public class LearnScreen extends BaseScreen {
                         break;
                     }
                 }
+                // A script letter name must be said as one sound. Spelling it out
+                // ("K-H-A") is not the letter's name and must not be praised.
+                if (ok && Content.isScriptItem(current())) {
+                    boolean named = false;
+                    for (String m : matches) {
+                        if (SpeechHelper.matchesStrict(displayName(), m)) {
+                            named = true;
+                            break;
+                        }
+                    }
+                    ok = named;
+                }
                 if (ok) {
                     host.progress().addPoints(10);
                     host.progress().addCorrect();
@@ -328,12 +340,14 @@ public class LearnScreen extends BaseScreen {
                     host.celebrate(t("Great job! ", "Bagus sekali! ") + displayName()
                             + " \u2B50 +10");
                     hintView.setText(t("Correct! ", "Betul! ") + best);
+                    host.pop(emojiView);
                     next();
                 } else {
                     host.progress().onWrongAnswer();
                     host.progress().resetStreak();
                     hintView.setText(t("Almost! I heard: ", "Hampir betul! Saya dengar: ")
                             + (best.isEmpty() ? "..." : best) + " \uD83D\uDC42");
+                    host.sfx().wrong();
                     host.mouthSay(t("Try again, you can do it!", "Cuba lagi, kamu boleh!"));
                 }
             }

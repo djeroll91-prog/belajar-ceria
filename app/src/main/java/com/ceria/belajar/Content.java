@@ -15,16 +15,32 @@ public final class Content {
         public final String ms;
         /** For reading practice this holds the word itself (e.g. "cat"); else null. */
         public final String word;
+        /**
+         * How to say this item out loud when the written name would be read
+         * wrongly. Jawi letter names are the problem case: a speech engine reads
+         * the isolated syllable "kha" as the letters K-H-A. Storing the spoken
+         * form here keeps the display name readable while giving the engine
+         * something it will say as one sound. Null means "use the name".
+         */
+        public final String spokenMs;
+        public final String spokenEn;
 
         public Item(String symbol, String en, String ms) {
             this(symbol, en, ms, null);
         }
 
         public Item(String symbol, String en, String ms, String word) {
+            this(symbol, en, ms, word, null, null);
+        }
+
+        public Item(String symbol, String en, String ms, String word,
+                    String spokenEn, String spokenMs) {
             this.symbol = symbol;
             this.en = en;
             this.ms = ms;
             this.word = word;
+            this.spokenEn = spokenEn;
+            this.spokenMs = spokenMs;
         }
 
         public String name(Lang lang) {
@@ -37,6 +53,10 @@ public final class Content {
          * ("satu", not "🍎") when {@link #word} is not a real word.
          */
         public String spokenText(Lang lang) {
+            String explicit = lang == Lang.MS ? spokenMs : spokenEn;
+            if (explicit != null) {
+                return explicit;
+            }
             if (word != null && word.matches("[A-Za-z][A-Za-z ]*")) {
                 return word;
             }
@@ -301,23 +321,24 @@ public final class Content {
         addJawi("\u0627", "alif");
         addJawi("\u0628", "ba");
         addJawi("\u062A", "ta");
-        addJawi("\u062B", "tha");
+        addJawi("\u062B", "sa");
         addJawi("\u062C", "jim");
         addJawi("\u0686", "ca");
         addJawi("\u062D", "ha");
         addJawi("\u062E", "kha");
         addJawi("\u062F", "dal");
-        addJawi("\u0630", "dzal");
+        addJawi("\u0630", "zal");
         addJawi("\u0631", "ra");
         addJawi("\u0632", "zai");
         addJawi("\u0633", "sin");
         addJawi("\u0634", "syin");
         addJawi("\u0635", "sad");
-        addJawi("\u0636", "dhad");
-        addJawi("\u0637", "tha");
-        addJawi("\u0638", "zha");
+        addJawi("\u0636", "dad");
+        addJawi("\u0637", "to");
+        addJawi("\u0638", "zho");
         addJawi("\u0639", "ain");
         addJawi("\u063A", "ghain");
+        addJawi("\u06A0", "nga");
         addJawi("\u0641", "fa");
         addJawi("\u06A4", "pa");
         addJawi("\u0642", "qaf");
@@ -331,6 +352,8 @@ public final class Content {
         addJawi("\u0647", "ha");
         addJawi("\u064A", "ya");
         addJawi("\u06BD", "nya");
+        addJawi("\u0621", "hamzah");
+        addJawi("\u0649", "ya");
 
         // ---- Arabic letters ----
         addArabic("\u0627", "alif");
