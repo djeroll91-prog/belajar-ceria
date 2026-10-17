@@ -1,7 +1,6 @@
 package com.ceria.belajar;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,379 +8,198 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Flash-card learner used for letters, numbers and words. The child sees one big
- * card, hears it spoken, and can tap the microphone to try saying it.
+ * Flashcards for one unit.
+ *
+ * The card is the whole screen so the glyph is as large as the device allows,
+ * which is what makes a letter recognisable to a four-year-old. Tapping the card
+ * repeats the word; the arrows move on. Every card the child sees is recorded as
+ * a correct exposure, so merely reading a unit already builds its mastery record.
  */
 public class LearnScreen extends BaseScreen {
 
-    public enum Mode { LETTER, NUMBER, WORD }
-
-    private final List<Content.Item> items;
-    private final Mode mode;
+    private final Content.Unit unit;
     private int index;
-    private String titleEn;
-    private String titleMs;
-
-    private TextView emojiView;
-    private TextView glyphView;
-    private TextView nameView;
-    private TextView translateView;
-    private TextView counterView;
-    private TextView hintView;
+    private boolean auto = true;
+    private TextView counter;
+    private TextView autoButton;
     private FrameLayout card;
 
-    public LearnScreen(MainActivity host, List<Content.Item> items, Mode mode) {
+    public LearnScreen(MainActivity host, Content.Unit unit) {
         super(host);
-        this.items = new ArrayList<>(items);
-        this.mode = mode;
-    }
-
-    /** Optional custom screen title, used for the extra topic categories. */
-    public LearnScreen withTitle(String en, String ms) {
-        this.titleEn = en;
-        this.titleMs = ms;
-        return this;
+        this.unit = unit;
     }
 
     @Override
     protected String titleText() {
-        if (titleEn != null) {
-            return t(titleEn, titleMs);
-        }
-        switch (mode) {
-            case LETTER:
-                return t("Letters ABC \uD83D\uDD24", "Huruf ABC \uD83D\uDD24");
-            case NUMBER:
-                return t("Numbers 123 \uD83D\uDD22", "Nombor 123 \uD83D\uDD22");
-            default:
-                return t("Words \uD83D\uDCD6", "Perkataan \uD83D\uDCD6");
-        }
+        return unit.emoji + " " + unit.title(lang);
     }
 
     @Override
     protected View buildBody() {
         LinearLayout column = vertical();
-        column.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        counterView = Util.text(host, "", 16, 0xFF4A148C);
-        column.addView(counterView, matchWrap());
+        if (unit.items.isEmpty()) {
+            column.addView(Util.text(host, t("Tiada kandungan", "No content"), 16, theme.inkSoft()));
+            return scrollWrap(column);
+        }
 
         card = new FrameLayout(host);
-        card.setBackground(Util.roundedStroke(Color.WHITE, dp(28), 0xFFFFD600, dp(4)));
-        card.setElevation(dp(6));
-        LinearLayout cardContent = new LinearLayout(host);
-        cardContent.setOrientation(LinearLayout.VERTICAL);
-        cardContent.setGravity(Gravity.CENTER);
-        cardContent.setPadding(dp(12), dp(18), dp(12), dp(18));
-        card.addView(cardContent, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        card.setBackground(Util.roundedStroke(theme.surface(), dp(30), theme.line(), dp(3)));
+        card.setElevation(dp(4));
+        column.addView(card, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
 
-        glyphView = Util.text(host, "", 92, 0xFF311B92);
-        glyphView.setTypeface(Typeface.DEFAULT_BOLD);
-        cardContent.addView(glyphView);
+        counter = Util.text(host, "", 14, theme.inkSoft());
+        counter.setPadding(0, dp(10), 0, dp(6));
+        column.addView(counter, matchWrap());
 
-        emojiView = Util.text(host, "", mode == Mode.LETTER ? 54 : 72, Color.BLACK);
-        cardContent.addView(emojiView);
-
-        nameView = Util.text(host, "", 34, 0xFFD81B60);
-        nameView.setTypeface(Typeface.DEFAULT_BOLD);
-        cardContent.addView(nameView);
-
-        translateView = Util.text(host, "", 20, 0xFF546E7A);
-        cardContent.addView(translateView);
-
-        LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f);
-        cardLp.setMargins(0, dp(10), 0, dp(10));
-        column.addView(card, cardLp);
-
-        hintView = Util.text(host, startingHint(), 15, 0xFF6A1B9A);
-        hintView.setPadding(0, 0, 0, dp(8));
-        column.addView(hintView, matchWrap());
-
-        column.addView(buildControls(), matchWrap());
-
-        render();
+        column.addView(controls(), matchWrap());
+        show();
+        speak();
         return column;
     }
 
-    private String startingHint() {
-        return t("Tap the card to hear it, or press \uD83C\uDFA4 to say it!",
-                "Tekan kad untuk dengar, atau tekan \uD83C\uDFA4 untuk sebut!");
+    private View controls() {
+        LinearLayout row = new LinearLayout(host);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER);
+
+        row.addView(round("\u2B05", () -> {
+            index = (index - 1 + unit.items.size()) % unit.items.size();
+            show();
+            speak();
+        }), square(dp(60)));
+
+        LinearLayout speakBtn = new LinearLayout(host);
+        speakBtn.setOrientation(LinearLayout.HORIZONTAL);
+        speakBtn.setGravity(Gravity.CENTER);
+        speakBtn.setBackground(Util.rounded(theme.accent(), dp(22)));
+        speakBtn.setElevation(dp(3));
+        speakBtn.setClickable(true);
+        speakBtn.addView(Util.text(host, "\uD83D\uDD0A", 24, theme.onAccent()));
+        TextView speakLabel = Util.text(host, t("Sebut", "Say"), 16, theme.onAccent());
+        speakLabel.setTypeface(null, android.graphics.Typeface.BOLD);
+        LinearLayout.LayoutParams labelLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        labelLp.setMargins(dp(8), 0, dp(4), 0);
+        speakBtn.addView(speakLabel, labelLp);
+        speakBtn.setOnClickListener(v -> {
+            host.tapFeedback(v);
+            speak();
+        });
+        LinearLayout.LayoutParams speakLp = new LinearLayout.LayoutParams(0, dp(60), 1f);
+        speakLp.setMargins(dp(10), 0, dp(10), 0);
+        row.addView(speakBtn, speakLp);
+
+        autoButton = round(auto ? "\u23F8" : "\u25B6\uFE0F", () -> {
+            auto = !auto;
+            autoButton.setText(auto ? "\u23F8" : "\u25B6\uFE0F");
+        });
+        row.addView(autoButton, square(dp(60)));
+
+        row.addView(round("\u27A1", () -> {
+            index = (index + 1) % unit.items.size();
+            show();
+            speak();
+        }), square(dp(60)));
+        return row;
     }
 
-    private View buildControls() {
-        LinearLayout controls = new LinearLayout(host);
-        controls.setOrientation(LinearLayout.HORIZONTAL);
-        controls.setGravity(Gravity.CENTER);
-
-        controls.addView(roundButton("\u2B05\uFE0F", 0xFF5C6BC0, this::previous), lp(dp(58), dp(58)));
-        controls.addView(pad());
-        controls.addView(roundButton("\uD83D\uDD0A", 0xFFFF9100, this::speakCurrent), lp(dp(66), dp(66)));
-        controls.addView(pad());
-        controls.addView(roundButton("\uD83D\uDC22", 0xFF26A69A, this::speakSlow), lp(dp(58), dp(58)));
-        controls.addView(pad());
-        controls.addView(roundButton("\uD83C\uDFA4", 0xFFFF4081, this::startListening), lp(dp(66), dp(66)));
-        controls.addView(pad());
-        controls.addView(roundButton("\u27A1\uFE0F", 0xFF5C6BC0, this::next), lp(dp(58), dp(58)));
-
-        return controls;
+    private LinearLayout.LayoutParams square(int px) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(px, px);
+        lp.setMargins(dp(5), 0, dp(5), 0);
+        return lp;
     }
 
-    private View pad() {
-        View v = new View(host);
-        v.setLayoutParams(new LinearLayout.LayoutParams(dp(8), 1));
-        return v;
-    }
-
-    private TextView roundButton(String emoji, int color, Runnable action) {
-        TextView b = Util.text(host, emoji, 26, Color.WHITE);
-        b.setBackground(Util.rounded(color, dp(40)));
-        b.setElevation(dp(4));
+    private TextView round(String glyph, Runnable action) {
+        TextView b = Util.text(host, glyph, 22, theme.ink());
+        b.setGravity(Gravity.CENTER);
+        b.setBackground(Util.roundedStroke(theme.surface(), dp(20), theme.line(), dp(2)));
+        b.setElevation(dp(2));
+        b.setClickable(true);
         b.setOnClickListener(v -> {
-            v.animate().scaleX(0.88f).scaleY(0.88f).setDuration(80)
-                    .withEndAction(() -> {
-                        v.animate().scaleX(1f).scaleY(1f).setDuration(80).start();
-                        action.run();
-                    }).start();
+            host.tapFeedback(v);
+            action.run();
         });
         return b;
     }
 
-    // ------------------------------------------------------------------
+    private void show() {
+        Content.Item item = unit.items.get(index);
+        card.removeAllViews();
 
-    private Content.Item current() {
-        return items.get(index);
-    }
+        LinearLayout stack = new LinearLayout(host);
+        stack.setOrientation(LinearLayout.VERTICAL);
+        stack.setGravity(Gravity.CENTER);
 
-    /** The exact text we want the child to say out loud. */
-    private String targetUtterance() {
-        Content.Item item = current();
-        if (Content.isColorItem(item) || Content.isScriptItem(item)) {
-            return item.name(lang);
-        }
-        switch (mode) {
-            case LETTER:
-                return Content.letterGlyph(item);
-            case NUMBER:
-                // Speech recognition handles "satu" far better than the digit "1".
-                return item.name(lang);
-            default:
-                return item.word != null ? item.word : item.name(lang);
-        }
-    }
-
-    private String displayName() {
-        Content.Item item = current();
-        if (mode == Mode.WORD && item.word != null) {
-            return item.word;
-        }
-        return item.name(lang);
-    }
-
-    /**
-     * What the voice says for the current card.
-     *
-     * In letter mode a child must hear the letter's name ("A", "B"), not the
-     * word for the picture beside it. The picture is there to make the letter
-     * memorable, but saying "Apple" when the letter "A" is on screen teaches the
-     * wrong thing, so the glyph is spoken instead.
-     *
-     * Package-private so the test that guards this rule can call it directly.
-     */
-    String spokenName() {
-        Content.Item item = current();
-        if (Content.isColorItem(item) || Content.isScriptItem(item)) {
-            return item.name(lang);
-        }
-        if (mode == Mode.LETTER) {
-            return Content.letterGlyph(item);
-        }
-        return displayName();
-    }
-
-    private void render() {
-        Content.Item item = current();
-        LinearLayout.LayoutParams emojiLp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        emojiLp.gravity = Gravity.CENTER_HORIZONTAL;
-
-        if (Content.isColorItem(item) || Content.isScriptItem(item)) {
-            glyphView.setVisibility(View.GONE);
-            nameView.setTextSize(38);
-            if (Content.isColorItem(item)) {
-                int swatch = Content.colorOf(item);
-                emojiView.setText("");
-                emojiView.setBackground(Util.roundedStroke(swatch, dp(30), 0x66000000, dp(2)));
-                emojiLp.width = dp(150);
-                emojiLp.height = dp(150);
-                emojiView.setLayoutParams(emojiLp);
-                emojiView.setTextSize(1);
-            } else {
-                // Jawi / Arabic glyph shown large, right-to-left.
-                emojiView.setBackground(null);
-                emojiView.setText(item.symbol);
-                emojiView.setTextSize(110);
-                emojiView.setLayoutParams(emojiLp);
-            }
-            nameView.setText(displayName());
-            translateView.setText(displayName());
+        if (Content.isColorItem(item)) {
+            View swatch = new View(host);
+            GradientDrawable d = new GradientDrawable();
+            d.setShape(GradientDrawable.OVAL);
+            d.setColor(Content.colorOf(item));
+            d.setStroke(dp(5), 0x33000000);
+            swatch.setBackground(d);
+            LinearLayout.LayoutParams swLp = new LinearLayout.LayoutParams(dp(170), dp(170));
+            swLp.setMargins(0, dp(10), 0, dp(14));
+            stack.addView(swatch, swLp);
         } else {
-            emojiView.setBackground(null);
-            emojiView.setLayoutParams(emojiLp);
-            nameView.setTextSize(34);
-            switch (mode) {
-                case LETTER:
-                    glyphView.setVisibility(View.VISIBLE);
-                    glyphView.setText(Content.letterGlyph(item));
-                    emojiView.setText(Content.letterEmoji(item));
-                    break;
-                case NUMBER:
-                    glyphView.setVisibility(View.VISIBLE);
-                    glyphView.setText(item.symbol);
-                    emojiView.setText(repeatEmoji(item, item.symbol));
-                    break;
-                default:
-                    glyphView.setVisibility(View.GONE);
-                    if (item.word != null) {
-                        emojiView.setText(item.word);
-                        emojiView.setTextSize(64);
-                        emojiView.setTypeface(Typeface.DEFAULT_BOLD);
-                        emojiView.setTextColor(0xFF311B92);
-                        translateView.setText("\uD83D\uDCF8 " + item.symbol);
-                    } else {
-                        emojiView.setText(item.symbol);
-                        emojiView.setTextSize(72);
-                        emojiView.setTypeface(Typeface.DEFAULT);
-                        emojiView.setTextColor(Color.BLACK);
-                        translateView.setText(item.name(
-                                lang == Content.Lang.MS ? Content.Lang.EN : Content.Lang.MS));
-                    }
-                    break;
-            }
-            nameView.setText(displayName());
-            if (item.word == null) {
-                translateView.setText(item.name(lang == Content.Lang.MS ? Content.Lang.EN : Content.Lang.MS));
-            }
+            TextView glyph = Util.text(host, Content.displayOf(item, lang), 96, theme.ink());
+            glyph.setTypeface(null, android.graphics.Typeface.BOLD);
+            glyph.setPadding(0, dp(10), 0, dp(6));
+            stack.addView(glyph);
         }
-        counterView.setText((index + 1) + " / " + items.size() + "   " + starRow());
-    }
 
-    /** For numbers, show the count as small repeated emojis so children can count. */
-    private String repeatEmoji(Content.Item item, String ignored) {
-        int n;
-        try {
-            n = Integer.parseInt(item.symbol);
-        } catch (NumberFormatException e) {
-            return "";
+        TextView name = Util.text(host, item.name(lang), 30, theme.ink());
+        name.setTypeface(null, android.graphics.Typeface.BOLD);
+        stack.addView(name);
+
+        String spoken = Content.spokenOf(item, unit.kind, lang);
+        if (!spoken.equals(item.name(lang))) {
+            TextView word = Util.text(host, spoken, 18, theme.inkSoft());
+            word.setPadding(0, dp(6), 0, 0);
+            stack.addView(word);
         }
-        String[] pool = {"\uD83C\uDF4E", "\uD83C\uDF4A", "\uD83C\uDF53", "\uD83C\uDF4C"};
-        String e = pool[Math.min(n, pool.length - 1)];
-        if (n > 10) {
-            return e + e + e + e + e + e + " +" + (n - 6);
+
+        TextView hint = Util.text(host, t("Tekan kad untuk dengar", "Tap the card to hear"),
+                13, theme.inkSoft());
+        hint.setPadding(0, dp(16), 0, 0);
+        stack.addView(hint);
+
+        card.addView(stack, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        card.setOnClickListener(v -> speak());
+
+        counter.setText((index + 1) + " / " + unit.items.size());
+
+        // Reading a card counts as meeting the item, so a child who only browses
+        // still builds up a picture of what they know.
+        host.progress().recordAnswer(unit.id, Progress.keyOf(item), true);
+    }
+
+    private void speak() {
+        if (unit.items.isEmpty()) {
+            return;
         }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            sb.append(e).append(' ');
-        }
-        return sb.toString();
-    }
-
-    private String starRow() {
-        int stars = host.progress().stars();
-        int shown = Math.min(stars, 5);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < shown; i++) {
-            sb.append("\u2B50");
-        }
-        return sb.toString();
-    }
-
-    private void next() {
-        index = (index + 1) % items.size();
-        render();
-        speakCurrent();
-    }
-
-    /** Advances without speaking, so a test can walk the list quietly. */
-    void nextForTest() {
-        index = (index + 1) % items.size();
-    }
-
-    private void previous() {
-        index = (index - 1 + items.size()) % items.size();
-        render();
-        speakCurrent();
-    }
-
-    private void speakCurrent() {
         host.voice().speak(lang, spokenName());
     }
 
-    private void speakSlow() {
-        host.voice().speakSlowly(lang, spokenName());
+    /** The exact text the voice is given for the card on screen. */
+    public String spokenName() {
+        if (unit.items.isEmpty()) {
+            return "";
+        }
+        return Content.spokenOf(unit.items.get(index), unit.kind, lang);
     }
 
-    private void startListening() {
-        host.speech().listen(new SpeechHelper.SpeechListener() {
-            @Override
-            public void onSpeechReady() {
-            }
+    /** The item currently on screen. */
+    public Content.Item currentItem() {
+        return unit.items.isEmpty() ? null : unit.items.get(index);
+    }
 
-            @Override
-            public void onSpeechResult(ArrayList<String> matches) {
-                String best = matches.isEmpty() ? "" : matches.get(0);
-                boolean ok = false;
-                for (String m : matches) {
-                    if (SpeechHelper.matches(targetUtterance(), m)
-                            || SpeechHelper.matches(displayName(), m)) {
-                        ok = true;
-                        break;
-                    }
-                }
-                // A script letter name must be said as one sound. Spelling it out
-                // ("K-H-A") is not the letter's name and must not be praised.
-                if (ok && Content.isScriptItem(current())) {
-                    boolean named = false;
-                    for (String m : matches) {
-                        if (SpeechHelper.matchesStrict(displayName(), m)) {
-                            named = true;
-                            break;
-                        }
-                    }
-                    ok = named;
-                }
-                if (ok) {
-                    host.progress().addPoints(10);
-                    host.progress().addCorrect();
-                    host.progress().addStar();
-                    host.progress().addSpoken();
-                    host.progress().onCorrectAnswer();
-                    host.progress().earnedBadges();
-                    host.updateHeader();
-                    host.celebrate(t("Great job! ", "Bagus sekali! ") + displayName()
-                            + " \u2B50 +10");
-                    hintView.setText(t("Correct! ", "Betul! ") + best);
-                    host.pop(emojiView);
-                    next();
-                } else {
-                    host.progress().onWrongAnswer();
-                    host.progress().resetStreak();
-                    hintView.setText(t("Almost! I heard: ", "Hampir betul! Saya dengar: ")
-                            + (best.isEmpty() ? "..." : best) + " \uD83D\uDC42");
-                    host.sfx().wrong();
-                    host.mouthSay(t("Try again, you can do it!", "Cuba lagi, kamu boleh!"));
-                }
-            }
-
-            @Override
-            public void onSpeechError(String message) {
-                hintView.setText("\uD83D\uDE14 " + message);
-            }
-        }, lang);
+    /** Advances one card, for tests that walk a whole unit. */
+    public void nextForTest() {
+        if (!unit.items.isEmpty()) {
+            index = (index + 1) % unit.items.size();
+        }
     }
 }

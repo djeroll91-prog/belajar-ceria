@@ -1,0 +1,5430 @@
+{
+ "meta": {
+  "app": "Belajar Ceria",
+  "curriculum": "KSPK (Semakan 2017), Kementerian Pendidikan Malaysia",
+  "ages": "4+ and 5+",
+  "languages": [
+   "ms",
+   "en"
+  ],
+  "note": "Codes are recorded only where the KSPK document was read directly. A null code means the unit is placed by tunjang and theme, and should be checked against the official DSKP before being presented as a standard."
+ },
+ "tunjang": [
+  {
+   "id": "komunikasi",
+   "emoji": "🗣️",
+   "en": "Communication",
+   "ms": "Komunikasi",
+   "color": "#E8877A",
+   "units": [
+    {
+     "id": "bm-huruf",
+     "emoji": "🔤",
+     "en": "Letters A-Z",
+     "ms": "Huruf A-Z",
+     "kind": "letter",
+     "code": "BM 3.1",
+     "note": "Recognising and naming letters",
+     "items": [
+      {
+       "symbol": "A|🍎",
+       "kind": "letter",
+       "en": "Apple",
+       "ms": "Apel",
+       "word": null,
+       "spokenEn": "ay",
+       "spokenMs": "ei"
+      },
+      {
+       "symbol": "B|⚽",
+       "kind": "letter",
+       "en": "Ball",
+       "ms": "Bola",
+       "word": null,
+       "spokenEn": "bee",
+       "spokenMs": "bi"
+      },
+      {
+       "symbol": "C|🐱",
+       "kind": "letter",
+       "en": "Cat",
+       "ms": "Kucing",
+       "word": null,
+       "spokenEn": "see",
+       "spokenMs": "si"
+      },
+      {
+       "symbol": "D|🦆",
+       "kind": "letter",
+       "en": "Duck",
+       "ms": "Itik",
+       "word": null,
+       "spokenEn": "dee",
+       "spokenMs": "di"
+      },
+      {
+       "symbol": "E|🐘",
+       "kind": "letter",
+       "en": "Elephant",
+       "ms": "Gajah",
+       "word": null,
+       "spokenEn": "ee",
+       "spokenMs": "i"
+      },
+      {
+       "symbol": "F|🐟",
+       "kind": "letter",
+       "en": "Fish",
+       "ms": "Ikan",
+       "word": null,
+       "spokenEn": "eff",
+       "spokenMs": "ef"
+      },
+      {
+       "symbol": "G|🍇",
+       "kind": "letter",
+       "en": "Grapes",
+       "ms": "Anggur",
+       "word": null,
+       "spokenEn": "gee",
+       "spokenMs": "ji"
+      },
+      {
+       "symbol": "H|🏠",
+       "kind": "letter",
+       "en": "House",
+       "ms": "Rumah",
+       "word": null,
+       "spokenEn": "aitch",
+       "spokenMs": "eic"
+      },
+      {
+       "symbol": "I|🍦",
+       "kind": "letter",
+       "en": "Ice cream",
+       "ms": "Ais krim",
+       "word": null,
+       "spokenEn": "eye",
+       "spokenMs": "ai"
+      },
+      {
+       "symbol": "J|🧃",
+       "kind": "letter",
+       "en": "Juice",
+       "ms": "Jus",
+       "word": null,
+       "spokenEn": "jay",
+       "spokenMs": "jei"
+      },
+      {
+       "symbol": "K|🪁",
+       "kind": "letter",
+       "en": "Kite",
+       "ms": "Layang-layang",
+       "word": null,
+       "spokenEn": "kay",
+       "spokenMs": "kei"
+      },
+      {
+       "symbol": "L|🦁",
+       "kind": "letter",
+       "en": "Lion",
+       "ms": "Singa",
+       "word": null,
+       "spokenEn": "ell",
+       "spokenMs": "el"
+      },
+      {
+       "symbol": "M|🌙",
+       "kind": "letter",
+       "en": "Moon",
+       "ms": "Bulan",
+       "word": null,
+       "spokenEn": "em",
+       "spokenMs": "em"
+      },
+      {
+       "symbol": "N|👃",
+       "kind": "letter",
+       "en": "Nose",
+       "ms": "Hidung",
+       "word": null,
+       "spokenEn": "en",
+       "spokenMs": "en"
+      },
+      {
+       "symbol": "O|🍊",
+       "kind": "letter",
+       "en": "Orange",
+       "ms": "Oren",
+       "word": null,
+       "spokenEn": "oh",
+       "spokenMs": "o"
+      },
+      {
+       "symbol": "P|🐼",
+       "kind": "letter",
+       "en": "Panda",
+       "ms": "Panda",
+       "word": null,
+       "spokenEn": "pee",
+       "spokenMs": "pi"
+      },
+      {
+       "symbol": "Q|👑",
+       "kind": "letter",
+       "en": "Queen",
+       "ms": "Ratu",
+       "word": null,
+       "spokenEn": "cue",
+       "spokenMs": "kiu"
+      },
+      {
+       "symbol": "R|🐰",
+       "kind": "letter",
+       "en": "Rabbit",
+       "ms": "Arnab",
+       "word": null,
+       "spokenEn": "ar",
+       "spokenMs": "ar"
+      },
+      {
+       "symbol": "S|☀️",
+       "kind": "letter",
+       "en": "Sun",
+       "ms": "Matahari",
+       "word": null,
+       "spokenEn": "ess",
+       "spokenMs": "es"
+      },
+      {
+       "symbol": "T|🐯",
+       "kind": "letter",
+       "en": "Tiger",
+       "ms": "Harimau",
+       "word": null,
+       "spokenEn": "tee",
+       "spokenMs": "ti"
+      },
+      {
+       "symbol": "U|☂️",
+       "kind": "letter",
+       "en": "Umbrella",
+       "ms": "Payung",
+       "word": null,
+       "spokenEn": "you",
+       "spokenMs": "yu"
+      },
+      {
+       "symbol": "V|🚐",
+       "kind": "letter",
+       "en": "Van",
+       "ms": "Van",
+       "word": null,
+       "spokenEn": "vee",
+       "spokenMs": "vi"
+      },
+      {
+       "symbol": "W|🐳",
+       "kind": "letter",
+       "en": "Whale",
+       "ms": "Ikan paus",
+       "word": null,
+       "spokenEn": "double you",
+       "spokenMs": "dabliu"
+      },
+      {
+       "symbol": "X|🎼",
+       "kind": "letter",
+       "en": "Xylophone",
+       "ms": "Xilofon",
+       "word": null,
+       "spokenEn": "ex",
+       "spokenMs": "eks"
+      },
+      {
+       "symbol": "Y|⛵",
+       "kind": "letter",
+       "en": "Yacht",
+       "ms": "Kapal layar",
+       "word": null,
+       "spokenEn": "why",
+       "spokenMs": "wai"
+      },
+      {
+       "symbol": "Z|🦓",
+       "kind": "letter",
+       "en": "Zebra",
+       "ms": "Zebra",
+       "word": null,
+       "spokenEn": "zed",
+       "spokenMs": "zet"
+      }
+     ]
+    },
+    {
+     "id": "bm-vokal",
+     "emoji": "🅰️",
+     "en": "Vowels",
+     "ms": "Huruf Vokal",
+     "kind": "text",
+     "code": null,
+     "note": "a e i o u",
+     "items": [
+      {
+       "symbol": "A",
+       "kind": "text",
+       "en": "a",
+       "ms": "a",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "E",
+       "kind": "text",
+       "en": "e",
+       "ms": "e",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "I",
+       "kind": "text",
+       "en": "i",
+       "ms": "i",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "O",
+       "kind": "text",
+       "en": "o",
+       "ms": "o",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "U",
+       "kind": "text",
+       "en": "u",
+       "ms": "u",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "bm-konsonan",
+     "emoji": "🔠",
+     "en": "Consonants",
+     "ms": "Huruf Konsonan",
+     "kind": "text",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "B",
+       "kind": "text",
+       "en": "B",
+       "ms": "B",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "C",
+       "kind": "text",
+       "en": "C",
+       "ms": "C",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "D",
+       "kind": "text",
+       "en": "D",
+       "ms": "D",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "F",
+       "kind": "text",
+       "en": "F",
+       "ms": "F",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "G",
+       "kind": "text",
+       "en": "G",
+       "ms": "G",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "H",
+       "kind": "text",
+       "en": "H",
+       "ms": "H",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "J",
+       "kind": "text",
+       "en": "J",
+       "ms": "J",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "K",
+       "kind": "text",
+       "en": "K",
+       "ms": "K",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "L",
+       "kind": "text",
+       "en": "L",
+       "ms": "L",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "M",
+       "kind": "text",
+       "en": "M",
+       "ms": "M",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "N",
+       "kind": "text",
+       "en": "N",
+       "ms": "N",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "P",
+       "kind": "text",
+       "en": "P",
+       "ms": "P",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "R",
+       "kind": "text",
+       "en": "R",
+       "ms": "R",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "S",
+       "kind": "text",
+       "en": "S",
+       "ms": "S",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "T",
+       "kind": "text",
+       "en": "T",
+       "ms": "T",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "V",
+       "kind": "text",
+       "en": "V",
+       "ms": "V",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "W",
+       "kind": "text",
+       "en": "W",
+       "ms": "W",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "Y",
+       "kind": "text",
+       "en": "Y",
+       "ms": "Y",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "Z",
+       "kind": "text",
+       "en": "Z",
+       "ms": "Z",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "bm-suku-kata",
+     "emoji": "🧱",
+     "en": "Syllables",
+     "ms": "Suku Kata",
+     "kind": "text",
+     "code": null,
+     "note": "Kaedah KV: consonant + vowel, the way reading is taught",
+     "items": [
+      {
+       "symbol": "ba",
+       "kind": "text",
+       "en": "ba",
+       "ms": "ba",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "bi",
+       "kind": "text",
+       "en": "bi",
+       "ms": "bi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "bu",
+       "kind": "text",
+       "en": "bu",
+       "ms": "bu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "be",
+       "kind": "text",
+       "en": "be",
+       "ms": "be",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "bo",
+       "kind": "text",
+       "en": "bo",
+       "ms": "bo",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ca",
+       "kind": "text",
+       "en": "ca",
+       "ms": "ca",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ci",
+       "kind": "text",
+       "en": "ci",
+       "ms": "ci",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "cu",
+       "kind": "text",
+       "en": "cu",
+       "ms": "cu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ce",
+       "kind": "text",
+       "en": "ce",
+       "ms": "ce",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "co",
+       "kind": "text",
+       "en": "co",
+       "ms": "co",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "da",
+       "kind": "text",
+       "en": "da",
+       "ms": "da",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "di",
+       "kind": "text",
+       "en": "di",
+       "ms": "di",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "du",
+       "kind": "text",
+       "en": "du",
+       "ms": "du",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "de",
+       "kind": "text",
+       "en": "de",
+       "ms": "de",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "do",
+       "kind": "text",
+       "en": "do",
+       "ms": "do",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ga",
+       "kind": "text",
+       "en": "ga",
+       "ms": "ga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "gi",
+       "kind": "text",
+       "en": "gi",
+       "ms": "gi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "gu",
+       "kind": "text",
+       "en": "gu",
+       "ms": "gu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ge",
+       "kind": "text",
+       "en": "ge",
+       "ms": "ge",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "go",
+       "kind": "text",
+       "en": "go",
+       "ms": "go",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ha",
+       "kind": "text",
+       "en": "ha",
+       "ms": "ha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "hi",
+       "kind": "text",
+       "en": "hi",
+       "ms": "hi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "hu",
+       "kind": "text",
+       "en": "hu",
+       "ms": "hu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "he",
+       "kind": "text",
+       "en": "he",
+       "ms": "he",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ho",
+       "kind": "text",
+       "en": "ho",
+       "ms": "ho",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ja",
+       "kind": "text",
+       "en": "ja",
+       "ms": "ja",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ji",
+       "kind": "text",
+       "en": "ji",
+       "ms": "ji",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ju",
+       "kind": "text",
+       "en": "ju",
+       "ms": "ju",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "je",
+       "kind": "text",
+       "en": "je",
+       "ms": "je",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "jo",
+       "kind": "text",
+       "en": "jo",
+       "ms": "jo",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ka",
+       "kind": "text",
+       "en": "ka",
+       "ms": "ka",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ki",
+       "kind": "text",
+       "en": "ki",
+       "ms": "ki",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ku",
+       "kind": "text",
+       "en": "ku",
+       "ms": "ku",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ke",
+       "kind": "text",
+       "en": "ke",
+       "ms": "ke",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ko",
+       "kind": "text",
+       "en": "ko",
+       "ms": "ko",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "la",
+       "kind": "text",
+       "en": "la",
+       "ms": "la",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "li",
+       "kind": "text",
+       "en": "li",
+       "ms": "li",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "lu",
+       "kind": "text",
+       "en": "lu",
+       "ms": "lu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "le",
+       "kind": "text",
+       "en": "le",
+       "ms": "le",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "lo",
+       "kind": "text",
+       "en": "lo",
+       "ms": "lo",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ma",
+       "kind": "text",
+       "en": "ma",
+       "ms": "ma",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "mi",
+       "kind": "text",
+       "en": "mi",
+       "ms": "mi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "mu",
+       "kind": "text",
+       "en": "mu",
+       "ms": "mu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "me",
+       "kind": "text",
+       "en": "me",
+       "ms": "me",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "mo",
+       "kind": "text",
+       "en": "mo",
+       "ms": "mo",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "na",
+       "kind": "text",
+       "en": "na",
+       "ms": "na",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ni",
+       "kind": "text",
+       "en": "ni",
+       "ms": "ni",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "nu",
+       "kind": "text",
+       "en": "nu",
+       "ms": "nu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ne",
+       "kind": "text",
+       "en": "ne",
+       "ms": "ne",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "no",
+       "kind": "text",
+       "en": "no",
+       "ms": "no",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "pa",
+       "kind": "text",
+       "en": "pa",
+       "ms": "pa",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "pi",
+       "kind": "text",
+       "en": "pi",
+       "ms": "pi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "pu",
+       "kind": "text",
+       "en": "pu",
+       "ms": "pu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "pe",
+       "kind": "text",
+       "en": "pe",
+       "ms": "pe",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "po",
+       "kind": "text",
+       "en": "po",
+       "ms": "po",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ra",
+       "kind": "text",
+       "en": "ra",
+       "ms": "ra",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ri",
+       "kind": "text",
+       "en": "ri",
+       "ms": "ri",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ru",
+       "kind": "text",
+       "en": "ru",
+       "ms": "ru",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "re",
+       "kind": "text",
+       "en": "re",
+       "ms": "re",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ro",
+       "kind": "text",
+       "en": "ro",
+       "ms": "ro",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "sa",
+       "kind": "text",
+       "en": "sa",
+       "ms": "sa",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "si",
+       "kind": "text",
+       "en": "si",
+       "ms": "si",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "su",
+       "kind": "text",
+       "en": "su",
+       "ms": "su",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "se",
+       "kind": "text",
+       "en": "se",
+       "ms": "se",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "so",
+       "kind": "text",
+       "en": "so",
+       "ms": "so",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ta",
+       "kind": "text",
+       "en": "ta",
+       "ms": "ta",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ti",
+       "kind": "text",
+       "en": "ti",
+       "ms": "ti",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "tu",
+       "kind": "text",
+       "en": "tu",
+       "ms": "tu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "te",
+       "kind": "text",
+       "en": "te",
+       "ms": "te",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "to",
+       "kind": "text",
+       "en": "to",
+       "ms": "to",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "bm-suku-kata-kata",
+     "emoji": "📖",
+     "en": "Build Words",
+     "ms": "Bina Perkataan",
+     "kind": "word",
+     "code": null,
+     "note": "Two syllables joined: ba + ju = baju",
+     "items": [
+      {
+       "symbol": "👦",
+       "kind": "word",
+       "en": "baba",
+       "ms": "baba",
+       "word": "baba",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👕",
+       "kind": "word",
+       "en": "shirt",
+       "ms": "baju",
+       "word": "baju",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "⚽",
+       "kind": "word",
+       "en": "ball",
+       "ms": "bola",
+       "word": "bola",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📕",
+       "kind": "word",
+       "en": "book",
+       "ms": "buku",
+       "word": "buku",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🪨",
+       "kind": "word",
+       "en": "stone",
+       "ms": "batu",
+       "word": "batu",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦶",
+       "kind": "word",
+       "en": "leg",
+       "ms": "kaki",
+       "word": "kaki",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "💅",
+       "kind": "word",
+       "en": "nail",
+       "ms": "kuku",
+       "word": "kuku",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👁",
+       "kind": "word",
+       "en": "eye",
+       "ms": "mata",
+       "word": "mata",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🪑",
+       "kind": "word",
+       "en": "table",
+       "ms": "meja",
+       "word": "meja",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍚",
+       "kind": "word",
+       "en": "rice",
+       "ms": "nasi",
+       "word": "nasi",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🥛",
+       "kind": "word",
+       "en": "milk",
+       "ms": "susu",
+       "word": "susu",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍞",
+       "kind": "word",
+       "en": "bread",
+       "ms": "roti",
+       "word": "roti",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👒",
+       "kind": "word",
+       "en": "hat",
+       "ms": "topi",
+       "word": "topi",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🧹",
+       "kind": "word",
+       "en": "broom",
+       "ms": "sapu",
+       "word": "sapu",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦷",
+       "kind": "word",
+       "en": "tooth",
+       "ms": "gigi",
+       "word": "gigi",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "☝",
+       "kind": "word",
+       "en": "finger",
+       "ms": "jari",
+       "word": "jari",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌹",
+       "kind": "word",
+       "en": "thorn",
+       "ms": "duri",
+       "word": "duri",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐎",
+       "kind": "word",
+       "en": "horse",
+       "ms": "kuda",
+       "word": "kuda",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "✋",
+       "kind": "word",
+       "en": "five",
+       "ms": "lima",
+       "word": "lima",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "✌",
+       "kind": "word",
+       "en": "two",
+       "ms": "dua",
+       "word": "dua",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "☝",
+       "kind": "word",
+       "en": "one",
+       "ms": "satu",
+       "word": "satu",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👌",
+       "kind": "word",
+       "en": "three",
+       "ms": "tiga",
+       "word": "tiga",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "💇",
+       "kind": "word",
+       "en": "hair",
+       "ms": "rambut",
+       "word": "rambut",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🤲",
+       "kind": "word",
+       "en": "hand",
+       "ms": "tangan",
+       "word": "tangan",
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "bm-perkataan",
+     "emoji": "📕",
+     "en": "Words",
+     "ms": "Perkataan",
+     "kind": "word",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "👩",
+       "kind": "word",
+       "en": "mother",
+       "ms": "ibu",
+       "word": "ibu",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👨",
+       "kind": "word",
+       "en": "father",
+       "ms": "ayah",
+       "word": "ayah",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦶",
+       "kind": "word",
+       "en": "leg",
+       "ms": "kaki",
+       "word": "kaki",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👕",
+       "kind": "word",
+       "en": "shirt",
+       "ms": "baju",
+       "word": "baju",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📕",
+       "kind": "word",
+       "en": "book",
+       "ms": "buku",
+       "word": "buku",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🪑",
+       "kind": "word",
+       "en": "table",
+       "ms": "meja",
+       "word": "meja",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🥛",
+       "kind": "word",
+       "en": "milk",
+       "ms": "susu",
+       "word": "susu",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "⚽",
+       "kind": "word",
+       "en": "ball",
+       "ms": "bola",
+       "word": "bola",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👁",
+       "kind": "word",
+       "en": "eye",
+       "ms": "mata",
+       "word": "mata",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍚",
+       "kind": "word",
+       "en": "rice",
+       "ms": "nasi",
+       "word": "nasi",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🏠",
+       "kind": "word",
+       "en": "house",
+       "ms": "rumah",
+       "word": "rumah",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌸",
+       "kind": "word",
+       "en": "flower",
+       "ms": "bunga",
+       "word": "bunga",
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "bm-ayat",
+     "emoji": "📝",
+     "en": "Sentences",
+     "ms": "Ayat",
+     "kind": "sentence",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "en": "The cat is big.",
+       "ms": "Kucing itu besar."
+      },
+      {
+       "en": "I like to play.",
+       "ms": "Saya suka bermain."
+      },
+      {
+       "en": "The sun is hot.",
+       "ms": "Matahari sangat panas."
+      },
+      {
+       "en": "My ball is red.",
+       "ms": "Bola saya berwarna merah."
+      },
+      {
+       "en": "I can read.",
+       "ms": "Saya boleh membaca."
+      },
+      {
+       "en": "The fish can swim.",
+       "ms": "Ikan boleh berenang."
+      },
+      {
+       "en": "I love my mother.",
+       "ms": "Saya sayang ibu saya."
+      },
+      {
+       "en": "This is my book.",
+       "ms": "Ini buku saya."
+      },
+      {
+       "en": "Saya suka makan nasi.",
+       "ms": "Saya suka makan nasi."
+      },
+      {
+       "en": "Ibu saya masak di dapur.",
+       "ms": "Ibu saya masak di dapur."
+      },
+      {
+       "en": "Ayah pergi bekerja.",
+       "ms": "Ayah pergi bekerja."
+      },
+      {
+       "en": "Kami bermain di taman.",
+       "ms": "Kami bermain di taman."
+      },
+      {
+       "en": "Ini rumah saya.",
+       "ms": "Ini rumah saya."
+      },
+      {
+       "en": "Saya ada dua tangan.",
+       "ms": "Saya ada dua tangan."
+      },
+      {
+       "en": "Terima kasih, cikgu.",
+       "ms": "Terima kasih, cikgu."
+      },
+      {
+       "en": "Selamat pagi, kawan.",
+       "ms": "Selamat pagi, kawan."
+      }
+     ]
+    },
+    {
+     "id": "bi-letters",
+     "emoji": "🔤",
+     "en": "English Letters",
+     "ms": "Huruf Inggeris",
+     "kind": "letter",
+     "code": "BI 2.1.1",
+     "note": "Print carries meaning; letters have names",
+     "items": [
+      {
+       "symbol": "A|🍎",
+       "kind": "letter",
+       "en": "Apple",
+       "ms": "Apel",
+       "word": null,
+       "spokenEn": "ay",
+       "spokenMs": "ei"
+      },
+      {
+       "symbol": "B|⚽",
+       "kind": "letter",
+       "en": "Ball",
+       "ms": "Bola",
+       "word": null,
+       "spokenEn": "bee",
+       "spokenMs": "bi"
+      },
+      {
+       "symbol": "C|🐱",
+       "kind": "letter",
+       "en": "Cat",
+       "ms": "Kucing",
+       "word": null,
+       "spokenEn": "see",
+       "spokenMs": "si"
+      },
+      {
+       "symbol": "D|🦆",
+       "kind": "letter",
+       "en": "Duck",
+       "ms": "Itik",
+       "word": null,
+       "spokenEn": "dee",
+       "spokenMs": "di"
+      },
+      {
+       "symbol": "E|🐘",
+       "kind": "letter",
+       "en": "Elephant",
+       "ms": "Gajah",
+       "word": null,
+       "spokenEn": "ee",
+       "spokenMs": "i"
+      },
+      {
+       "symbol": "F|🐟",
+       "kind": "letter",
+       "en": "Fish",
+       "ms": "Ikan",
+       "word": null,
+       "spokenEn": "eff",
+       "spokenMs": "ef"
+      },
+      {
+       "symbol": "G|🍇",
+       "kind": "letter",
+       "en": "Grapes",
+       "ms": "Anggur",
+       "word": null,
+       "spokenEn": "gee",
+       "spokenMs": "ji"
+      },
+      {
+       "symbol": "H|🏠",
+       "kind": "letter",
+       "en": "House",
+       "ms": "Rumah",
+       "word": null,
+       "spokenEn": "aitch",
+       "spokenMs": "eic"
+      },
+      {
+       "symbol": "I|🍦",
+       "kind": "letter",
+       "en": "Ice cream",
+       "ms": "Ais krim",
+       "word": null,
+       "spokenEn": "eye",
+       "spokenMs": "ai"
+      },
+      {
+       "symbol": "J|🧃",
+       "kind": "letter",
+       "en": "Juice",
+       "ms": "Jus",
+       "word": null,
+       "spokenEn": "jay",
+       "spokenMs": "jei"
+      },
+      {
+       "symbol": "K|🪁",
+       "kind": "letter",
+       "en": "Kite",
+       "ms": "Layang-layang",
+       "word": null,
+       "spokenEn": "kay",
+       "spokenMs": "kei"
+      },
+      {
+       "symbol": "L|🦁",
+       "kind": "letter",
+       "en": "Lion",
+       "ms": "Singa",
+       "word": null,
+       "spokenEn": "ell",
+       "spokenMs": "el"
+      },
+      {
+       "symbol": "M|🌙",
+       "kind": "letter",
+       "en": "Moon",
+       "ms": "Bulan",
+       "word": null,
+       "spokenEn": "em",
+       "spokenMs": "em"
+      },
+      {
+       "symbol": "N|👃",
+       "kind": "letter",
+       "en": "Nose",
+       "ms": "Hidung",
+       "word": null,
+       "spokenEn": "en",
+       "spokenMs": "en"
+      },
+      {
+       "symbol": "O|🍊",
+       "kind": "letter",
+       "en": "Orange",
+       "ms": "Oren",
+       "word": null,
+       "spokenEn": "oh",
+       "spokenMs": "o"
+      },
+      {
+       "symbol": "P|🐼",
+       "kind": "letter",
+       "en": "Panda",
+       "ms": "Panda",
+       "word": null,
+       "spokenEn": "pee",
+       "spokenMs": "pi"
+      },
+      {
+       "symbol": "Q|👑",
+       "kind": "letter",
+       "en": "Queen",
+       "ms": "Ratu",
+       "word": null,
+       "spokenEn": "cue",
+       "spokenMs": "kiu"
+      },
+      {
+       "symbol": "R|🐰",
+       "kind": "letter",
+       "en": "Rabbit",
+       "ms": "Arnab",
+       "word": null,
+       "spokenEn": "ar",
+       "spokenMs": "ar"
+      },
+      {
+       "symbol": "S|☀️",
+       "kind": "letter",
+       "en": "Sun",
+       "ms": "Matahari",
+       "word": null,
+       "spokenEn": "ess",
+       "spokenMs": "es"
+      },
+      {
+       "symbol": "T|🐯",
+       "kind": "letter",
+       "en": "Tiger",
+       "ms": "Harimau",
+       "word": null,
+       "spokenEn": "tee",
+       "spokenMs": "ti"
+      },
+      {
+       "symbol": "U|☂️",
+       "kind": "letter",
+       "en": "Umbrella",
+       "ms": "Payung",
+       "word": null,
+       "spokenEn": "you",
+       "spokenMs": "yu"
+      },
+      {
+       "symbol": "V|🚐",
+       "kind": "letter",
+       "en": "Van",
+       "ms": "Van",
+       "word": null,
+       "spokenEn": "vee",
+       "spokenMs": "vi"
+      },
+      {
+       "symbol": "W|🐳",
+       "kind": "letter",
+       "en": "Whale",
+       "ms": "Ikan paus",
+       "word": null,
+       "spokenEn": "double you",
+       "spokenMs": "dabliu"
+      },
+      {
+       "symbol": "X|🎼",
+       "kind": "letter",
+       "en": "Xylophone",
+       "ms": "Xilofon",
+       "word": null,
+       "spokenEn": "ex",
+       "spokenMs": "eks"
+      },
+      {
+       "symbol": "Y|⛵",
+       "kind": "letter",
+       "en": "Yacht",
+       "ms": "Kapal layar",
+       "word": null,
+       "spokenEn": "why",
+       "spokenMs": "wai"
+      },
+      {
+       "symbol": "Z|🦓",
+       "kind": "letter",
+       "en": "Zebra",
+       "ms": "Zebra",
+       "word": null,
+       "spokenEn": "zed",
+       "spokenMs": "zet"
+      }
+     ]
+    },
+    {
+     "id": "bi-cvc",
+     "emoji": "📘",
+     "en": "Reading Words",
+     "ms": "Baca Perkataan",
+     "kind": "word",
+     "code": "BI 3.2",
+     "note": "Sounding out simple words, e.g. c-u-p",
+     "items": [
+      {
+       "symbol": "🐈",
+       "kind": "word",
+       "en": "cat",
+       "ms": "kucing",
+       "word": "cat",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐕",
+       "kind": "word",
+       "en": "dog",
+       "ms": "anjing",
+       "word": "dog",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "☀️",
+       "kind": "word",
+       "en": "sun",
+       "ms": "matahari",
+       "word": "sun",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👒",
+       "kind": "word",
+       "en": "hat",
+       "ms": "topi",
+       "word": "hat",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚌",
+       "kind": "word",
+       "en": "bus",
+       "ms": "bas",
+       "word": "bus",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🥛",
+       "kind": "word",
+       "en": "cup",
+       "ms": "cawan",
+       "word": "cup",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🖊️",
+       "kind": "word",
+       "en": "pen",
+       "ms": "pen",
+       "word": "pen",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🛏️",
+       "kind": "word",
+       "en": "bed",
+       "ms": "katil",
+       "word": "bed",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "⭐",
+       "kind": "word",
+       "en": "star",
+       "ms": "bintang",
+       "word": "star",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌙",
+       "kind": "word",
+       "en": "moon",
+       "ms": "bulan",
+       "word": "moon",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐟",
+       "kind": "word",
+       "en": "fish",
+       "ms": "ikan",
+       "word": "fish",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐦",
+       "kind": "word",
+       "en": "bird",
+       "ms": "burung",
+       "word": "bird",
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "bi-sentences",
+     "emoji": "📗",
+     "en": "English Sentences",
+     "ms": "Ayat Inggeris",
+     "kind": "sentence",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "en": "The cat is big.",
+       "ms": "Kucing itu besar."
+      },
+      {
+       "en": "I like to play.",
+       "ms": "Saya suka bermain."
+      },
+      {
+       "en": "The sun is hot.",
+       "ms": "Matahari sangat panas."
+      },
+      {
+       "en": "My ball is red.",
+       "ms": "Bola saya berwarna merah."
+      },
+      {
+       "en": "I can read.",
+       "ms": "Saya boleh membaca."
+      },
+      {
+       "en": "The fish can swim.",
+       "ms": "Ikan boleh berenang."
+      },
+      {
+       "en": "I love my mother.",
+       "ms": "Saya sayang ibu saya."
+      },
+      {
+       "en": "This is my book.",
+       "ms": "Ini buku saya."
+      },
+      {
+       "en": "Saya suka makan nasi.",
+       "ms": "Saya suka makan nasi."
+      },
+      {
+       "en": "Ibu saya masak di dapur.",
+       "ms": "Ibu saya masak di dapur."
+      },
+      {
+       "en": "Ayah pergi bekerja.",
+       "ms": "Ayah pergi bekerja."
+      },
+      {
+       "en": "Kami bermain di taman.",
+       "ms": "Kami bermain di taman."
+      },
+      {
+       "en": "Ini rumah saya.",
+       "ms": "Ini rumah saya."
+      },
+      {
+       "en": "Saya ada dua tangan.",
+       "ms": "Saya ada dua tangan."
+      },
+      {
+       "en": "Terima kasih, cikgu.",
+       "ms": "Terima kasih, cikgu."
+      },
+      {
+       "en": "Selamat pagi, kawan.",
+       "ms": "Selamat pagi, kawan."
+      }
+     ]
+    },
+    {
+     "id": "bm-jawi",
+     "emoji": "م",
+     "en": "Jawi Letters",
+     "ms": "Huruf Jawi",
+     "kind": "script",
+     "code": null,
+     "note": "Jawi is part of Bahasa Melayu; names follow the KSSR/DBP reading",
+     "items": [
+      {
+       "symbol": "ا",
+       "kind": "script",
+       "en": "alif",
+       "ms": "alif",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ب",
+       "kind": "script",
+       "en": "ba",
+       "ms": "ba",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ت",
+       "kind": "script",
+       "en": "ta",
+       "ms": "ta",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ث",
+       "kind": "script",
+       "en": "sa",
+       "ms": "sa",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ج",
+       "kind": "script",
+       "en": "jim",
+       "ms": "jim",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "چ",
+       "kind": "script",
+       "en": "ca",
+       "ms": "ca",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ح",
+       "kind": "script",
+       "en": "ha",
+       "ms": "ha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "خ",
+       "kind": "script",
+       "en": "kha",
+       "ms": "kha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "د",
+       "kind": "script",
+       "en": "dal",
+       "ms": "dal",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ذ",
+       "kind": "script",
+       "en": "zal",
+       "ms": "zal",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ر",
+       "kind": "script",
+       "en": "ra",
+       "ms": "ra",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ز",
+       "kind": "script",
+       "en": "zai",
+       "ms": "zai",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "س",
+       "kind": "script",
+       "en": "sin",
+       "ms": "sin",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ش",
+       "kind": "script",
+       "en": "syin",
+       "ms": "syin",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ص",
+       "kind": "script",
+       "en": "sad",
+       "ms": "sad",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ض",
+       "kind": "script",
+       "en": "dad",
+       "ms": "dad",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ط",
+       "kind": "script",
+       "en": "to",
+       "ms": "to",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ظ",
+       "kind": "script",
+       "en": "zho",
+       "ms": "zho",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ع",
+       "kind": "script",
+       "en": "ain",
+       "ms": "ain",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "غ",
+       "kind": "script",
+       "en": "ghain",
+       "ms": "ghain",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ڠ",
+       "kind": "script",
+       "en": "nga",
+       "ms": "nga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ف",
+       "kind": "script",
+       "en": "fa",
+       "ms": "fa",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ڤ",
+       "kind": "script",
+       "en": "pa",
+       "ms": "pa",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ق",
+       "kind": "script",
+       "en": "qaf",
+       "ms": "qaf",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ك",
+       "kind": "script",
+       "en": "kaf",
+       "ms": "kaf",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ڬ",
+       "kind": "script",
+       "en": "ga",
+       "ms": "ga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ل",
+       "kind": "script",
+       "en": "lam",
+       "ms": "lam",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "م",
+       "kind": "script",
+       "en": "mim",
+       "ms": "mim",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ن",
+       "kind": "script",
+       "en": "nun",
+       "ms": "nun",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "و",
+       "kind": "script",
+       "en": "wau",
+       "ms": "wau",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ۏ",
+       "kind": "script",
+       "en": "va",
+       "ms": "va",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ه",
+       "kind": "script",
+       "en": "ha",
+       "ms": "ha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ي",
+       "kind": "script",
+       "en": "ya",
+       "ms": "ya",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ڽ",
+       "kind": "script",
+       "en": "nya",
+       "ms": "nya",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ء",
+       "kind": "script",
+       "en": "hamzah",
+       "ms": "hamzah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ى",
+       "kind": "script",
+       "en": "ya",
+       "ms": "ya",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kerohanian",
+   "emoji": "🙏",
+   "en": "Values and Manners",
+   "ms": "Kerohanian, Sikap dan Nilai",
+   "color": "#9A8FCF",
+   "units": [
+    {
+     "id": "nilai-adab",
+     "emoji": "🙏",
+     "en": "Polite Words",
+     "ms": "Ucapan Bertatasusila",
+     "kind": "emoji",
+     "code": "BM 1.2.3",
+     "note": "Responding politely to greetings and instructions",
+     "items": [
+      {
+       "symbol": "🙏",
+       "kind": "emoji",
+       "en": "thank you",
+       "ms": "terima kasih",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🙇",
+       "kind": "emoji",
+       "en": "sorry",
+       "ms": "minta maaf",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👋",
+       "kind": "emoji",
+       "en": "good morning",
+       "ms": "selamat pagi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🤝",
+       "kind": "emoji",
+       "en": "please",
+       "ms": "tolong",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👍",
+       "kind": "emoji",
+       "en": "yes",
+       "ms": "ya",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🙅",
+       "kind": "emoji",
+       "en": "excuse me",
+       "ms": "maafkan saya",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "nilai-murni",
+     "emoji": "❤️",
+     "en": "Good Values",
+     "ms": "Nilai Murni",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "❤️",
+       "kind": "emoji",
+       "en": "love",
+       "ms": "sayang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🤝",
+       "kind": "emoji",
+       "en": "help",
+       "ms": "tolong-menolong",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "💪",
+       "kind": "emoji",
+       "en": "hardworking",
+       "ms": "rajin",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🤝",
+       "kind": "emoji",
+       "en": "honest",
+       "ms": "jujur",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🙏",
+       "kind": "emoji",
+       "en": "respect",
+       "ms": "hormat",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🤝",
+       "kind": "emoji",
+       "en": "share",
+       "ms": "berkongsi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🧹",
+       "kind": "emoji",
+       "en": "clean",
+       "ms": "bersih",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "⏰",
+       "kind": "emoji",
+       "en": "patient",
+       "ms": "sabar",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "nilai-arab",
+     "emoji": "ع",
+     "en": "Arabic Letters",
+     "ms": "Huruf Arab",
+     "kind": "script",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "ا",
+       "kind": "script",
+       "en": "alif",
+       "ms": "alif",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ب",
+       "kind": "script",
+       "en": "ba",
+       "ms": "ba",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ت",
+       "kind": "script",
+       "en": "ta",
+       "ms": "ta",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ث",
+       "kind": "script",
+       "en": "tha",
+       "ms": "tha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ج",
+       "kind": "script",
+       "en": "jim",
+       "ms": "jim",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ح",
+       "kind": "script",
+       "en": "ha",
+       "ms": "ha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "خ",
+       "kind": "script",
+       "en": "kha",
+       "ms": "kha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "د",
+       "kind": "script",
+       "en": "dal",
+       "ms": "dal",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ذ",
+       "kind": "script",
+       "en": "dzal",
+       "ms": "dzal",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ر",
+       "kind": "script",
+       "en": "ra",
+       "ms": "ra",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ز",
+       "kind": "script",
+       "en": "zai",
+       "ms": "zai",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "س",
+       "kind": "script",
+       "en": "sin",
+       "ms": "sin",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ش",
+       "kind": "script",
+       "en": "syin",
+       "ms": "syin",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ص",
+       "kind": "script",
+       "en": "sad",
+       "ms": "sad",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ض",
+       "kind": "script",
+       "en": "dhad",
+       "ms": "dhad",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ط",
+       "kind": "script",
+       "en": "tha",
+       "ms": "tha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ظ",
+       "kind": "script",
+       "en": "zha",
+       "ms": "zha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ع",
+       "kind": "script",
+       "en": "ain",
+       "ms": "ain",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "غ",
+       "kind": "script",
+       "en": "ghain",
+       "ms": "ghain",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ف",
+       "kind": "script",
+       "en": "fa",
+       "ms": "fa",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ق",
+       "kind": "script",
+       "en": "qaf",
+       "ms": "qaf",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ك",
+       "kind": "script",
+       "en": "kaf",
+       "ms": "kaf",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ل",
+       "kind": "script",
+       "en": "lam",
+       "ms": "lam",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "م",
+       "kind": "script",
+       "en": "mim",
+       "ms": "mim",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ن",
+       "kind": "script",
+       "en": "nun",
+       "ms": "nun",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ه",
+       "kind": "script",
+       "en": "ha",
+       "ms": "ha",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "و",
+       "kind": "script",
+       "en": "wau",
+       "ms": "wau",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "ي",
+       "kind": "script",
+       "en": "ya",
+       "ms": "ya",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kemanusiaan",
+   "emoji": "👪",
+   "en": "People Around Me",
+   "ms": "Kemanusiaan",
+   "color": "#E39BB5",
+   "units": [
+    {
+     "id": "hum-keluarga",
+     "emoji": "👪",
+     "en": "My Family",
+     "ms": "Keluarga Saya",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "👨",
+       "kind": "emoji",
+       "en": "father",
+       "ms": "ayah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👩",
+       "kind": "emoji",
+       "en": "mother",
+       "ms": "ibu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👦",
+       "kind": "emoji",
+       "en": "brother",
+       "ms": "abang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👧",
+       "kind": "emoji",
+       "en": "sister",
+       "ms": "kakak",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👶",
+       "kind": "emoji",
+       "en": "baby",
+       "ms": "adik bayi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👴",
+       "kind": "emoji",
+       "en": "grandfather",
+       "ms": "atuk",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👵",
+       "kind": "emoji",
+       "en": "grandmother",
+       "ms": "nenek",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👪",
+       "kind": "emoji",
+       "en": "family",
+       "ms": "keluarga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "hum-kawan",
+     "emoji": "🤝",
+     "en": "My Friends",
+     "ms": "Kawan Saya",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🤝",
+       "kind": "emoji",
+       "en": "friend",
+       "ms": "kawan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👋",
+       "kind": "emoji",
+       "en": "greeting",
+       "ms": "salam",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🤗",
+       "kind": "emoji",
+       "en": "hug",
+       "ms": "peluk",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "😄",
+       "kind": "emoji",
+       "en": "smile",
+       "ms": "senyum",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🏡",
+       "kind": "emoji",
+       "en": "neighbour",
+       "ms": "jiran",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "hum-sekolah",
+     "emoji": "🏫",
+     "en": "My School",
+     "ms": "Sekolah Saya",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🏫",
+       "kind": "emoji",
+       "en": "school",
+       "ms": "sekolah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🧑‍🏫",
+       "kind": "emoji",
+       "en": "teacher",
+       "ms": "cikgu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📚",
+       "kind": "emoji",
+       "en": "books",
+       "ms": "buku",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "✏️",
+       "kind": "emoji",
+       "en": "pencil",
+       "ms": "pensel",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🎒",
+       "kind": "emoji",
+       "en": "bag",
+       "ms": "beg",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🎯",
+       "kind": "emoji",
+       "en": "classroom",
+       "ms": "kelas",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🏀",
+       "kind": "emoji",
+       "en": "playground",
+       "ms": "taman permainan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🔔",
+       "kind": "emoji",
+       "en": "bell",
+       "ms": "loceng",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "hum-rumah",
+     "emoji": "🏠",
+     "en": "My House",
+     "ms": "Rumah Saya",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🏠",
+       "kind": "emoji",
+       "en": "house",
+       "ms": "rumah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚪",
+       "kind": "emoji",
+       "en": "door",
+       "ms": "pintu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🪟",
+       "kind": "emoji",
+       "en": "window",
+       "ms": "tingkap",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🛏️",
+       "kind": "emoji",
+       "en": "bed",
+       "ms": "katil",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🪑",
+       "kind": "emoji",
+       "en": "table",
+       "ms": "meja",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🪑",
+       "kind": "emoji",
+       "en": "chair",
+       "ms": "kerusi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚿",
+       "kind": "emoji",
+       "en": "bathroom",
+       "ms": "bilik air",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍳",
+       "kind": "emoji",
+       "en": "kitchen",
+       "ms": "dapur",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "hum-pekerjaan",
+     "emoji": "👷",
+     "en": "Jobs",
+     "ms": "Pekerjaan",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "👮",
+       "kind": "emoji",
+       "en": "police officer",
+       "ms": "polis",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚒",
+       "kind": "emoji",
+       "en": "firefighter",
+       "ms": "bomba",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👩‍⚕️",
+       "kind": "emoji",
+       "en": "doctor",
+       "ms": "doktor",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👩‍🏫",
+       "kind": "emoji",
+       "en": "teacher",
+       "ms": "cikgu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👨‍🌾",
+       "kind": "emoji",
+       "en": "farmer",
+       "ms": "petani",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👨‍🍳",
+       "kind": "emoji",
+       "en": "cook",
+       "ms": "tukang masak",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👨‍🔧",
+       "kind": "emoji",
+       "en": "mechanic",
+       "ms": "mekanik",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👩‍💼",
+       "kind": "emoji",
+       "en": "office worker",
+       "ms": "pekerja pejabat",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👨‍✈️",
+       "kind": "emoji",
+       "en": "pilot",
+       "ms": "juruterbang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👩‍🎤",
+       "kind": "emoji",
+       "en": "singer",
+       "ms": "penyanyi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "hum-negara",
+     "emoji": "🇲🇾",
+     "en": "My Country",
+     "ms": "Negara Saya",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🇲🇾",
+       "kind": "emoji",
+       "en": "Malaysia",
+       "ms": "Malaysia",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🏳️",
+       "kind": "emoji",
+       "en": "flag",
+       "ms": "bendera",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👑",
+       "kind": "emoji",
+       "en": "king",
+       "ms": "raja",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🏛️",
+       "kind": "emoji",
+       "en": "mosque",
+       "ms": "masjid",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🏯",
+       "kind": "emoji",
+       "en": "temple",
+       "ms": "tokong",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🏥",
+       "kind": "emoji",
+       "en": "hospital",
+       "ms": "hospital",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fizikal",
+   "emoji": "🎨",
+   "en": "Body, Art and Music",
+   "ms": "Perkembangan Fizikal dan Estetika",
+   "color": "#F2B457",
+   "units": [
+    {
+     "id": "fiz-badan",
+     "emoji": "👁",
+     "en": "My Body",
+     "ms": "Anggota Badan",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "👁",
+       "kind": "emoji",
+       "en": "eye",
+       "ms": "mata",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👂",
+       "kind": "emoji",
+       "en": "ear",
+       "ms": "telinga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👃",
+       "kind": "emoji",
+       "en": "nose",
+       "ms": "hidung",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👄",
+       "kind": "emoji",
+       "en": "mouth",
+       "ms": "mulut",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🤲",
+       "kind": "emoji",
+       "en": "hand",
+       "ms": "tangan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦶",
+       "kind": "emoji",
+       "en": "leg",
+       "ms": "kaki",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦷",
+       "kind": "emoji",
+       "en": "tooth",
+       "ms": "gigi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👅",
+       "kind": "emoji",
+       "en": "tongue",
+       "ms": "lidah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "💇",
+       "kind": "emoji",
+       "en": "hair",
+       "ms": "rambut",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🧠",
+       "kind": "emoji",
+       "en": "brain",
+       "ms": "otak",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🫀",
+       "kind": "emoji",
+       "en": "heart",
+       "ms": "jantung",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦴",
+       "kind": "emoji",
+       "en": "bone",
+       "ms": "tulang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "fiz-warna",
+     "emoji": "🎨",
+     "en": "Colours",
+     "ms": "Warna",
+     "kind": "color",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "#FF5252",
+       "kind": "color",
+       "en": "red",
+       "ms": "merah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#FF9800",
+       "kind": "color",
+       "en": "orange",
+       "ms": "jingga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#FFEB3B",
+       "kind": "color",
+       "en": "yellow",
+       "ms": "kuning",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#66BB6A",
+       "kind": "color",
+       "en": "green",
+       "ms": "hijau",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#42A5F5",
+       "kind": "color",
+       "en": "blue",
+       "ms": "biru",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#AB47BC",
+       "kind": "color",
+       "en": "purple",
+       "ms": "ungu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#FF80AB",
+       "kind": "color",
+       "en": "pink",
+       "ms": "merah jambu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#8D6E63",
+       "kind": "color",
+       "en": "brown",
+       "ms": "coklat",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#90A4AE",
+       "kind": "color",
+       "en": "grey",
+       "ms": "kelabu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#212121",
+       "kind": "color",
+       "en": "black",
+       "ms": "hitam",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "#FFFFFF",
+       "kind": "color",
+       "en": "white",
+       "ms": "putih",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "fiz-muzik",
+     "emoji": "🎵",
+     "en": "Music",
+     "ms": "Muzik",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🎹",
+       "kind": "emoji",
+       "en": "piano",
+       "ms": "piano",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🎸",
+       "kind": "emoji",
+       "en": "guitar",
+       "ms": "gitar",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🥁",
+       "kind": "emoji",
+       "en": "drum",
+       "ms": "dram",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🎺",
+       "kind": "emoji",
+       "en": "trumpet",
+       "ms": "trompet",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🎻",
+       "kind": "emoji",
+       "en": "violin",
+       "ms": "biola",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🎵",
+       "kind": "emoji",
+       "en": "flute",
+       "ms": "seruling",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sains",
+   "emoji": "🔬",
+   "en": "Science and Maths",
+   "ms": "Sains dan Teknologi",
+   "color": "#7FB4D9",
+   "units": [
+    {
+     "id": "ma-nombor",
+     "emoji": "🔢",
+     "en": "Numbers 1-20",
+     "ms": "Nombor 1-20",
+     "kind": "number",
+     "code": "MA 2.1.1",
+     "note": "Stating numbers 1-10 in sequence",
+     "items": [
+      {
+       "symbol": "1",
+       "kind": "number",
+       "en": "one",
+       "ms": "satu",
+       "word": "🍎",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "2",
+       "kind": "number",
+       "en": "two",
+       "ms": "dua",
+       "word": "🍊",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "3",
+       "kind": "number",
+       "en": "three",
+       "ms": "tiga",
+       "word": "🍓",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "4",
+       "kind": "number",
+       "en": "four",
+       "ms": "empat",
+       "word": "🍌",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "5",
+       "kind": "number",
+       "en": "five",
+       "ms": "lima",
+       "word": "🍉",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "6",
+       "kind": "number",
+       "en": "six",
+       "ms": "enam",
+       "word": "🍑",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "7",
+       "kind": "number",
+       "en": "seven",
+       "ms": "tujuh",
+       "word": "🍍",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "8",
+       "kind": "number",
+       "en": "eight",
+       "ms": "lapan",
+       "word": "⭐",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "9",
+       "kind": "number",
+       "en": "nine",
+       "ms": "sembilan",
+       "word": "🎈",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "10",
+       "kind": "number",
+       "en": "ten",
+       "ms": "sepuluh",
+       "word": "🌸",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "11",
+       "kind": "number",
+       "en": "eleven",
+       "ms": "sebelas",
+       "word": "🐝",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "12",
+       "kind": "number",
+       "en": "twelve",
+       "ms": "dua belas",
+       "word": "🌻",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "13",
+       "kind": "number",
+       "en": "thirteen",
+       "ms": "tiga belas",
+       "word": "🍀",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "14",
+       "kind": "number",
+       "en": "fourteen",
+       "ms": "empat belas",
+       "word": "🍪",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "15",
+       "kind": "number",
+       "en": "fifteen",
+       "ms": "lima belas",
+       "word": "🍩",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "16",
+       "kind": "number",
+       "en": "sixteen",
+       "ms": "enam belas",
+       "word": "🍭",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "17",
+       "kind": "number",
+       "en": "seventeen",
+       "ms": "tujuh belas",
+       "word": "🎁",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "18",
+       "kind": "number",
+       "en": "eighteen",
+       "ms": "lapan belas",
+       "word": "🌬️",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "19",
+       "kind": "number",
+       "en": "nineteen",
+       "ms": "sembilan belas",
+       "word": "🐣",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "20",
+       "kind": "number",
+       "en": "twenty",
+       "ms": "dua puluh",
+       "word": "🌟",
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "ma-bentuk",
+     "emoji": "🔵",
+     "en": "Shapes",
+     "ms": "Bentuk",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🔵",
+       "kind": "emoji",
+       "en": "circle",
+       "ms": "bulat",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🟦",
+       "kind": "emoji",
+       "en": "square",
+       "ms": "segi empat sama",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🔺",
+       "kind": "emoji",
+       "en": "triangle",
+       "ms": "segi tiga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🟨",
+       "kind": "emoji",
+       "en": "rectangle",
+       "ms": "segi empat tepat",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "⭐",
+       "kind": "emoji",
+       "en": "star",
+       "ms": "bintang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "💚",
+       "kind": "emoji",
+       "en": "heart",
+       "ms": "hati",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🟠",
+       "kind": "emoji",
+       "en": "oval",
+       "ms": "bujur",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "💠",
+       "kind": "emoji",
+       "en": "diamond",
+       "ms": "diamond",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "ma-saiz",
+     "emoji": "📏",
+     "en": "Size",
+     "ms": "Saiz",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🐘",
+       "kind": "emoji",
+       "en": "big",
+       "ms": "besar",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐭",
+       "kind": "emoji",
+       "en": "small",
+       "ms": "kecil",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📏",
+       "kind": "emoji",
+       "en": "long",
+       "ms": "panjang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📐",
+       "kind": "emoji",
+       "en": "short",
+       "ms": "pendek",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📦",
+       "kind": "emoji",
+       "en": "heavy",
+       "ms": "berat",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🎈",
+       "kind": "emoji",
+       "en": "light",
+       "ms": "ringan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "ma-pola",
+     "emoji": "🧩",
+     "en": "Patterns",
+     "ms": "Pola",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🔴",
+       "kind": "emoji",
+       "en": "red",
+       "ms": "merah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🔵",
+       "kind": "emoji",
+       "en": "blue",
+       "ms": "biru",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🟡",
+       "kind": "emoji",
+       "en": "yellow",
+       "ms": "kuning",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🟢",
+       "kind": "emoji",
+       "en": "green",
+       "ms": "hijau",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "ma-wang",
+     "emoji": "💰",
+     "en": "Money",
+     "ms": "Wang",
+     "kind": "number",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "5",
+       "kind": "number",
+       "en": "five sen",
+       "ms": "lima sen",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "10",
+       "kind": "number",
+       "en": "ten sen",
+       "ms": "sepuluh sen",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "20",
+       "kind": "number",
+       "en": "twenty sen",
+       "ms": "dua puluh sen",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "50",
+       "kind": "number",
+       "en": "fifty sen",
+       "ms": "lima puluh sen",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "100",
+       "kind": "number",
+       "en": "one ringgit",
+       "ms": "satu ringgit",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "ma-masa",
+     "emoji": "⏰",
+     "en": "Time",
+     "ms": "Masa",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🌅",
+       "kind": "emoji",
+       "en": "morning",
+       "ms": "pagi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌞",
+       "kind": "emoji",
+       "en": "afternoon",
+       "ms": "tengah hari",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌇",
+       "kind": "emoji",
+       "en": "evening",
+       "ms": "petang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌜",
+       "kind": "emoji",
+       "en": "night",
+       "ms": "malam",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📅",
+       "kind": "emoji",
+       "en": "today",
+       "ms": "hari ini",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "⏰",
+       "kind": "emoji",
+       "en": "clock",
+       "ms": "jam",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📆",
+       "kind": "emoji",
+       "en": "day",
+       "ms": "hari",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "sa-deria",
+     "emoji": "🖐️",
+     "en": "My Senses",
+     "ms": "Deria Saya",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "👁",
+       "kind": "emoji",
+       "en": "see",
+       "ms": "lihat",
+       "word": "eye",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👂",
+       "kind": "emoji",
+       "en": "hear",
+       "ms": "dengar",
+       "word": "ear",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👃",
+       "kind": "emoji",
+       "en": "smell",
+       "ms": "hidu",
+       "word": "nose",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👅",
+       "kind": "emoji",
+       "en": "taste",
+       "ms": "rasa",
+       "word": "tongue",
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🤲",
+       "kind": "emoji",
+       "en": "touch",
+       "ms": "sentuh",
+       "word": "hand",
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "sa-haiwan",
+     "emoji": "🐾",
+     "en": "Animals",
+     "ms": "Haiwan",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🐱",
+       "kind": "emoji",
+       "en": "cat",
+       "ms": "kucing",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐕",
+       "kind": "emoji",
+       "en": "dog",
+       "ms": "anjing",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐘",
+       "kind": "emoji",
+       "en": "elephant",
+       "ms": "gajah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦁",
+       "kind": "emoji",
+       "en": "lion",
+       "ms": "singa",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐯",
+       "kind": "emoji",
+       "en": "tiger",
+       "ms": "harimau",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐮",
+       "kind": "emoji",
+       "en": "cow",
+       "ms": "lembu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐑",
+       "kind": "emoji",
+       "en": "sheep",
+       "ms": "kambing biri-biri",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐰",
+       "kind": "emoji",
+       "en": "rabbit",
+       "ms": "arnab",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐸",
+       "kind": "emoji",
+       "en": "frog",
+       "ms": "katak",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐵",
+       "kind": "emoji",
+       "en": "monkey",
+       "ms": "monyet",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐔",
+       "kind": "emoji",
+       "en": "chicken",
+       "ms": "ayam",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦆",
+       "kind": "emoji",
+       "en": "duck",
+       "ms": "itik",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐟",
+       "kind": "emoji",
+       "en": "fish",
+       "ms": "ikan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐦",
+       "kind": "emoji",
+       "en": "bird",
+       "ms": "burung",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐎",
+       "kind": "emoji",
+       "en": "horse",
+       "ms": "kuda",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐢",
+       "kind": "emoji",
+       "en": "turtle",
+       "ms": "kura-kura",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐝",
+       "kind": "emoji",
+       "en": "bee",
+       "ms": "lebah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦋",
+       "kind": "emoji",
+       "en": "butterfly",
+       "ms": "kupu-kupu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐍",
+       "kind": "emoji",
+       "en": "snake",
+       "ms": "ular",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐘",
+       "kind": "emoji",
+       "en": "deer",
+       "ms": "rusa",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "sa-tumbuhan",
+     "emoji": "🌱",
+     "en": "Plants",
+     "ms": "Tumbuh-tumbuhan",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🌳",
+       "kind": "emoji",
+       "en": "tree",
+       "ms": "pokok",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌸",
+       "kind": "emoji",
+       "en": "flower",
+       "ms": "bunga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌱",
+       "kind": "emoji",
+       "en": "seedling",
+       "ms": "anak pokok",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍃",
+       "kind": "emoji",
+       "en": "leaves",
+       "ms": "daun",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌵",
+       "kind": "emoji",
+       "en": "cactus",
+       "ms": "kaktus",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌷",
+       "kind": "emoji",
+       "en": "tulip",
+       "ms": "tulip",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌻",
+       "kind": "emoji",
+       "en": "sunflower",
+       "ms": "bunga matahari",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌿",
+       "kind": "emoji",
+       "en": "herb",
+       "ms": "herba",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍀",
+       "kind": "emoji",
+       "en": "ear of rice",
+       "ms": "padi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌴",
+       "kind": "emoji",
+       "en": "palm tree",
+       "ms": "pokok kelapa",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "sa-buah",
+     "emoji": "🍎",
+     "en": "Fruits",
+     "ms": "Buah-buahan",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🍎",
+       "kind": "emoji",
+       "en": "apple",
+       "ms": "epal",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍌",
+       "kind": "emoji",
+       "en": "banana",
+       "ms": "pisang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍇",
+       "kind": "emoji",
+       "en": "grapes",
+       "ms": "anggur",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍊",
+       "kind": "emoji",
+       "en": "orange",
+       "ms": "oren",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍓",
+       "kind": "emoji",
+       "en": "strawberry",
+       "ms": "strawberi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍉",
+       "kind": "emoji",
+       "en": "watermelon",
+       "ms": "tembikai",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍍",
+       "kind": "emoji",
+       "en": "pineapple",
+       "ms": "nanas",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🥭",
+       "kind": "emoji",
+       "en": "mango",
+       "ms": "mangga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍑",
+       "kind": "emoji",
+       "en": "peach",
+       "ms": "pic",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍒",
+       "kind": "emoji",
+       "en": "cherry",
+       "ms": "ceri",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍐",
+       "kind": "emoji",
+       "en": "pear",
+       "ms": "pir",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🥝",
+       "kind": "emoji",
+       "en": "kiwi",
+       "ms": "kiwi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "sa-cuaca",
+     "emoji": "🌧️",
+     "en": "Weather",
+     "ms": "Cuaca",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "☀️",
+       "kind": "emoji",
+       "en": "sunny",
+       "ms": "cerah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌧️",
+       "kind": "emoji",
+       "en": "rainy",
+       "ms": "hujan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "☁️",
+       "kind": "emoji",
+       "en": "cloudy",
+       "ms": "berawan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌬️",
+       "kind": "emoji",
+       "en": "windy",
+       "ms": "berangin",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "⛈️",
+       "kind": "emoji",
+       "en": "storm",
+       "ms": "ribut",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌈",
+       "kind": "emoji",
+       "en": "rainbow",
+       "ms": "pelangi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "sa-air",
+     "emoji": "💧",
+     "en": "Water",
+     "ms": "Air",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "💧",
+       "kind": "emoji",
+       "en": "water",
+       "ms": "air",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🧊",
+       "kind": "emoji",
+       "en": "ice",
+       "ms": "ais",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "☁️",
+       "kind": "emoji",
+       "en": "cloud",
+       "ms": "awan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌊",
+       "kind": "emoji",
+       "en": "wave",
+       "ms": "ombak",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "sa-terang",
+     "emoji": "💡",
+     "en": "Light and Dark",
+     "ms": "Terang dan Gelap",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "💡",
+       "kind": "emoji",
+       "en": "bright",
+       "ms": "terang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌑",
+       "kind": "emoji",
+       "en": "dark",
+       "ms": "gelap",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🕯️",
+       "kind": "emoji",
+       "en": "candle",
+       "ms": "lilin",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🔌",
+       "kind": "emoji",
+       "en": "electricity",
+       "ms": "elektrik",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "sa-hidup",
+     "emoji": "🌸",
+     "en": "Living Things",
+     "ms": "Benda Hidup",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "👦",
+       "kind": "emoji",
+       "en": "boy",
+       "ms": "budak lelaki",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "👧",
+       "kind": "emoji",
+       "en": "girl",
+       "ms": "budak perempuan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐱",
+       "kind": "emoji",
+       "en": "cat",
+       "ms": "kucing",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐕",
+       "kind": "emoji",
+       "en": "dog",
+       "ms": "anjing",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌳",
+       "kind": "emoji",
+       "en": "tree",
+       "ms": "pokok",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌸",
+       "kind": "emoji",
+       "en": "flower",
+       "ms": "bunga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐟",
+       "kind": "emoji",
+       "en": "fish",
+       "ms": "ikan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🦋",
+       "kind": "emoji",
+       "en": "butterfly",
+       "ms": "kupu-kupu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🐦",
+       "kind": "emoji",
+       "en": "bird",
+       "ms": "burung",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🌱",
+       "kind": "emoji",
+       "en": "plant",
+       "ms": "tumbuhan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "ict-asas",
+     "emoji": "💻",
+     "en": "Using a Computer",
+     "ms": "Penggunaan ICT",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "💻",
+       "kind": "emoji",
+       "en": "computer",
+       "ms": "komputer",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📱",
+       "kind": "emoji",
+       "en": "phone",
+       "ms": "telefon",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📺",
+       "kind": "emoji",
+       "en": "television",
+       "ms": "televisyen",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🖱️",
+       "kind": "emoji",
+       "en": "mouse",
+       "ms": "tetikus",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "⌨️",
+       "kind": "emoji",
+       "en": "keyboard",
+       "ms": "papan kekunci",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "📷",
+       "kind": "emoji",
+       "en": "camera",
+       "ms": "kamera",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "keterampilan",
+   "emoji": "🌟",
+   "en": "Self and Safety",
+   "ms": "Keterampilan Diri",
+   "color": "#7FC7C0",
+   "units": [
+    {
+     "id": "dir-emosi",
+     "emoji": "😄",
+     "en": "My Feelings",
+     "ms": "Emosi Saya",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "😄",
+       "kind": "emoji",
+       "en": "happy",
+       "ms": "gembira",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "😢",
+       "kind": "emoji",
+       "en": "sad",
+       "ms": "sedih",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "😠",
+       "kind": "emoji",
+       "en": "angry",
+       "ms": "marah",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "😨",
+       "kind": "emoji",
+       "en": "afraid",
+       "ms": "takut",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "😴",
+       "kind": "emoji",
+       "en": "tired",
+       "ms": "letih",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🤔",
+       "kind": "emoji",
+       "en": "curious",
+       "ms": "ingin tahu",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🥰",
+       "kind": "emoji",
+       "en": "proud",
+       "ms": "bangga",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "😌",
+       "kind": "emoji",
+       "en": "calm",
+       "ms": "tenang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "dir-bersih",
+     "emoji": "🧼",
+     "en": "Staying Clean",
+     "ms": "Kebersihan Diri",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🧼",
+       "kind": "emoji",
+       "en": "wash hands",
+       "ms": "basuh tangan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🪥",
+       "kind": "emoji",
+       "en": "brush teeth",
+       "ms": "gosok gigi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🛁",
+       "kind": "emoji",
+       "en": "bath",
+       "ms": "mandi",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "💤",
+       "kind": "emoji",
+       "en": "sleep",
+       "ms": "tidur",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🍴",
+       "kind": "emoji",
+       "en": "eat",
+       "ms": "makan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🧴",
+       "kind": "emoji",
+       "en": "comb hair",
+       "ms": "sikat rambut",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "dir-selamat",
+     "emoji": "⚠️",
+     "en": "Staying Safe",
+     "ms": "Keselamatan Diri",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🚫",
+       "kind": "emoji",
+       "en": "do not touch",
+       "ms": "jangan sentuh",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚗",
+       "kind": "emoji",
+       "en": "hold hands",
+       "ms": "pegang tangan",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚶",
+       "kind": "emoji",
+       "en": "walk carefully",
+       "ms": "jalan berhati-hati",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🔥",
+       "kind": "emoji",
+       "en": "hot",
+       "ms": "panas",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "⚠️",
+       "kind": "emoji",
+       "en": "dangerous",
+       "ms": "bahaya",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚦",
+       "kind": "emoji",
+       "en": "traffic light",
+       "ms": "lampu isyarat",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    },
+    {
+     "id": "dir-kenderaan",
+     "emoji": "🚗",
+     "en": "Vehicles",
+     "ms": "Kenderaan",
+     "kind": "emoji",
+     "code": null,
+     "note": null,
+     "items": [
+      {
+       "symbol": "🚗",
+       "kind": "emoji",
+       "en": "car",
+       "ms": "kereta",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚌",
+       "kind": "emoji",
+       "en": "bus",
+       "ms": "bas",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚒",
+       "kind": "emoji",
+       "en": "fire engine",
+       "ms": "kereta bomba",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚑",
+       "kind": "emoji",
+       "en": "ambulance",
+       "ms": "ambulans",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚲",
+       "kind": "emoji",
+       "en": "bicycle",
+       "ms": "basikal",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚵",
+       "kind": "emoji",
+       "en": "motorcycle",
+       "ms": "motosikal",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "✈️",
+       "kind": "emoji",
+       "en": "aeroplane",
+       "ms": "kapal terbang",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚢",
+       "kind": "emoji",
+       "en": "ship",
+       "ms": "kapal",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      },
+      {
+       "symbol": "🚆",
+       "kind": "emoji",
+       "en": "train",
+       "ms": "kereta api",
+       "word": null,
+       "spokenEn": null,
+       "spokenMs": null
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "themes": [
+  {
+   "week": 1,
+   "en": "Orientation",
+   "ms": "Orientasi",
+   "note": ""
+  },
+  {
+   "week": 2,
+   "en": "Myself",
+   "ms": "Diri Saya",
+   "note": ""
+  },
+  {
+   "week": 3,
+   "en": "My Body",
+   "ms": "Anggota Badan",
+   "note": ""
+  },
+  {
+   "week": 4,
+   "en": "My Family",
+   "ms": "Keluarga Saya",
+   "note": ""
+  },
+  {
+   "week": 5,
+   "en": "My Country",
+   "ms": "Negara Saya",
+   "note": "Chinese New Year"
+  },
+  {
+   "week": 6,
+   "en": "My School",
+   "ms": "Sekolah Saya",
+   "note": ""
+  },
+  {
+   "week": 7,
+   "en": "My Friends",
+   "ms": "Kawan Saya",
+   "note": ""
+  },
+  {
+   "week": 8,
+   "en": "My Neighbours",
+   "ms": "Jiran Saya",
+   "note": ""
+  },
+  {
+   "week": 9,
+   "en": "Keeping Clean",
+   "ms": "Kebersihan Diri",
+   "note": ""
+  },
+  {
+   "week": 10,
+   "en": "Staying Safe",
+   "ms": "Keselamatan Diri",
+   "note": ""
+  },
+  {
+   "week": 11,
+   "en": "My House",
+   "ms": "Rumah Saya",
+   "note": ""
+  },
+  {
+   "week": 12,
+   "en": "My Feelings",
+   "ms": "Emosi Diri",
+   "note": ""
+  },
+  {
+   "week": 13,
+   "en": "Food",
+   "ms": "Makanan",
+   "note": ""
+  },
+  {
+   "week": 14,
+   "en": "Water",
+   "ms": "Air",
+   "note": ""
+  },
+  {
+   "week": 15,
+   "en": "Sand",
+   "ms": "Pasir",
+   "note": ""
+  },
+  {
+   "week": 16,
+   "en": "Clothes",
+   "ms": "Pakaian",
+   "note": ""
+  },
+  {
+   "week": 17,
+   "en": "Tools",
+   "ms": "Peralatan",
+   "note": ""
+  },
+  {
+   "week": 18,
+   "en": "Land Vehicles",
+   "ms": "Kenderaan Darat",
+   "note": ""
+  },
+  {
+   "week": 19,
+   "en": "Air Vehicles",
+   "ms": "Kenderaan Udara",
+   "note": ""
+  },
+  {
+   "week": 20,
+   "en": "Water Vehicles",
+   "ms": "Kenderaan Air",
+   "note": ""
+  },
+  {
+   "week": 21,
+   "en": "Public Places",
+   "ms": "Kemudahan Awam",
+   "note": ""
+  },
+  {
+   "week": 22,
+   "en": "Pets",
+   "ms": "Haiwan Jinak",
+   "note": ""
+  },
+  {
+   "week": 23,
+   "en": "Wild Animals",
+   "ms": "Haiwan Liar",
+   "note": ""
+  },
+  {
+   "week": 24,
+   "en": "Sea Animals",
+   "ms": "Haiwan Air",
+   "note": ""
+  },
+  {
+   "week": 25,
+   "en": "Insects",
+   "ms": "Serangga",
+   "note": ""
+  },
+  {
+   "week": 26,
+   "en": "Plants",
+   "ms": "Tumbuh-tumbuhan",
+   "note": ""
+  },
+  {
+   "week": 27,
+   "en": "Vegetables",
+   "ms": "Sayur-sayuran",
+   "note": ""
+  },
+  {
+   "week": 28,
+   "en": "Fruits",
+   "ms": "Buah-buahan",
+   "note": ""
+  },
+  {
+   "week": 29,
+   "en": "Flowers",
+   "ms": "Bunga",
+   "note": ""
+  },
+  {
+   "week": 30,
+   "en": "Caring for Nature",
+   "ms": "Sayangi Alam Sekitar",
+   "note": ""
+  },
+  {
+   "week": 31,
+   "en": "My Country",
+   "ms": "Negara Saya",
+   "note": "Independence Day"
+  },
+  {
+   "week": 32,
+   "en": "Hari Raya",
+   "ms": "Hari Raya Aidilfitri",
+   "note": ""
+  },
+  {
+   "week": 33,
+   "en": "Weather",
+   "ms": "Cuaca",
+   "note": ""
+  },
+  {
+   "week": 34,
+   "en": "Uniformed Jobs",
+   "ms": "Pekerjaan Beruniform",
+   "note": ""
+  },
+  {
+   "week": 35,
+   "en": "Other Jobs",
+   "ms": "Pekerjaan Tidak Beruniform",
+   "note": ""
+  },
+  {
+   "week": 36,
+   "en": "Building",
+   "ms": "Pembinaan",
+   "note": ""
+  },
+  {
+   "week": 37,
+   "en": "Traditional Songs",
+   "ms": "Lagu dan Muzik Tradisional",
+   "note": ""
+  },
+  {
+   "week": 38,
+   "en": "Craft",
+   "ms": "Seni Kraf",
+   "note": ""
+  },
+  {
+   "week": 39,
+   "en": "Deepavali",
+   "ms": "Deepavali",
+   "note": ""
+  },
+  {
+   "week": 40,
+   "en": "Traditional Games",
+   "ms": "Permainan Tradisional",
+   "note": ""
+  },
+  {
+   "week": 41,
+   "en": "Ready for Year One",
+   "ms": "Persediaan ke Tahun Satu",
+   "note": "Graduation"
+  },
+  {
+   "week": 42,
+   "en": "Transition",
+   "ms": "Transisi ke Tahun Satu",
+   "note": ""
+  }
+ ]
+}

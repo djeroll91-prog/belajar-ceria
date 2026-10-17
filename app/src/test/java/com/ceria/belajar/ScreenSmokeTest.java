@@ -42,25 +42,25 @@ public class ScreenSmokeTest {
         MainActivity host = launch();
 
         MainActivity.Screen[] screens = new MainActivity.Screen[]{
-                new LevelMapScreen(host),
-                new LearnScreen(host, Content.LETTERS, LearnScreen.Mode.LETTER),
-                new LearnScreen(host, Content.NUMBERS, LearnScreen.Mode.NUMBER),
-                new LearnScreen(host, Content.WORDS, LearnScreen.Mode.WORD),
-                new LearnScreen(host, Content.COLOR_ITEMS, LearnScreen.Mode.WORD),
-                new LearnScreen(host, Content.BODY, LearnScreen.Mode.WORD),
-                new LearnScreen(host, Content.ANIMALS, LearnScreen.Mode.WORD),
-                new LearnScreen(host, Content.PLANTS, LearnScreen.Mode.WORD),
-                new LearnScreen(host, Content.FRUITS, LearnScreen.Mode.WORD),
-                new LearnScreen(host, Content.LIVING, LearnScreen.Mode.WORD),
-                new LearnScreen(host, Content.JAWI, LearnScreen.Mode.WORD),
-                new LearnScreen(host, Content.ARABIC, LearnScreen.Mode.WORD),
+                new LearnScreen(host, Content.unitById("bm-huruf")),
+                new LearnScreen(host, Content.unitById("bm-suku-kata")),
+                new LearnScreen(host, Content.unitById("fiz-warna")),
+                new LearnScreen(host, Content.unitById("bm-jawi")),
+                new UnitScreen(host, Content.unitById("bm-perkataan")),
+                new TunjangScreen(host, Content.TUNJANG.get(0)),
+                new ReviewScreen(host),
+                new ThemesScreen(host),
+                new SettingsScreen(host),
+                new GamesScreen(host),
+                new QuizScreen(host, Content.unitById("bm-huruf")),
+                new QuizScreen(host, Content.unitById("ma-nombor")),
                 new SentenceScreen(host),
                 new SpeakScreen(host),
-                new QuizGame(host),
                 new SpellGame(host),
+                new SpellGame(host, Content.unitById("bm-suku-kata-kata")),
+                new MemoryGame(host, Content.unitById("sa-buah")),
                 new OddOneOutGame(host),
                 new CountGame(host),
-                new MemoryGame(host),
                 new PatternGame(host),
                 new BubblePopGame(host),
                 new SortGame(host),
@@ -149,11 +149,29 @@ public class ScreenSmokeTest {
     }
 
     @Test
-    public void eachCurriculumLevelOpensInTheQuiz() {
+    public void everyUnitOpensInTheQuiz() {
         MainActivity host = launch();
-        for (Curriculum.Level level : Curriculum.LEVELS) {
-            View view = new QuizGame(host, level).build();
-            assertNotNull(view);
+        for (Content.Unit unit : Content.UNITS) {
+            View view = new QuizScreen(host, unit).build();
+            assertNotNull("quiz failed for " + unit.id, view);
+        }
+    }
+
+    @Test
+    public void everyUnitOpensAsFlashcards() {
+        MainActivity host = launch();
+        for (Content.Unit unit : Content.UNITS) {
+            View view = new LearnScreen(host, unit).build();
+            assertNotNull("flashcards failed for " + unit.id, view);
+        }
+    }
+
+    @Test
+    public void everyTunjangOpens() {
+        MainActivity host = launch();
+        for (Content.Tunjang tunjang : Content.TUNJANG) {
+            View view = new TunjangScreen(host, tunjang).build();
+            assertNotNull("tunjang failed for " + tunjang.id, view);
         }
     }
 

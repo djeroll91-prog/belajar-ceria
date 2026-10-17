@@ -17,11 +17,13 @@ public abstract class BaseScreen implements MainActivity.Screen {
 
     protected final MainActivity host;
     protected final Content.Lang lang;
+    protected final Theme theme;
     protected FrameLayout body;
 
     protected BaseScreen(MainActivity host) {
         this.host = host;
         this.lang = host.lang();
+        this.theme = host.theme();
     }
 
     protected String t(String en, String ms) {
@@ -37,11 +39,6 @@ public abstract class BaseScreen implements MainActivity.Screen {
         FrameLayout backdrop = new FrameLayout(host);
         backdrop.addView(new StorySceneView(host), new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        View scrim = new View(host);
-        scrim.setBackgroundColor(0x1AFFFFFF);
-        backdrop.addView(scrim, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         LinearLayout root = new LinearLayout(host);
         root.setOrientation(LinearLayout.VERTICAL);
 
@@ -49,19 +46,19 @@ public abstract class BaseScreen implements MainActivity.Screen {
         bar.setOrientation(LinearLayout.HORIZONTAL);
         bar.setGravity(Gravity.CENTER_VERTICAL);
         bar.setPadding(dp(10), dp(8), dp(10), dp(8));
-        bar.setBackgroundColor(0x33FFFFFF);
 
-        TextView back = Util.text(host, "\u2B05\uFE0F", 22, Color.WHITE);
-        back.setBackground(Util.rounded(0xFF7C4DFF, dp(18)));
-        back.setPadding(dp(14), dp(4), dp(14), dp(4));
+        TextView back = Util.text(host, "\u2B05\uFE0F", 20, theme.ink());
+        back.setBackground(Util.roundedStroke(theme.surface(), dp(16), theme.line(), dp(2)));
+        back.setPadding(dp(14), dp(7), dp(14), dp(7));
         back.setOnClickListener(v -> {
             host.sfx().tap();
             host.showHome();
         });
         bar.addView(back);
 
-        TextView title = Util.text(host, titleText(), 19, 0xFF4A148C);
+        TextView title = Util.text(host, titleText(), 19, theme.ink());
         title.setTypeface(null, android.graphics.Typeface.BOLD);
+        title.setGravity(Gravity.CENTER_VERTICAL);
         LinearLayout.LayoutParams titleLp = new LinearLayout.LayoutParams(
                 0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
         titleLp.setMargins(dp(12), 0, 0, 0);

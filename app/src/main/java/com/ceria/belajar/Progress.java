@@ -274,4 +274,140 @@ public class Progress {
     public void resetAll() {
         prefs.edit().clear().apply();
     }
+
+    // ------------------------------------------------------------------
+    // Per-item mastery (Leitner boxes)
+    //
+    // Every item a child meets gets a box from 0 to 4. A correct answer
+    // promotes it; a wrong answer drops it back to 0. Items sitting in a low
+    // box are the ones worth practising again, which is what turns "review"
+    // from a random quiz into practice aimed at what this child finds hard.
+    // ------------------------------------------------------------------
+
+    public static final int MAX_BOX = 4;
+
+    /** A stable id for an item, used as the storage key. */
+    public static String keyOf(Content.Item item) {
+        if (item == null || item.symbol == null) {
+            return "unknown";
+        }
+        if (Content.isLetterItem(item)) {
+            return Content.letterGlyph(item);
+        }
+        return item.symbol + "|" + item.en;
+    }
+
+    private static String statKey(String unitId, String itemKey) {
+        return "stat_" + unitId + "_" + itemKey;
+    }
+
+    /** Records one answer and returns true when it was promoted to the top box. */
+    public boolean recordAnswer(String unitId, String itemKey, boolean correct) {
+        String key = statKey(unitId, itemKey);
+        int box = prefs.getInt(key + "_box", 0);
+        int right = prefs.getInt(key + "_c", 0);
+        int wrong = prefs.getInt(key + "_w", 0);
+        if (correct) {
+            box = Math.min(MAX_BOX, box + 1);
+            right++;
+        } else {
+            box = 0;
+            wrong++;
+        }
+        prefs.edit()
+                .putInt(key + "_box", box)
+                .putInt(key + "_c", right)
+                .putInt(key + "_w", wrong)
+                .apply();
+        return correct && box == MAX_BOX;
+    }
+
+    public int boxOf(String unitId, String itemKey) {
+        return prefs.getInt(statKey(unitId, itemKey) + "_box", 0);
+    }
+
+    public int rightOf(String unitId, String itemKey) {
+        return prefs.getInt(statKey(unitId, itemKey) + "_c", 0);
+    }
+
+    public int wrongOf(String unitId, String itemKey) {
+        return prefs.getInt(statKey(unitId, itemKey) + "_w", 0);
+    }
+
+    /** True once the child has met this item at all. */
+    public boolean hasSeen(String unitId, String itemKey) {
+        return boxOf(unitId, itemKey) > 0 || wrongOf(unitId, itemKey) > 0;
+    }
+
+    /** How many items of a unit sit in the top box. */
+    public int masteredIn(Content.Unit unit) {
+        int done = 0;
+        for (Content.Item item : unit.items) {
+            if (boxOf(unit.id, keyOf(item)) >= 2) {
+                done++;
+            }
+        }
+        return done;
+    }
+
+    /** Every item the child has met, for the review queue. */
+    public List<Seen> seenItems() {
+        List<Seen> out = new ArrayList<>();
+        for (Content.Unit unit : Content.UNITS) {
+            for (Content.Item item : unit.items) {
+                String key = keyOf(item);
+                int right = rightOf(unit.id, key);
+                int wrong = wrongOf(unit.id, key);
+                if (right == 0 && wrong == 0) {
+                    continue;
+                }
+                out.add(new Seen(unit, item, key, right, wrong, boxOf(unit.id, key)));
+            }
+        }
+        return out;
+    }
+
+    /** One item the child has answered at least once. */
+    public static class Seen {
+        public final Content.Unit unit;
+        public final Content.Item item;
+        public final String key;
+        public final int right;
+        public final int wrong;
+        public final int box;
+
+        Seen(Content.Unit unit, Content.Item item, String key, int right, int wrong, int box) {
+            this.unit = unit;
+            this.item = item;
+            this.key = key;
+            this.right = right;
+            this.wrong = wrong;
+            this.box = box;
+        }
+
+        public int accuracy() {
+            int total = right + wrong;
+            return total == 0 ? 0 : right * 100 / total;
+        }
+
+        /**
+         * How badly this item needs practice. Wrong answers dominate, then a low
+         * box, and a long run of right answers pulls it back down so an item the
+         * child has clearly learned stops crowding the queue.
+         */
+        public float weakness() {
+            return wrong * 3f + (MAX_BOX - box) - right * 0.5f;
+        }
+    }
+
+    /** Wipes only the mastery record, leaving points, stars and badges alone. */
+    public void resetMastery() {
+        android.content.SharedPreferences.Editor edit = prefs.edit();
+        for (String key : prefs.getAll().keySet()) {
+            if (key.startsWith("stat_")) {
+                edit.remove(key);
+            }
+        }
+        edit.apply();
+    }
 }

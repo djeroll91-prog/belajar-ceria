@@ -4,35 +4,36 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.Random;
-
 /**
- * A soft, painted backdrop for every screen: warm sky, a low sun, slow clouds
- * and rolling green hills.
+ * The calm backdrop behind every screen.
  *
- * It is drawn rather than bundled as an image so it scales from a small phone to
- * a tablet without artefacts, and so the clouds can drift slowly enough to feel
- * calm rather than busy. Animation only runs while the view is attached, so it
- * costs nothing once the screen is closed.
+ * It is a soft vertical gradient with a few very large, very faint drifting
+ * blobs. The shapes are deliberately close to the background colour: a child
+ * needs the content to stand out, not the wallpaper, and a busy background is
+ * what makes letters hard to pick out. Everything is drawn from the active
+ * {@link Theme}, so dark mode is a real change rather than a dimmed copy.
+ *
+ * Drawing rather than bundling an image means it scales from a small phone to a
+ * tablet without artefacts. Animation only runs while the view is attached.
  */
 public class StorySceneView extends View {
 
+    private static final int BLOB_COUNT = 4;
+    private static final long FRAME_MS = 66;      // ~15 fps: a calm drift is enough
+
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final Path hillPath = new Path();
+    private final float[] blobX = new float[BLOB_COUNT];
+    private final float[] blobY = new float[BLOB_COUNT];
+    private final float[] blobScale = new float[BLOB_COUNT];
+    private final float[] blobSpeed = new float[BLOB_COUNT];
 
-    private static final int CLOUD_COUNT = 5;
-    private final float[] cloudX = new float[CLOUD_COUNT];
-    private final float[] cloudY = new float[CLOUD_COUNT];
-    private final float[] cloudScale = new float[CLOUD_COUNT];
-    private final float[] cloudSpeed = new float[CLOUD_COUNT];
-
+    private final Theme theme;
     private long startTime;
     private boolean built;
 
@@ -43,12 +44,21 @@ public class StorySceneView extends View {
     public StorySceneView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
-        Random random = new Random(7);      // fixed seed: same calm sky every launch
-        for (int i = 0; i < CLOUD_COUNT; i++) {
-            cloudX[i] = random.nextFloat();
-            cloudY[i] = 0.05f + random.nextFloat() * 0.34f;
-            cloudScale[i] = 0.6f + random.nextFloat() * 0.8f;
-            cloudSpeed[i] = 0.004f + random.nextFloat() * 0.010f;   // screens per second
+        theme = context instanceof MainActivity ? ((MainActivity) context).theme() : new Theme(context);
+
+        // Fixed positions: the same calm backdrop every launch, so the app feels
+        // familiar rather than random.
+        float[][] seed = {
+                {0.15f, 0.12f, 1.35f, 0.0040f},
+                {0.78f, 0.22f, 1.10f, 0.0026f},
+                {0.35f, 0.62f, 1.55f, 0.0033f},
+                {0.88f, 0.78f, 1.20f, 0.0020f},
+        };
+        for (int i = 0; i < BLOB_COUNT; i++) {
+            blobX[i] = seed[i][0];
+            blobY[i] = seed[i][1];
+            blobScale[i] = seed[i][2];
+            blobSpeed[i] = seed[i][3];
         }
     }
 
@@ -56,8 +66,6 @@ public class StorySceneView extends View {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         startTime = SystemClock.uptimeMillis();
-        // A slow repaint is enough for drifting clouds and far cheaper than a
-        // frame-by-frame animator.
         postInvalidateOnAnimation();
     }
 
@@ -70,78 +78,46 @@ public class StorySceneView extends View {
             return;
         }
         if (!built) {
-            buildSky(w, h);
+            buildGradient(h);
             built = true;
         }
 
         canvas.drawRect(0, 0, w, h, paint);
-
-        drawSun(canvas, w, h);
-
-        float elapsed = (SystemClock.uptimeMillis() - startTime) / 1000f;
-        for (int i = 0; i < CLOUD_COUNT; i++) {
-            float x = (cloudX[i] + elapsed * cloudSpeed[i]) % 1.4f - 0.2f;
-            drawCloud(canvas, x * w, cloudY[i] * h, cloudScale[i] * w * 0.22f, h);
-        }
-
-        drawHills(canvas, w, h);
-
-        postInvalidateOnAnimation();
+        drawBlobs(canvas, w, h);
     }
 
-    private void buildSky(int w, int h) {
+    private void buildGradient(int h) {
+        int top = theme.isDark()
+                ? Theme.lighten(theme.bg(), 0.06f)
+                : Theme.lighten(theme.bg(), 0.35f);
         paint.setShader(new LinearGradient(0, 0, 0, h,
-                new int[]{Util.SKY_TOP, Util.SKY_MID, Util.SKY_WARM},
-                new float[]{0f, 0.55f, 1f}, Shader.TileMode.CLAMP));
+                new int[]{top, theme.bg(), theme.surface2()},
+                new float[]{0f, 0.62f, 1f}, Shader.TileMode.CLAMP));
     }
 
-    /** A soft low sun; its halo is what makes the sky feel warm rather than flat. */
-    private void drawSun(Canvas canvas, int w, int h) {
-        float sx = w * 0.78f;
-        float sy = h * 0.16f;
-        float halo = Math.min(w, h) * 0.55f;
-        paint.setShader(new RadialGradient(sx, sy, halo,
-                new int[]{0x99FFF3B0, 0x44FFE9A0, 0x00FFF0B8},
-                new float[]{0f, 0.45f, 1f}, Shader.TileMode.CLAMP));
-        canvas.drawCircle(sx, sy, halo, paint);
+    private void drawBlobs(Canvas canvas, int w, int h) {
+        float elapsed = (SystemClock.uptimeMillis() - startTime) / 1000f;
+        int base = theme.accent();
+        float opacity = theme.isDark() ? 0.10f : 0.07f;
+
+        for (int i = 0; i < BLOB_COUNT; i++) {
+            float x = (blobX[i] + elapsed * blobSpeed[i]) % 1.3f - 0.15f;
+            float radius = Math.min(w, h) * 0.42f * blobScale[i];
+            int tint = i % 2 == 0 ? base : theme.line();
+            paint.setShader(new RadialGradient(x * w, blobY[i] * h, radius,
+                    new int[]{withAlpha(tint, opacity), withAlpha(tint, 0f)},
+                    new float[]{0f, 1f}, Shader.TileMode.CLAMP));
+            canvas.drawCircle(x * w, blobY[i] * h, radius, paint);
+        }
         paint.setShader(null);
-        paint.setColor(Util.SUN_GLOW);
-        canvas.drawCircle(sx, sy, Math.min(w, h) * 0.075f, paint);
+
+        if (isAttachedToWindow()) {
+            postInvalidateDelayed(FRAME_MS);
+        }
     }
 
-    private void drawCloud(Canvas canvas, float cx, float cy, float radius, int h) {
-        int glow = (int) (radius * 1.9f);
-        paint.setShader(new RadialGradient(cx, cy, glow,
-                new int[]{Util.CLOUD, 0x66FFFFFF, 0x00FFFFFF},
-                new float[]{0f, 0.55f, 1f}, Shader.TileMode.CLAMP));
-        canvas.drawCircle(cx, cy, glow, paint);
-
-        // A few overlapping blobs give the cloud a hand-painted edge.
-        paint.setShader(null);
-        paint.setColor(Util.CLOUD);
-        canvas.drawCircle(cx, cy, radius * 0.62f, paint);
-        canvas.drawCircle(cx - radius * 0.62f, cy + radius * 0.14f, radius * 0.44f, paint);
-        canvas.drawCircle(cx + radius * 0.60f, cy + radius * 0.18f, radius * 0.40f, paint);
-        canvas.drawCircle(cx + radius * 0.12f, cy - radius * 0.34f, radius * 0.42f, paint);
-    }
-
-    private void drawHills(Canvas canvas, int w, int h) {
-        // Distant hills, then a nearer meadow so the scene has depth.
-        drawHill(canvas, w, h, h * 0.68f, h * 0.16f, Util.MEADOW);
-        drawHill(canvas, w, h, h * 0.82f, h * 0.14f, Util.MEADOW_DEEP);
-    }
-
-    private void drawHill(Canvas canvas, int w, int h, float baseY, float crest, int color) {
-        hillPath.reset();
-        hillPath.moveTo(-w * 0.1f, h);
-        hillPath.lineTo(-w * 0.1f, baseY);
-        // Two gentle arcs read as soft rolling ground rather than a sine wave.
-        hillPath.quadTo(w * 0.22f, baseY - crest, w * 0.5f, baseY - crest * 0.35f);
-        hillPath.quadTo(w * 0.78f, baseY + crest * 0.22f, w * 1.1f, baseY - crest * 0.5f);
-        hillPath.lineTo(w * 1.1f, h);
-        hillPath.close();
-        paint.setShader(null);
-        paint.setColor(color);
-        canvas.drawPath(hillPath, paint);
+    private static int withAlpha(int color, float alpha) {
+        int a = Math.round(255 * Math.max(0f, Math.min(1f, alpha)));
+        return (a << 24) | (color & 0x00FFFFFF);
     }
 }

@@ -37,35 +37,60 @@ timeout kills foreground commands that take more than a few minutes.
   the content frame. Screens implement `MainActivity.Screen` and are mounted with
   `host.open(...)`.
 - `BaseScreen` - toolbar + body skeleton shared by all screens.
-- `Content` - all bilingual (EN/MS) data, plus Jawi and Arabic letters. Also
-  defines `Swatch` for colours and helpers `isColorItem`, `isScriptItem`.
-- `Curriculum` - the ordered level list. Each level has a `passScore`.
-- `Progress` - SharedPreferences store: points, stars, badges, streak, language
-  and the per-level best score / unlock state.
+- `Content` - all bilingual (EN/MS) content, generated from `data/kspk.json` by
+  `tools/build_content.py`. Edit the JSON, never `Content.java`: the next
+  regeneration overwrites it. The shape is six KSPK *tunjang*, each holding
+  *units*, each holding *items* (and, for sentence units, *sentences*). Also
+  defines `Swatch` for colours and the helpers `isColorItem`, `isScriptItem`,
+  `isLetterItem`, `glyphOf`, `displayOf`, `spokenOf`, `tunjangIdOf`.
+- Content helpers belong in the generator. `displayOf`/`spokenOf`/`tunjangIdOf`
+  and the `CURRICULUM_*` constants are emitted by `tools/build_content.py`, so a
+  hand edit to `Content.java` survives exactly until the next regeneration.
+- `Progress` - SharedPreferences store: points, stars, badges, streak, language,
+  and a Leitner box per item (`recordAnswer`, `boxOf`, `masteredIn`). Weak-unit
+  detection feeds the review screen. Also holds the theme mode.
+- `Theme` - the colour palette, light and dark. Screens read colours from here
+  rather than hard-coding them, so dark mode works everywhere.
+- `Review` - decides what a child should practise: wrong items first, then weak
+  units. Nothing in it is random.
+- Screens: `MainActivity` home (tunjang grid + activities), `TunjangScreen`
+  (units of one tunjang), `UnitScreen` (learn/quiz/build/match for one unit),
+  `LearnScreen` (flashcards), `QuizScreen` (a unit quiz, or a review queue),
+  `ReviewScreen`, `GamesScreen`, `ThemesScreen`, `SettingsScreen`.
 - Custom views: `RobotView` (animated mascot "Bobo"), `CelebrationView`
-  (confetti), `ColorPageView` (colouring canvas), `StorySceneView` (painted
-  backdrop shared by every screen).
-- Mini games: `QuizGame`, `MemoryGame`, `CountGame`, `SpellGame` (build a word
-  from letter tiles), `OddOneOutGame` (pick the item from a different group),
-  `ColoringScreen`. `SpellGame` and `OddOneOutGame` both derive their data from
-  `Content` groups, so new content automatically appears in them.
-- Brain-training games added in v1.5: `PatternGame` (finish a repeating pattern;
-  distractors come from the pattern's own pictures, never from a wider pool, or
-  the answer can be guessed by spotting the odd picture out), `BubblePopGame`
-  (tap the drifting bubbles that match the target; draws in `dispatchDraw` of a
-  `FrameLayout` and drives motion from an `ObjectAnimator` clock), `SortGame`
-  (tap a picture, then tap its basket), `MathGame` (first sums, always drawn with
-  countable pictures), `TraceGame` (trace a letter/number/Jawi glyph; the guide
-  path is sampled with `PathMeasure` and praise is only given once 55% of the
-  outline has been covered), `JawiSpeakGame` (say the Jawi letter name).
+  (confetti), `ColorPageView` (colouring canvas), `StorySceneView` (flat themed
+  backdrop shared by every screen, dark-mode aware).
+- Mini games: `MemoryGame` (matching pairs), `CountGame`, `SpellGame` (build a
+  word from syllables in Malay, letters in English), `OddOneOutGame`, and the
+  brain-training set: `PatternGame` (finish a repeating pattern; distractors come
+  from the pattern's own pictures, never from a wider pool, or the answer can be
+  guessed by spotting the odd picture out), `BubblePopGame` (tap the drifting
+  bubbles that match the target; draws in `dispatchDraw` of a `FrameLayout` and
+  drives motion from an `ObjectAnimator` clock), `SortGame` (tap a picture, then
+  tap its basket), `MathGame` (first sums, always drawn with countable pictures),
+  `TraceGame` (trace a letter/number/Jawi glyph; the guide path is sampled with
+  `PathMeasure` and praise is only given once 55% of the outline has been
+  covered), `JawiSpeakGame` (say the Jawi letter name).
+- Malay reading is taught through syllables (`bm-suku-kata`), not letters: a
+  child who knows "ba" and "ju" can read "baju" without the alphabet names. That
+  is why `SpellGame` chunks Malay by two and English by one.
 - Letter data gotcha: a letter's `Item.symbol` is stored as `"A|🍎"` (glyph, then
   a pipe, then the picture emoji). Never draw `item.symbol` directly. Use
   `Content.glyphOf(item)` for the glyph and `Content.letterEmoji(item)` for the
   picture, or the tile shows the pipe and the emoji.
+- Identify letters by shape, not by list membership. `Content.isLetterItem` checks
+  the `"A|🍎"` shape, and `Progress.keyOf` uses it. The generated lists
+  (`LETTERS`, `NUMBERS`, ...) now share the very same `Item` objects as the units,
+  via the generator's `lastOf(unit)` helper, but a shape test cannot be broken by
+  a future change to how the lists are built. A tile that prints the picture's
+  name beside a letter gives the answer away and teaches the wrong sound, so
+  letter quiz tiles show the glyph only.
 - Background music is chosen per screen by `MainActivity.trackFor`. Screens whose
   name ends in `Game`, plus everything in `QUIET_SCREENS` (microphone, karaoke,
-  recording studio, rewards), get `MusicPlayer.SILENT` and stop the loop, because
-  a tune under a child who is thinking or listening is noise. `MusicPlayer.SILENT`
+  recording studio, rewards, `QuizScreen`), get `MusicPlayer.SILENT` and stop the
+  loop, because a tune under a child who is thinking or listening is noise.
+  `QuizScreen` is in there by name because it does not end in `Game` but is one.
+  `MusicPlayer.SILENT`
   is a real state, not a missing file, so `play` must release the player for it.
 - Music and sound effects have separate toggles in the header. Do not fold them
   back into one switch: a parent who finds the tune distracting should not have to
@@ -102,13 +127,21 @@ Getting this right is a product requirement, not a detail.
 
 ## Product rules that must not regress
 
-1. Levels are gated. `Progress.isUnlocked` / `highestUnlocked` only advance when
-   the quiz score reaches the level's `passScore`. Children must not skip ahead.
-2. Feedback is always encouraging. Wrong answers reset the streak but never
-   remove points or stars, and always invite another attempt.
-3. Everything is bilingual. New content must provide English and Bahasa Melayu
-   strings, and route spoken text through `SpeechHelper` so TTS picks the locale.
-4. Jawi letter names are never accepted when spelled out. See the section above;
+1. Content follows the KSPK. `data/kspk.json` is the single source, generated into
+   `Content.java` and `web/data.js`. A unit carries a KSPK code only where the
+   official document was read directly; a null code means the unit is placed by
+   tunjang and theme and must not be presented as a standard. Run
+   `python3 tools/build_content.py --check` before committing: it fails if either
+   generated file is out of date.
+2. Progress is mastery-based, not level-gated. `Progress` keeps a Leitner box per
+   item; `Review` turns the wrong ones into the next thing to practise. There are
+   no locked screens: a child may open any tunjang at any time.
+3. Feedback is always encouraging. Wrong answers lower the box and invite another
+   attempt but never remove points or stars.
+4. Everything is bilingual. New content must provide English and Bahasa Melayu
+   strings, and route spoken text through `Content.spokenOf` so letters are said
+   by name ("ei") and everything else by its own spoken form.
+5. Jawi letter names are never accepted when spelled out. See the section above;
    `SpeechHelper.matchesStrict` is mandatory for script letters.
 
 ## Icons

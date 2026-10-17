@@ -1,7 +1,5 @@
 package com.ceria.belajar;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +13,18 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Word building game: the child sees a picture, hears the word, then taps the
- * letters in order to spell it.
+ * Word building: the child hears a word, then taps its syllables (Malay) or its
+ * letters (English) in the right order.
  *
- * It only uses short single words from the learning content, and reads the word
- * out loud on every round, so a child who cannot read the clue yet can still
- * play by listening.
+ * Malay is built from syllables because that is how it is taught in tadika: a
+ * child who knows "ba" and "ju" can read "baju" without knowing the alphabet
+ * names. English is built from letters, since English syllables are irregular.
  */
 public class SpellGame extends BaseScreen {
 
-    private static final int TOTAL_ROUNDS = 8;
-    private static final int MAX_LETTERS = 6;
+    private static final int ROUNDS = 6;
 
+    private final Content.Unit unit;
     private final Random random = new Random();
     private final List<Content.Item> pool = new ArrayList<>();
 
@@ -37,222 +35,264 @@ public class SpellGame extends BaseScreen {
     private LinearLayout slots;
     private GridLayout tiles;
     private TextView promptView;
-    private TextView scoreView;
 
-    public SpellGame(MainActivity host) {
+    /** Word building over a unit's own words. */
+    public SpellGame(MainActivity host, Content.Unit unit) {
         super(host);
-    }
-
-    @Override
-    protected String titleText() {
-        return t("Spell the Word \uD83D\uDD24", "Susun Huruf \uD83D\uDD24");
-    }
-
-    @Override
-    protected View buildBody() {
-        collectWords();
-
-        LinearLayout column = vertical();
-        column.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        scoreView = Util.text(host, "", 17, Util.INK);
-        scoreView.setTypeface(null, Typeface.BOLD);
-        column.addView(scoreView, matchWrap());
-
-        promptView = Util.text(host, "", 60, Color.BLACK);
-        promptView.setPadding(dp(10), dp(14), dp(10), dp(14));
-        promptView.setBackground(Util.roundedStroke(Color.WHITE, dp(26), Util.MEADOW_DEEP, dp(4)));
-        promptView.setElevation(dp(3));
-        LinearLayout.LayoutParams promptLp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f);
-        promptLp.setMargins(0, dp(10), 0, dp(10));
-        column.addView(promptView, promptLp);
-        promptView.setOnClickListener(v -> speakAnswer());
-
-        slots = horizontal();
-        column.addView(slots, matchWrap());
-
-        LinearLayout.LayoutParams gap = matchWrap();
-        gap.setMargins(0, dp(12), 0, dp(12));
-        column.addView(new View(host), gap);
-
-        tiles = new GridLayout(host);
-        tiles.setColumnCount(6);
-        column.addView(tiles, matchWrap());
-
-        host.progress().registerGamePlayed();
-        nextRound();
-        return column;
-    }
-
-    /** Words this game can ask the child to spell, in the current language. */
-    List<String> spellableWords() {
-        collectWords();
-        List<String> out = new ArrayList<>();
-        for (Content.Item item : pool) {
-            out.add(item.name(lang).toLowerCase(java.util.Locale.ROOT));
-        }
-        return out;
-    }
-
-    /** Short, spellable words from every content group the app already teaches. */
-    private void collectWords() {
-        if (!pool.isEmpty()) {
-            return;
-        }
-        addFrom(Content.WORDS);
-        addFrom(Content.FRUITS);
-        addFrom(Content.ANIMALS);
-        addFrom(Content.BODY);
-        addFrom(Content.PLANTS);
-    }
-
-    private void addFrom(List<Content.Item> items) {
-        for (Content.Item item : items) {
-            String word = item.name(lang).trim();
-            if (word.matches("[A-Za-z]{3," + MAX_LETTERS + "}")) {
+        this.unit = unit;
+        for (Content.Item item : unit.items) {
+            if (wordOf(item) != null) {
                 pool.add(item);
             }
         }
     }
 
-    private void nextRound() {
-        if (round >= TOTAL_ROUNDS) {
-            finish();
-            return;
+    /** Word building across every unit that has real words, for the games hub. */
+    public SpellGame(MainActivity host) {
+        super(host);
+        this.unit = null;
+        for (Content.Unit u : Content.UNITS) {
+            for (Content.Item item : u.items) {
+                if (wordOf(item) != null) {
+                    pool.add(item);
+                }
+            }
         }
-        if (pool.isEmpty()) {
-            finish();
-            return;
-        }
-        round++;
-        filled = 0;
-        Content.Item item = pool.get(random.nextInt(pool.size()));
-        answer = item.name(lang).toLowerCase(java.util.Locale.ROOT);
-
-        scoreView.setText(t("Round ", "Pusingan ") + round + " / " + TOTAL_ROUNDS
-                + "   \u2B50 " + score);
-        promptView.setText(item.symbol);
-        speakAnswer();
-
-        buildSlots();
-        buildTiles();
     }
 
-    private void buildSlots() {
+    /** Every word this game can ask for, for tests and for a sanity check. */
+    public java.util.List<String> spellableWords() {
+        java.util.List<String> out = new ArrayList<>();
+        for (Content.Item item : pool) {
+            String word = wordOf(item);
+            if (word != null) {
+                out.add(word);
+            }
+        }
+        return out;
+    }
+
+    private static String wordOf(Content.Item item) {
+        String word = item.word;
+        if (word == null || !word.matches("[A-Za-z]{2,8}")) {
+            return null;
+        }
+        return word.toLowerCase();
+    }
+
+    private Content.Unit unitOf(Content.Item item) {
+        if (unit != null) {
+            return unit;
+        }
+        for (Content.Unit u : Content.UNITS) {
+            if (u.items.contains(item)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    protected String titleText() {
+        return t("Build the Word \uD83E\uDDE9", "Bina Perkataan \uD83E\uDDE9");
+    }
+
+    @Override
+    protected View buildBody() {
+        LinearLayout column = vertical();
+        column.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        promptView = Util.text(host, "", 22, theme.ink());
+        promptView.setTypeface(null, android.graphics.Typeface.BOLD);
+        promptView.setPadding(0, dp(8), 0, dp(10));
+        column.addView(promptView, matchWrap());
+
+        slots = new LinearLayout(host);
+        slots.setOrientation(LinearLayout.HORIZONTAL);
+        slots.setGravity(Gravity.CENTER);
+        column.addView(slots, matchWrap());
+
+        tiles = new GridLayout(host);
+        tiles.setColumnCount(4);
+        LinearLayout.LayoutParams gridLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f);
+        gridLp.setMargins(0, dp(14), 0, 0);
+        column.addView(tiles, gridLp);
+
+        column.addView(bottomRow(), matchWrap());
+
+        if (pool.isEmpty()) {
+            promptView.setText(t("Tiada perkataan", "No words here"));
+            return scrollWrap(column);
+        }
+        startRound();
+        return column;
+    }
+
+    private View bottomRow() {
+        LinearLayout row = new LinearLayout(host);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER);
+
+        TextView hear = Util.text(host, "\uD83D\uDD0A " + t("Dengar", "Listen"), 16, theme.onAccent());
+        hear.setTypeface(null, android.graphics.Typeface.BOLD);
+        hear.setGravity(Gravity.CENTER);
+        hear.setBackground(Util.rounded(theme.accent(), dp(20)));
+        hear.setElevation(dp(3));
+        hear.setPadding(dp(18), dp(13), dp(18), dp(13));
+        hear.setOnClickListener(v -> {
+            host.sfx().tap();
+            host.voice().speak(lang, answer);
+        });
+
+        TextView skip = Util.text(host, t("Langkau", "Skip"), 16, theme.ink());
+        skip.setTypeface(null, android.graphics.Typeface.BOLD);
+        skip.setGravity(Gravity.CENTER);
+        skip.setBackground(Util.roundedStroke(theme.surface(), dp(20), theme.line(), dp(2)));
+        skip.setPadding(dp(18), dp(13), dp(18), dp(13));
+        skip.setOnClickListener(v -> {
+            host.sfx().tap();
+            nextRound();
+        });
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(dp(6), 0, dp(6), 0);
+        row.addView(hear, lp);
+        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp2.setMargins(dp(6), 0, dp(6), 0);
+        row.addView(skip, lp2);
+        return row;
+    }
+
+    /** Malay is chunked into syllables; English into single letters. */
+    private List<String> chunk(String word) {
+        List<String> out = new ArrayList<>();
+        if (lang == Content.Lang.EN || word.length() <= 2) {
+            for (char c : word.toCharArray()) {
+                out.add(String.valueOf(c));
+            }
+            return out;
+        }
+        for (int i = 0; i < word.length(); i += 2) {
+            out.add(word.substring(i, Math.min(word.length(), i + 2)));
+        }
+        return out;
+    }
+
+    private void startRound() {
+        if (round >= ROUNDS || pool.isEmpty()) {
+            showResult();
+            return;
+        }
+        Content.Item item = pool.get(random.nextInt(pool.size()));
+        answer = wordOf(item);
+        filled = 0;
+
+        List<String> parts = chunk(answer);
+        promptView.setText(Content.displayOf(item, lang) + "  "
+                + t("Bina: ", "Build: ") + answer);
+
         slots.removeAllViews();
-        for (int i = 0; i < answer.length(); i++) {
-            TextView slot = Util.text(host, "_", 30, Util.INK);
-            slot.setTypeface(null, Typeface.BOLD);
-            slot.setPadding(dp(2), dp(4), dp(2), dp(4));
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0,
-                    ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-            lp.setMargins(dp(3), 0, dp(3), 0);
+        for (int i = 0; i < parts.size(); i++) {
+            TextView slot = Util.text(host, "", 26, theme.ink());
+            slot.setTypeface(null, android.graphics.Typeface.BOLD);
+            slot.setGravity(Gravity.CENTER);
+            slot.setBackground(Util.roundedStroke(theme.surface2(), dp(16), theme.line(), dp(3)));
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(76), dp(64));
+            lp.setMargins(dp(5), 0, dp(5), 0);
             slots.addView(slot, lp);
         }
-    }
 
-    private void buildTiles() {
-        // A few extra letters would let a child guess. Keep only the real letters,
-        // shuffled, so every tap either advances the word or is clearly wrong.
-        List<Character> letters = new ArrayList<>();
-        for (char c : answer.toCharArray()) {
-            letters.add(c);
-        }
-        Collections.shuffle(letters);
-
+        List<String> shuffled = new ArrayList<>(parts);
+        Collections.shuffle(shuffled, random);
         tiles.removeAllViews();
-        for (char letter : letters) {
-            tiles.addView(letterTile(letter), tileParams());
+        for (String part : shuffled) {
+            tiles.addView(letterTile(part, parts), tileParams());
         }
+
+        host.voice().speak(lang, answer);
     }
 
     private GridLayout.LayoutParams tileParams() {
         GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
         lp.width = 0;
-        lp.height = dp(60);
+        lp.height = dp(68);
         lp.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-        lp.setMargins(dp(4), dp(4), dp(4), dp(4));
+        lp.setMargins(dp(5), dp(5), dp(5), dp(5));
         return lp;
     }
 
-    private View letterTile(final char letter) {
-        final TextView tile = Util.text(host, String.valueOf(letter).toUpperCase(), 28, Color.WHITE);
-        tile.setTypeface(null, Typeface.BOLD);
-        tile.setBackground(Util.rounded(Util.storyColor(letter + round), dp(18)));
-        tile.setElevation(dp(4));
-        tile.setOnClickListener(v -> tap(letter, tile));
+    private View letterTile(String part, List<String> parts) {
+        TextView tile = Util.text(host, part, 24, theme.ink());
+        tile.setTypeface(null, android.graphics.Typeface.BOLD);
+        tile.setGravity(Gravity.CENTER);
+        tile.setBackground(Util.roundedStroke(theme.surface(), dp(18), theme.line(), dp(3)));
+        tile.setElevation(dp(3));
+        tile.setClickable(true);
+
+        tile.setOnClickListener(v -> {
+            if (tile.getAlpha() < 1f || filled >= parts.size()) {
+                return;
+            }
+            String want = parts.get(filled);
+            Content.Unit owner = unitOf(pool.get(0));
+            if (part.equals(want)) {
+                TextView slot = (TextView) slots.getChildAt(filled);
+                slot.setText(part);
+                slot.setBackground(Util.rounded(theme.accent(), dp(16)));
+                slot.setTextColor(theme.onAccent());
+                filled++;
+                tile.setAlpha(0.35f);
+                tile.setClickable(false);
+                host.sfx().tap();
+                if (filled == parts.size()) {
+                    score++;
+                    host.progress().recordAnswer(owner == null ? "spell" : owner.id, answer, true);
+                    host.correctFeedback(slots);
+                    host.mouthSay(t("Bagus sekali!", "Great job!"));
+                    host.voice().speakThen(lang, t("Bagus sekali!", "Great job!"), 1f,
+                            this::nextRound);
+                }
+            } else {
+                host.progress().recordAnswer(owner == null ? "spell" : owner.id, answer, false);
+                host.wrongFeedback(tile);
+                host.shake(tile, 7);
+            }
+        });
         return tile;
     }
 
-    private void tap(char letter, View tile) {
-        char expected = answer.charAt(filled);
-        if (Character.toLowerCase(letter) == expected) {
-            fillSlot(filled, expected);
-            filled++;
-            tile.setEnabled(false);
-            tile.animate().alpha(0.25f).setDuration(150).start();
-            if (filled == answer.length()) {
-                winRound();
-            }
-            return;
+    private void nextRound() {
+        round++;
+        startRound();
+    }
+
+    private void showResult() {
+        LinearLayout column = vertical();
+        column.setGravity(Gravity.CENTER);
+        column.addView(Util.text(host, "\uD83E\uDDF1", 60, theme.ink()));
+        TextView result = Util.text(host, score + " / " + ROUNDS, 32, theme.ink());
+        result.setTypeface(null, android.graphics.Typeface.BOLD);
+        column.addView(result);
+
+        TextView home = Util.text(host, t("Utama", "Home"), 17, theme.onAccent());
+        home.setTypeface(null, android.graphics.Typeface.BOLD);
+        home.setGravity(Gravity.CENTER);
+        home.setBackground(Util.rounded(theme.accent(), dp(20)));
+        home.setPadding(dp(24), dp(15), dp(24), dp(15));
+        home.setOnClickListener(v -> host.showHome());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, dp(16), 0, 0);
+        column.addView(home, lp);
+
+        if (score >= ROUNDS - 1) {
+            host.celebrate(host.praise());
         }
-
-        host.progress().resetStreak();
-        host.wrongFeedback(tile);
-        host.mouthSay(t("Try the next letter!", "Cuba huruf seterusnya!"));
-    }
-
-    private void fillSlot(int index, char letter) {
-        View child = slots.getChildAt(index);
-        if (child instanceof TextView) {
-            TextView slot = (TextView) child;
-            slot.setText(String.valueOf(letter).toUpperCase());
-            slot.setTextColor(Util.MEADOW_DEEP);
-            slot.setScaleX(1.4f);
-            slot.animate().scaleX(1f).setDuration(180).start();
-        }
-    }
-
-    private void winRound() {
-        score += 10;
-        host.progress().addPoints(10);
-        host.progress().addStar();
-        host.progress().addCorrect();
-        host.progress().onCorrectAnswer();
-        host.progress().earnedBadges();
-        host.updateHeader();
-        scoreView.setText(t("Round ", "Pusingan ") + round + " / " + TOTAL_ROUNDS
-                + "   \u2B50 " + score);
-        promptView.animate().scaleX(1.15f).scaleY(1.15f).setDuration(150)
-                .withEndAction(() -> promptView.animate().scaleX(1f).scaleY(1f)
-                        .setDuration(150).start())
-                .start();
-        host.celebrate(t("You spelled it!", "Pandai mengeja!"));
-        promptView.postDelayed(this::nextRound, 1100);
-    }
-
-    private void speakAnswer() {
-        if (answer != null) {
-            host.mouthSay(answer);
-        }
-    }
-
-    private void finish() {
-        scoreView.setText(t("You scored ", "Markah kamu ") + score + " \u2B50");
-        promptView.setText("\uD83C\uDFC6");
-        host.celebrate(t("Spelling star!", "Bintang mengeja!"));
-        slots.removeAllViews();
-        tiles.removeAllViews();
-        tiles.setColumnCount(1);
-        tiles.addView(bigButton("\uD83D\uDD01", t("Play again", "Main lagi"),
-                0xFF8FBF7F, this::restart), new GridLayout.LayoutParams());
-    }
-
-    private void restart() {
-        round = 0;
-        score = 0;
-        tiles.setColumnCount(6);
-        nextRound();
+        body.removeAllViews();
+        body.addView(column, new android.widget.FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 }

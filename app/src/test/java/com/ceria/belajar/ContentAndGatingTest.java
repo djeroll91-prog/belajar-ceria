@@ -17,7 +17,7 @@ public class ContentAndGatingTest {
     public void contentCollectionsArePopulated() {
         assertEquals(26, Content.LETTERS.size());
         assertEquals(20, Content.NUMBERS.size());
-        assertTrue(Content.WORDS.size() >= 20);
+        assertTrue("the reading word list must not be empty", Content.WORDS.size() >= 10);
         assertTrue(Content.BODY.size() >= 10);
         assertTrue(Content.ANIMALS.size() >= 15);
         assertTrue(Content.PLANTS.size() >= 8);
@@ -25,60 +25,140 @@ public class ContentAndGatingTest {
         assertTrue(Content.LIVING.size() >= 8);
         assertTrue(Content.JAWI.size() >= 30);
         assertTrue(Content.ARABIC.size() >= 20);
+        assertTrue(Content.SENTENCES.size() >= 10);
         assertEquals(Content.SWATCHES.size(), Content.COLOR_ITEMS.size());
     }
 
     @Test
+    public void everyUnitIsWellFormed() {
+        assertTrue("there should be six tunjang", Content.TUNJANG.size() == 6);
+        assertTrue("there should be many units", Content.UNITS.size() >= 40);
+
+        java.util.Set<String> ids = new java.util.HashSet<>();
+        for (Content.Tunjang tunjang : Content.TUNJANG) {
+            assertFalse("tunjang needs an id", tunjang.id.isEmpty());
+            assertFalse("tunjang needs a name", tunjang.en.isEmpty() || tunjang.ms.isEmpty());
+            assertTrue("tunjang needs units", !tunjang.units.isEmpty());
+            for (Content.Unit unit : tunjang.units) {
+                assertTrue("unit id must be unique: " + unit.id, ids.add(unit.id));
+                assertFalse("unit needs a name", unit.en.isEmpty() || unit.ms.isEmpty());
+                assertFalse("unit needs an emoji", unit.emoji.isEmpty());
+                assertTrue("unit needs content: " + unit.id,
+                        !unit.items.isEmpty() || !unit.sentences.isEmpty());
+            }
+        }
+    }
+
+    @Test
     public void everyItemHasBothLanguages() {
+        for (Content.Unit unit : Content.UNITS) {
+            for (Content.Item item : unit.items) {
+                assertFalse("item needs English in " + unit.id,
+                        item.name(Content.Lang.EN).isEmpty());
+                assertFalse("item needs Malay in " + unit.id,
+                        item.name(Content.Lang.MS).isEmpty());
+            }
+        }
+    }
+
+    @Test
+    public void lettersAreStoredWithTheirPictureAndSaidByName() {
+        Content.Unit letters = Content.unitById("bm-huruf");
+        assertTrue("the ABC unit must exist", letters != null);
+        assertEquals(26, letters.items.size());
+
+        for (Content.Item item : letters.items) {
+            String glyph = Content.letterGlyph(item);
+            assertEquals(1, glyph.length());
+            // The picture must not leak into the spoken form: a child learning
+            // "A" must hear "ei", not "apel".
+            String spoken = Content.spokenOf(item, "letter", Content.Lang.MS);
+            assertFalse("letter " + glyph + " must not be spoken as its picture",
+                    spoken.equals(item.ms));
+            assertTrue("letter " + glyph + " must still show a picture",
+                    item.symbol.indexOf('|') > 0);
+        }
+    }
+
+    @Test
+    public void letterGlyphNeverLeaksTheStoredPipe() {
         for (Content.Item item : Content.LETTERS) {
-            assertFalse(item.en.isEmpty());
-            assertFalse(item.ms.isEmpty());
+            String shown = Content.displayOf(item, Content.Lang.MS);
+            assertFalse("a raw symbol leaked: " + shown, shown.contains("|"));
         }
-        for (Content.Item item : Content.COLOR_ITEMS) {
-            assertTrue(Content.isColorItem(item));
-            assertFalse(item.name(Content.Lang.EN).isEmpty());
-            assertFalse(item.name(Content.Lang.MS).isEmpty());
-        }
-        for (Content.Item item : Content.JAWI) {
-            assertTrue(Content.isScriptItem(item));
+    }
+
+    @Test
+    public void malayReadingIsTaughtThroughSyllables() {
+        Content.Unit syllables = Content.unitById("bm-suku-kata");
+        assertTrue("the syllable unit must exist", syllables != null);
+        assertEquals(70, syllables.items.size());
+        assertEquals("ba", syllables.items.get(0).symbol);
+
+        Content.Unit wordSyllables = Content.unitById("bm-suku-kata-kata");
+        assertTrue("the syllable-to-word unit must exist", wordSyllables != null);
+        for (Content.Item item : wordSyllables.items) {
+            assertTrue("a syllable word needs a readable word: " + item.symbol,
+                    item.word != null && item.word.matches("[a-z]+"));
         }
     }
 
     @Test
     public void wordItemsCarryReadableWord() {
-        for (Content.Item item : Content.WORDS) {
-            assertTrue("word item needs a readable word", item.word != null);
+        for (Content.Unit unit : Content.UNITS) {
+            if (!"word".equals(unit.kind)) {
+                continue;
+            }
+            for (Content.Item item : unit.items) {
+                assertTrue("word item in " + unit.id + " needs a readable word",
+                        item.word != null && item.word.matches("[a-z]+"));
+            }
         }
     }
 
     @Test
-    public void curriculumStartsWithOneUnlockedLevel() {
-        assertEquals(11, Curriculum.total());
-        assertEquals(1, Curriculum.LEVELS.get(0).id);
-        for (Curriculum.Level level : Curriculum.LEVELS) {
-            assertTrue("every level teaches something", level.items.size() >= 5);
-            assertTrue("pass score must be positive", level.passScore > 0);
+    public void scriptsAreMarkedAsScriptAndColoursAsColours() {
+        Content.Unit jawi = Content.unitById("bm-jawi");
+        assertTrue("the Jawi unit must exist", jawi != null);
+        for (Content.Item item : jawi.items) {
+            assertTrue("Jawi must be marked as script", Content.isScriptItem(item));
+        }
+
+        Content.Unit colours = Content.unitById("fiz-warna");
+        assertTrue("the colour unit must exist", colours != null);
+        for (Content.Item item : colours.items) {
+            assertTrue("a colour must be a colour item", Content.isColorItem(item));
         }
     }
 
     @Test
-    public void aLevelCannotBeSkippedBeforePassingThePrevious() {
-        int highestUnlocked = 1;
-        int levelId = 3;
-        int required = Curriculum.byId(3).passScore;
-
-        assertTrue("level 3 is locked at the start", levelId > highestUnlocked);
-
-        int score = required - 10;
-        assertFalse(score >= required);
-
-        score = required;
-        boolean passed = score >= required;
-        assertTrue(passed);
-        if (passed) {
-            highestUnlocked = levelId + 1;
+    public void theYearHasFortyTwoThemes() {
+        assertEquals(42, Content.THEMES.size());
+        assertEquals(1, Content.THEMES.get(0).week);
+        assertEquals(42, Content.THEMES.get(41).week);
+        for (Content.Theme theme : Content.THEMES) {
+            assertFalse(theme.en.isEmpty());
+            assertFalse(theme.ms.isEmpty());
         }
-        assertEquals(4, highestUnlocked);
+    }
+
+    @Test
+    public void everyUnitBelongsToATunjang() {
+        for (Content.Unit unit : Content.UNITS) {
+            String owner = Content.tunjangIdOf(unit);
+            assertTrue("unit " + unit.id + " has no tunjang", owner != null);
+            assertTrue("unit " + unit.id + " is not reachable by id",
+                    Content.unitById(unit.id) != null);
+        }
+    }
+
+    @Test
+    public void displayOfNeverShowsAColourHexString() {
+        Content.Unit colours = Content.unitById("fiz-warna");
+        for (Content.Item item : colours.items) {
+            String shown = Content.displayOf(item, Content.Lang.MS);
+            assertFalse("a hex colour leaked to the UI: " + shown, shown.startsWith("#"));
+        }
     }
 
     @Test

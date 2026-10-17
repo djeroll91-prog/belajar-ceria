@@ -73,43 +73,44 @@ public final class PhraseCatalog {
     /** All phrases for one language, de-duplicated, in a stable order. */
     public static List<Phrase> forLang(Content.Lang lang) {
         LinkedHashSet<Phrase> unique = new LinkedHashSet<>();
-        addItems(unique, lang, "letters", Content.LETTERS, true);
-        addItems(unique, lang, "numbers", Content.NUMBERS, false);
-        addItems(unique, lang, "words", Content.WORDS, false);
-        addSentences(unique, lang);
+        for (Content.Unit unit : Content.UNITS) {
+            addUnit(unique, lang, unit);
+        }
         addSwatches(unique, lang);
-        addItems(unique, lang, "body", Content.BODY, false);
-        addItems(unique, lang, "animals", Content.ANIMALS, false);
-        addItems(unique, lang, "plants", Content.PLANTS, false);
-        addItems(unique, lang, "fruits", Content.FRUITS, false);
-        addItems(unique, lang, "living", Content.LIVING, false);
-        addItems(unique, lang, "jawi", Content.JAWI, false);
-        addItems(unique, lang, "arabic", Content.ARABIC, false);
         return new ArrayList<>(unique);
     }
 
-    private static void addItems(LinkedHashSet<Phrase> out, Content.Lang lang, String group,
-                                 List<Content.Item> items, boolean includeLetterName) {
-        for (Content.Item item : items) {
+    /**
+     * Every phrase a unit can say. Letters are special: the child must hear the
+     * letter name ("ei"), and the picture beside it ("apel") is a separate phrase
+     * so the flashcards and the ABC song can both be served from one list.
+     */
+    private static void addUnit(LinkedHashSet<Phrase> out, Content.Lang lang, Content.Unit unit) {
+        if ("sentence".equals(unit.kind)) {
+            for (Content.Sentence s : unit.sentences) {
+                out.add(new Phrase(lang, s.text(lang), unit.id));
+            }
+            return;
+        }
+        for (Content.Item item : unit.items) {
             if (Content.isScriptItem(item)) {
                 // Jawi and Arabic are read by their letter name, e.g. "ba".
-                out.add(new Phrase(lang, item.name(lang), group));
+                out.add(new Phrase(lang, item.name(lang), unit.id));
                 continue;
             }
             if (Content.isColorItem(item)) {
-                out.add(new Phrase(lang, item.name(lang), group));
+                out.add(new Phrase(lang, item.name(lang), unit.id));
                 continue;
             }
-            if (includeLetterName) {
-                out.add(new Phrase(lang, Content.letterGlyph(item).toUpperCase(Locale.ROOT), group));
+            if ("letter".equals(unit.kind)) {
+                out.add(new Phrase(lang, Content.letterGlyph(item).toUpperCase(Locale.ROOT), unit.id));
+                out.add(new Phrase(lang, item.name(lang), unit.id));
+                continue;
             }
-            out.add(new Phrase(lang, item.spokenText(lang), group));
-        }
-    }
-
-    private static void addSentences(LinkedHashSet<Phrase> out, Content.Lang lang) {
-        for (Content.Sentence sentence : Content.SENTENCES) {
-            out.add(new Phrase(lang, sentence.text(lang), "sentences"));
+            out.add(new Phrase(lang, item.spokenText(lang), unit.id));
+            if (!item.name(lang).equals(item.spokenText(lang))) {
+                out.add(new Phrase(lang, item.name(lang), unit.id));
+            }
         }
     }
 

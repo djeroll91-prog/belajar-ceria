@@ -27,11 +27,14 @@ public class MainActivity extends Activity {
     private SoundEffects sfx;
     private MusicPlayer music;
     private Progress progress;
+    private Theme theme;
     private FrameLayout rootFrame;
     private FrameLayout content;
     private LinearLayout header;
+    private TextView homeButton;
     private TextView pointsPill;
     private TextView langPill;
+    private TextView themePill;
     private TextView soundPill;
     private TextView musicPill;
     private TextView greeting;
@@ -46,6 +49,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         progress = new Progress(this);
+        theme = new Theme(this);
         speech = new SpeechHelper(this);
         voice = new VoicePack(this, speech);
         sfx = new SoundEffects(this);
@@ -100,6 +104,24 @@ public class MainActivity extends Activity {
         return progress;
     }
 
+    /** A short line of praise in the current language, for the robot and voice. */
+    public String praise() {
+        String[] ms = {"Bagus sekali!", "Hebat!", "Pandai!", "Syabas!", "Betul!"};
+        String[] en = {"Great job!", "Well done!", "Brilliant!", "You did it!", "Correct!"};
+        String[] list = lang() == Content.Lang.MS ? ms : en;
+        return list[(int) (System.currentTimeMillis() % list.length)];
+    }
+
+    /** Rebuilds the home screen in place, after a setting changed. */
+    public void rebuildHome() {
+        showHome();
+    }
+
+    /** The tunjang a unit belongs to, for colouring its screens. */
+    public String tunjangIdOf(Content.Unit unit) {
+        return Content.tunjangIdOf(unit);
+    }
+
     public FrameLayout rootFrame() {
         return rootFrame;
     }
@@ -136,12 +158,6 @@ public class MainActivity extends Activity {
         rootFrame.addView(new StorySceneView(this), new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        // A faint white wash keeps dark text readable over the painted sky.
-        View scrim = new View(this);
-        scrim.setBackgroundColor(0x1AFFFFFF);
-        rootFrame.addView(scrim, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         LinearLayout column = new LinearLayout(this);
         column.setOrientation(LinearLayout.VERTICAL);
         rootFrame.addView(column, new FrameLayout.LayoutParams(
@@ -152,38 +168,60 @@ public class MainActivity extends Activity {
         header.setGravity(Gravity.CENTER_VERTICAL);
         header.setPadding(Util.dp(this, 12), Util.dp(this, 10),
                 Util.dp(this, 12), Util.dp(this, 10));
-        header.setBackgroundColor(0x33FFFFFF);
         column.addView(header, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        TextView title = Util.text(this, "\uD83C\uDF1F Belajar Ceria", 20, 0xFF4A148C);
-        title.setTypeface(null, android.graphics.Typeface.BOLD);
-        LinearLayout.LayoutParams titleLp = new LinearLayout.LayoutParams(
+        homeButton = Util.text(this, "\uD83C\uDFE0", 20, theme.ink());
+        homeButton.setGravity(Gravity.CENTER);
+        homeButton.setBackground(Util.roundedStroke(theme.surface(), Util.dp(this, 16),
+                theme.line(), Util.dp(this, 2)));
+        homeButton.setPadding(Util.dp(this, 12), Util.dp(this, 8),
+                Util.dp(this, 12), Util.dp(this, 8));
+        homeButton.setOnClickListener(v -> {
+            sfx.tap();
+            showHome();
+        });
+        header.addView(homeButton, pillParams(0, 0, 6, 0));
+
+        pointsPill = Util.text(this, "", 16, theme.onAccent());
+        pointsPill.setTypeface(null, android.graphics.Typeface.BOLD);
+        pointsPill.setGravity(Gravity.CENTER);
+        pointsPill.setBackground(Util.rounded(theme.accent(), Util.dp(this, 16)));
+        pointsPill.setPadding(Util.dp(this, 14), Util.dp(this, 9),
+                Util.dp(this, 14), Util.dp(this, 9));
+        LinearLayout.LayoutParams pointsLp = new LinearLayout.LayoutParams(
                 0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        title.setGravity(Gravity.CENTER_VERTICAL);
-        header.addView(title, titleLp);
+        pointsLp.setMargins(Util.dp(this, 4), 0, Util.dp(this, 6), 0);
+        header.addView(pointsPill, pointsLp);
 
-        pointsPill = Util.text(this, "", 15, Color.WHITE);
-        pointsPill.setPadding(Util.dp(this, 12), Util.dp(this, 6),
-                Util.dp(this, 12), Util.dp(this, 6));
-        LinearLayout.LayoutParams pillLp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        pillLp.setMargins(4, 0, 6, 0);
-        pointsPill.setBackground(Util.rounded(0xFFFF6D00, Util.dp(this, 20)));
-        header.addView(pointsPill, pillLp);
-
-        langPill = Util.text(this, "", 15, 0xFF4A148C);
-        langPill.setPadding(Util.dp(this, 12), Util.dp(this, 6),
-                Util.dp(this, 12), Util.dp(this, 6));
-        langPill.setBackground(Util.rounded(0xFFFFFFFF, Util.dp(this, 20)));
+        langPill = Util.text(this, "", 16, theme.ink());
+        langPill.setTypeface(null, android.graphics.Typeface.BOLD);
+        langPill.setGravity(Gravity.CENTER);
+        langPill.setBackground(Util.roundedStroke(theme.surface(), Util.dp(this, 16),
+                theme.line(), Util.dp(this, 2)));
+        langPill.setPadding(Util.dp(this, 12), Util.dp(this, 9),
+                Util.dp(this, 12), Util.dp(this, 9));
         langPill.setOnClickListener(v -> toggleLang());
-        header.addView(langPill, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        header.addView(langPill, pillParams(0, 0, 6, 0));
 
-        soundPill = Util.text(this, "", 18, 0xFF4A148C);
-        soundPill.setPadding(Util.dp(this, 12), Util.dp(this, 6),
-                Util.dp(this, 12), Util.dp(this, 6));
-        soundPill.setBackground(Util.rounded(0xFFFFFFFF, Util.dp(this, 20)));
+        themePill = Util.text(this, "", 18, theme.ink());
+        themePill.setGravity(Gravity.CENTER);
+        themePill.setBackground(Util.roundedStroke(theme.surface(), Util.dp(this, 16),
+                theme.line(), Util.dp(this, 2)));
+        themePill.setPadding(Util.dp(this, 12), Util.dp(this, 9),
+                Util.dp(this, 12), Util.dp(this, 9));
+        themePill.setOnClickListener(v -> {
+            theme.toggle();
+            rebuildForTheme();
+        });
+        header.addView(themePill, pillParams(0, 0, 6, 0));
+
+        soundPill = Util.text(this, "", 18, theme.ink());
+        soundPill.setGravity(Gravity.CENTER);
+        soundPill.setBackground(Util.roundedStroke(theme.surface(), Util.dp(this, 16),
+                theme.line(), Util.dp(this, 2)));
+        soundPill.setPadding(Util.dp(this, 12), Util.dp(this, 9),
+                Util.dp(this, 12), Util.dp(this, 9));
         soundPill.setOnClickListener(v -> {
             boolean on = !isSoundOn();
             setSoundOn(on);
@@ -192,33 +230,21 @@ public class MainActivity extends Activity {
             }
             updateHeader();
         });
-        LinearLayout.LayoutParams soundLp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        soundLp.setMargins(4, 0, 6, 0);
-        header.addView(soundPill, soundLp);
+        header.addView(soundPill, pillParams(0, 0, 6, 0));
 
-        // Music gets its own switch. A parent who finds the tune distracting
+        // Music keeps its own switch. A parent who finds the tune distracting
         // should not have to give up the tap and reward sounds as well.
-        musicPill = Util.text(this, "", 18, 0xFF4A148C);
-        musicPill.setPadding(Util.dp(this, 12), Util.dp(this, 6),
-                Util.dp(this, 12), Util.dp(this, 6));
-        musicPill.setBackground(Util.rounded(0xFFFFFFFF, Util.dp(this, 20)));
+        musicPill = Util.text(this, "", 18, theme.ink());
+        musicPill.setGravity(Gravity.CENTER);
+        musicPill.setBackground(Util.roundedStroke(theme.surface(), Util.dp(this, 16),
+                theme.line(), Util.dp(this, 2)));
+        musicPill.setPadding(Util.dp(this, 12), Util.dp(this, 9),
+                Util.dp(this, 12), Util.dp(this, 9));
         musicPill.setOnClickListener(v -> {
             setMusicOn(!isMusicOn());
             updateHeader();
         });
-        LinearLayout.LayoutParams musicLp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        musicLp.setMargins(4, 0, 6, 0);
-        header.addView(musicPill, musicLp);
-
-        TextView voiceButton = Util.text(this, "\uD83D\uDD0A", 18, 0xFF4A148C);
-        voiceButton.setPadding(Util.dp(this, 12), Util.dp(this, 6),
-                Util.dp(this, 12), Util.dp(this, 6));
-        voiceButton.setBackground(Util.rounded(0xFFFFFFFF, Util.dp(this, 20)));
-        voiceButton.setOnClickListener(v -> open(new VoiceScreen(this)));
-        header.addView(voiceButton, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        header.addView(musicPill, pillParams(0, 0, 6, 0));
 
         content = new FrameLayout(this);
         column.addView(content, new LinearLayout.LayoutParams(
@@ -228,15 +254,44 @@ public class MainActivity extends Activity {
         updateHeader();
     }
 
+    private LinearLayout.LayoutParams pillParams(int left, int top, int right, int bottom) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(Util.dp(this, left), Util.dp(this, top),
+                Util.dp(this, right), Util.dp(this, bottom));
+        return lp;
+    }
+
+    /**
+     * Rebuilds the visible screen after the theme changes. Views are built in
+     * code rather than inflated, so a new palette has to be drawn again rather
+     * than restyled in place.
+     */
+    public void rebuildForTheme() {
+        sfx.tap();
+        Screen keep = currentScreen;
+        buildChrome();
+        if (keep == null) {
+            showHome();
+        } else {
+            open(keep);
+        }
+    }
+
+    public Theme theme() {
+        return theme;
+    }
+
     public void updateHeader() {
         if (pointsPill != null) {
             pointsPill.setText("\u2B50 " + progress.stars() + "   " + progress.points()
                     + " " + (lang() == Content.Lang.MS ? "markah" : "pts"));
         }
         if (langPill != null) {
-            langPill.setText(lang() == Content.Lang.MS
-                    ? "\uD83C\uDDF2\uD83C\uDDFE BM"
-                    : "\uD83C\uDDEC\uD83C\uDDE7 EN");
+            langPill.setText(lang() == Content.Lang.MS ? "\uD83C\uDDF2\uD83C\uDDFE BM" : "\uD83C\uDDEC\uD83C\uDDE7 EN");
+        }
+        if (themePill != null) {
+            themePill.setText(theme.isDark() ? "\u2600\uFE0F" : "\uD83C\uDF19");
         }
         if (soundPill != null) {
             boolean on = isSoundOn();
@@ -287,7 +342,7 @@ public class MainActivity extends Activity {
             java.util.Arrays.asList(
                     "SpeakScreen", "ColoringScreen", "KaraokeScreen", "XylophoneScreen",
                     "AnimalSoundScreen", "RecordingStudioScreen", "VoiceScreen",
-                    "CreditsScreen", "LevelMapScreen", "RewardsScreen"));
+                    "CreditsScreen", "RewardsScreen", "QuizScreen"));
 
     /** Drops the music while a phrase is spoken, then brings it back. */
     private void duckMusic() {
@@ -401,116 +456,211 @@ public class MainActivity extends Activity {
         scroll.setFillViewport(true);
         LinearLayout column = new LinearLayout(this);
         column.setOrientation(LinearLayout.VERTICAL);
-        column.setPadding(Util.dp(this, 14), Util.dp(this, 14), Util.dp(this, 14), Util.dp(this, 24));
+        column.setPadding(Util.dp(this, 14), Util.dp(this, 14), Util.dp(this, 14), Util.dp(this, 28));
         scroll.addView(column, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         content.addView(scroll, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
+        column.addView(welcomeCard(), wrap());
+
+        // Anything the child keeps getting wrong is offered again before the
+        // rest of the menu, so practice comes before browsing.
+        java.util.List<Review.WeakUnit> weak = Review.weakUnits(progress, 3);
+        if (!weak.isEmpty()) {
+            column.addView(sectionTitle(tr("Perlu diulang", "Needs practice"), weak.size()), wrap());
+            LinearLayout row = new LinearLayout(this);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            for (Review.WeakUnit w : weak) {
+                Content.Tunjang owner = Content.tunjangById(w.tunjangId);
+                row.addView(navTile(w.unit.emoji, w.unit.title(lang()),
+                        Math.round(w.accuracy * 100) + "%",
+                        owner == null ? theme.accent() : theme.tunjangColor(owner.color),
+                        () -> open(new UnitScreen(this, w.unit))), weightParams());
+            }
+            column.addView(row, wrap());
+        }
+
+        column.addView(sectionTitle(tr("Enam tunjang", "The six tunjang"), Content.TUNJANG.size()), wrap());
+        for (Content.Tunjang tunjang : Content.TUNJANG) {
+            column.addView(tunjangRow(tunjang), wrap());
+        }
+
+        column.addView(sectionTitle(tr("Aktiviti", "Activities"), 0), wrap());
+        GridLayout activities = new GridLayout(this);
+        int cols = getResources().getConfiguration().screenWidthDp >= 600 ? 4 : 3;
+        activities.setColumnCount(cols);
+        column.addView(activities, wrap());
+        addTile(activities, "\uD83E\uDDE0", tr("Ulang kaji", "Review"), theme.accent(),
+                () -> open(new ReviewScreen(this)));
+        addTile(activities, "\uD83C\uDFC6", tr("Ganjaran", "Rewards"), Theme.GOLD,
+                () -> open(new RewardsScreen(this)));
+        addTile(activities, "\uD83C\uDFAE", tr("Permainan", "Games"), 0xFF7ED957,
+                () -> open(new GamesScreen(this)));
+        addTile(activities, "\uD83D\uDCC5", tr("Tema Mingguan", "Weekly Themes"), 0xFF8FD3F4,
+                () -> open(new ThemesScreen(this)));
+        addTile(activities, "\uD83D\uDD0A", tr("Suara Bacaan", "Reading Voice"), 0xFF8C9CC9,
+                () -> open(new VoiceScreen(this)));
+        addTile(activities, "\uD83C\uDF99\uFE0F", tr("Studio Rakaman", "Recording Studio"), 0xFF7FC7C0,
+                () -> open(new RecordingStudioScreen(this)));
+        addTile(activities, "\u2699\uFE0F", tr("Tetapan", "Settings"), 0xFFB9AECF,
+                () -> open(new SettingsScreen(this)));
+
+        startMusic();
+    }
+
+    private LinearLayout.LayoutParams wrap() {
+        return new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private LinearLayout.LayoutParams weightParams() {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        lp.setMargins(Util.dp(this, 5), Util.dp(this, 5), Util.dp(this, 5), Util.dp(this, 5));
+        return lp;
+    }
+
+    /** A short welcome strip: the child's name for the app, and the robot. */
+    private View welcomeCard() {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
+        card.setPadding(Util.dp(this, 16), Util.dp(this, 14),
+                Util.dp(this, 16), Util.dp(this, 14));
+        card.setBackground(Util.roundedStroke(theme.surface(), Util.dp(this, 26),
+                theme.line(), Util.dp(this, 2)));
+        card.setElevation(Util.dp(this, 3));
+
         mascot = new RobotView(this);
         mascot.setBodyColor(Util.storyColor(progress.points() / 50));
         mascot.setOnClickListener(v -> {
             mascot.setTalking(true);
-            voice.speak(lang(), lang() == Content.Lang.MS
-                    ? "Hai kawan! Jom belajar sama-sama!"
-                    : "Hi friend! Let's learn together!");
+            mouthSay(tr("Hai kawan! Jom belajar sama-sama!", "Hi friend! Let's learn together!"));
         });
         LinearLayout.LayoutParams robotLp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, Util.dp(this, 190));
-        robotLp.setMargins(0, Util.dp(this, 4), 0, Util.dp(this, 6));
-        column.addView(mascot, robotLp);
+                Util.dp(this, 104), Util.dp(this, 104));
+        card.addView(mascot, robotLp);
 
-        greeting = Util.text(this, lang() == Content.Lang.MS
-                ? "Namaku Bobo! Tekan aku ya \uD83D\uDE0A"
-                : "I am Bobo! Tap me \uD83D\uDE0A", 17, 0xFF4A148C);
-        greeting.setPadding(0, 0, 0, Util.dp(this, 12));
-        column.addView(greeting);
+        LinearLayout texts = new LinearLayout(this);
+        texts.setOrientation(LinearLayout.VERTICAL);
+        texts.setPadding(Util.dp(this, 14), 0, 0, 0);
 
-        GridLayout grid = new GridLayout(this);
-        int columns = getResources().getConfiguration().screenWidthDp >= 600 ? 3 : 2;
-        grid.setColumnCount(columns);
-        column.addView(grid, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        TextView head = Util.text(this, tr("Selamat datang ke Belajar Ceria!",
+                "Welcome to Belajar Ceria!"), 20, theme.ink());
+        head.setTypeface(null, android.graphics.Typeface.BOLD);
+        texts.addView(head);
 
-        addTile(grid, "\uD83D\uDDFA\uFE0F", tr("Laluan Belajar", "Learning Path"), 0xFF9A8FCF,
-                () -> open(new LevelMapScreen(this)));
-        addTile(grid, "\uD83D\uDD24", tr("Huruf ABC", "ABC Letters"), 0xFFE8877A,
-                () -> open(new LearnScreen(this, Content.LETTERS, LearnScreen.Mode.LETTER)));
-        addTile(grid, "\uD83D\uDD22", tr("Nombor 123", "Numbers 123"), 0xFF7FB4D9,
-                () -> open(new LearnScreen(this, Content.NUMBERS, LearnScreen.Mode.NUMBER)));
-        addTile(grid, "\uD83D\uDCD6", tr("Perkataan", "Words"), 0xFF8FBF7F,
-                () -> open(new LearnScreen(this, Content.WORDS, LearnScreen.Mode.WORD)));
-        addTile(grid, "\uD83D\uDCDD", tr("Ayat", "Sentences"), 0xFFB48FC9,
-                () -> open(new SentenceScreen(this)));
-        addTile(grid, "\uD83C\uDFA8", tr("Warna", "Colours"), 0xFFF2B457,
-                () -> open(new LearnScreen(this, Content.COLOR_ITEMS, LearnScreen.Mode.WORD)
-                        .withTitle("\uD83C\uDFA8 Colours", "\uD83C\uDFA8 Warna")));
-        addTile(grid, "\uD83D\uDC41", tr("Tubuh Badan", "My Body"), 0xFFE39BB5,
-                () -> open(new LearnScreen(this, Content.BODY, LearnScreen.Mode.WORD)
-                        .withTitle("\uD83D\uDC41 My Body", "\uD83D\uDC41 Tubuh Badan")));
-        addTile(grid, "\uD83D\uDC3E", tr("Haiwan", "Animals"), 0xFF8FBF7F,
-                () -> open(new LearnScreen(this, Content.ANIMALS, LearnScreen.Mode.WORD)
-                        .withTitle("\uD83D\uDC3E Animals", "\uD83D\uDC3E Haiwan")));
-        addTile(grid, "\uD83C\uDF31", tr("Tumbuhan", "Plants"), 0xFF7FC7C0,
-                () -> open(new LearnScreen(this, Content.PLANTS, LearnScreen.Mode.WORD)
-                        .withTitle("\uD83C\uDF31 Plants", "\uD83C\uDF31 Tumbuh-tumbuhan")));
-        addTile(grid, "\uD83C\uDF4E", tr("Buah-buahan", "Fruits"), 0xFFE39BB5,
-                () -> open(new LearnScreen(this, Content.FRUITS, LearnScreen.Mode.WORD)
-                        .withTitle("\uD83C\uDF4E Fruits", "\uD83C\uDF4E Buah-buahan")));
-        addTile(grid, "\uD83C\uDF89", tr("Benda Hidup", "Living Things"), 0xFF8C9CC9,
-                () -> open(new LearnScreen(this, Content.LIVING, LearnScreen.Mode.WORD)
-                        .withTitle("\uD83C\uDF89 Living Things", "\uD83C\uDF89 Benda Hidup")));
-        addTile(grid, "\u0645", tr("Huruf Jawi", "Jawi Letters"), 0xFF7FC7C0,
-                () -> open(new LearnScreen(this, Content.JAWI, LearnScreen.Mode.WORD)
-                        .withTitle("\u0645 Jawi", "\u0645 Jawi")));
-        addTile(grid, "\u0639", tr("Huruf Arab", "Arabic Letters"), 0xFFC9A227,
-                () -> open(new LearnScreen(this, Content.ARABIC, LearnScreen.Mode.WORD)
-                        .withTitle("\u0639 Arabic", "\u0639 Arab")));
-        addTile(grid, "\uD83C\uDFA4", tr("Sebut & Menang", "Say & Win"), 0xFFF09B5B,
-                () -> open(new SpeakScreen(this)));
-        addTile(grid, "\uD83C\uDFAF", tr("Kuiz", "Quiz"), 0xFFE8877A,
-                () -> open(new QuizGame(this)));
-        addTile(grid, "\uD83D\uDD24", tr("Susun Huruf", "Spell the Word"), 0xFF9A8FCF,
-                () -> open(new SpellGame(this)));
-        addTile(grid, "\uD83D\uDD0D", tr("Cari Yang Berbeza", "Odd One Out"), 0xFF7FC7C0,
-                () -> open(new OddOneOutGame(this)));
-        addTile(grid, "\uD83D\uDC22", tr("Kira Objek", "Count"), 0xFF7FC7C0,
-                () -> open(new CountGame(this)));
-        addTile(grid, "\uD83E\uDDE9", tr("Apa Seterusnya?", "What Comes Next?"), 0xFF9CCC65,
-                () -> open(new PatternGame(this)));
-        addTile(grid, "\uD83E\uDEE7", tr("Letup Gelembung", "Bubble Pop"), 0xFF26C6DA,
-                () -> open(new BubblePopGame(this)));
-        addTile(grid, "\uD83E\uDDFA", tr("Bakul Susun", "Sorting Baskets"), 0xFF8FBF7F,
-                () -> open(new SortGame(this)));
-        addTile(grid, "\u2795", tr("Tambah & Tolak", "Add & Take Away"), 0xFF7FB4D9,
-                () -> open(new MathGame(this)));
-        addTile(grid, "\u270F\uFE0F", tr("Tulis Huruf", "Trace Letters"), 0xFFE8877A,
-                () -> open(new TraceGame(this, TraceGame.Mode.LETTER)));
-        addTile(grid, "\u270F\uFE0F", tr("Tulis Nombor", "Trace Numbers"), 0xFF7FB4D9,
-                () -> open(new TraceGame(this, TraceGame.Mode.NUMBER)));
-        addTile(grid, "\u270F\uFE0F", tr("Tulis Jawi", "Trace Jawi"), 0xFF7FC7C0,
-                () -> open(new TraceGame(this, TraceGame.Mode.JAWI)));
-        addTile(grid, "\uD83D\uDDE3\uFE0F", tr("Sebut Jawi", "Say Jawi"), 0xFFB48FC9,
-                () -> open(new JawiSpeakGame(this)));
-        addTile(grid, "\uD83E\uDDE9", tr("Memori", "Memory"), 0xFF8C9CC9,
-                () -> open(new MemoryGame(this)));
-        addTile(grid, "\uD83C\uDFA8", tr("Mewarna", "Colouring"), 0xFFE39BB5,
-                () -> open(new ColoringScreen(this)));
-        addTile(grid, "\uD83C\uDFC6", tr("Ganjaran", "Rewards"), 0xFFF2B457,
-                () -> open(new RewardsScreen(this)));
-        addTile(grid, "\uD83D\uDD0A", tr("Suara Bacaan", "Reading Voice"), 0xFF8C9CC9,
-                () -> open(new VoiceScreen(this)));
-        addTile(grid, "\uD83C\uDF99\uFE0F", tr("Studio Rakaman", "Recording Studio"), 0xFF7FC7C0,
-                () -> open(new RecordingStudioScreen(this)));
-        addTile(grid, "\uD83C\uDFA4", tr("Kredit Suara", "Voice Credits"), 0xFFC9A227,
-                () -> open(new CreditsScreen(this)));
-        addTile(grid, "\uD83C\uDFB9", tr("Xylophone", "Xylophone"), 0xFF8FBF7F,
-                () -> open(new XylophoneScreen(this)));
-        addTile(grid, "\uD83D\uDC15", tr("Suara Haiwan", "Animal Sounds"), 0xFFF2B457,
-                () -> open(new AnimalSoundScreen(this)));
-        addTile(grid, "\uD83C\uDFB5", tr("Karaoke ABC", "ABC Karaoke"), 0xFFE8877A,
-                () -> open(new KaraokeScreen(this)));
-        startMusic();
+        greeting = Util.text(this, tr("Namaku Bobo! Tekan aku ya \uD83D\uDE0A",
+                "I am Bobo! Tap me \uD83D\uDE0A"), 15, theme.inkSoft());
+        greeting.setPadding(0, Util.dp(this, 4), 0, 0);
+        texts.addView(greeting);
+
+        TextView sub = Util.text(this, tr("Prasekolah mengikut KSPK \u2014 6 tunjang",
+                "Preschool following KSPK \u2014 6 tunjang"), 13, theme.inkSoft());
+        sub.setPadding(0, Util.dp(this, 2), 0, 0);
+        texts.addView(sub);
+
+        card.addView(texts, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        return card;
+    }
+
+    private View sectionTitle(String text, int count) {
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(Util.dp(this, 4), Util.dp(this, 18), 0, Util.dp(this, 8));
+
+        TextView label = Util.text(this, text, 19, theme.ink());
+        label.setTypeface(null, android.graphics.Typeface.BOLD);
+        row.addView(label);
+
+        if (count > 0) {
+            TextView badge = Util.text(this, String.valueOf(count), 12, theme.inkSoft());
+            badge.setBackground(Util.rounded(theme.surface2(), Util.dp(this, 10)));
+            badge.setPadding(Util.dp(this, 8), Util.dp(this, 3),
+                    Util.dp(this, 8), Util.dp(this, 3));
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(Util.dp(this, 8), 0, 0, 0);
+            row.addView(badge, lp);
+        }
+        return row;
+    }
+
+    /** One tunjang as a full-width row: colour strip, name, and how much is done. */
+    private View tunjangRow(Content.Tunjang tunjang) {
+        int color = theme.tunjangColor(tunjang.color);
+
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(Util.dp(this, 14), Util.dp(this, 14),
+                Util.dp(this, 14), Util.dp(this, 14));
+        row.setBackground(Util.roundedStroke(theme.wash(color, 0.10f), Util.dp(this, 22),
+                color, Util.dp(this, 3)));
+        row.setElevation(Util.dp(this, 3));
+        row.setClickable(true);
+
+        TextView emoji = Util.text(this, tunjang.emoji, 30, theme.ink());
+        emoji.setGravity(Gravity.CENTER);
+        row.addView(emoji, new LinearLayout.LayoutParams(Util.dp(this, 54),
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout texts = new LinearLayout(this);
+        texts.setOrientation(LinearLayout.VERTICAL);
+        texts.setPadding(Util.dp(this, 6), 0, 0, 0);
+
+        TextView name = Util.text(this, tunjang.title(lang()), 18, theme.ink());
+        name.setTypeface(null, android.graphics.Typeface.BOLD);
+        texts.addView(name);
+
+        int done = 0, total = 0;
+        for (Content.Unit unit : tunjang.units) {
+            for (Content.Item item : unit.items) {
+                total++;
+                if (progress.boxOf(unit.id, Progress.keyOf(item)) >= 2) {
+                    done++;
+                }
+            }
+        }
+        String sub = tunjang.units.size() + " " + tr("unit", "units");
+        if (total > 0) {
+            sub += " \u00B7 " + done + "/" + total + " " + tr("dikuasai", "mastered");
+        }
+        TextView meta = Util.text(this, sub, 13, theme.inkSoft());
+        meta.setPadding(0, Util.dp(this, 3), 0, 0);
+        texts.addView(meta);
+
+        if (total > 0) {
+            LinearLayout bar = new LinearLayout(this);
+            bar.setOrientation(LinearLayout.HORIZONTAL);
+            bar.setBackground(Util.rounded(theme.surface2(), Util.dp(this, 5)));
+            LinearLayout.LayoutParams barLp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, Util.dp(this, 8));
+            barLp.setMargins(0, Util.dp(this, 7), 0, 0);
+            texts.addView(bar, barLp);
+            if (done > 0) {
+                View fill = new View(this);
+                fill.setBackground(Util.rounded(Theme.GOOD, Util.dp(this, 5)));
+                bar.addView(fill, new LinearLayout.LayoutParams(0, Util.dp(this, 8), done / (float) total));
+                bar.addView(new View(this), new LinearLayout.LayoutParams(0, Util.dp(this, 8),
+                        (total - done) / (float) total));
+            }
+        }
+
+        row.addView(texts, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView arrow = Util.text(this, "\u203A", 26, color);
+        row.addView(arrow);
+
+        row.setOnClickListener(v -> {
+            clickBee(v);
+            v.postDelayed(() -> open(new TunjangScreen(this, tunjang)), 90);
+        });
+        return row;
     }
 
     private String tr(String ms, String en) {
@@ -518,32 +668,49 @@ public class MainActivity extends Activity {
     }
 
     private void addTile(GridLayout grid, String emoji, String label, int color, Runnable action) {
+        grid.addView(navTile(emoji, label, null, color, action), tileParams(grid));
+    }
+
+    private GridLayout.LayoutParams tileParams(GridLayout grid) {
+        GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
+        lp.width = 0;
+        lp.height = Util.dp(this, 112);
+        lp.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+        lp.setMargins(Util.dp(this, 5), Util.dp(this, 5), Util.dp(this, 5), Util.dp(this, 5));
+        return lp;
+    }
+
+    /** A tappable card: soft tint of its own colour, with the label underneath. */
+    private View navTile(String emoji, String label, String sub, int color, Runnable action) {
         LinearLayout tile = new LinearLayout(this);
         tile.setOrientation(LinearLayout.VERTICAL);
         tile.setGravity(Gravity.CENTER);
-        tile.setPadding(Util.dp(this, 8), Util.dp(this, 16), Util.dp(this, 8), Util.dp(this, 16));
-        // A soft white rim gives the tiles a painted-card feel against the sky.
-        tile.setBackground(Util.roundedStroke(color, Util.dp(this, 24),
-                0xCCFFFFFF, Util.dp(this, 3)));
-        tile.setElevation(Util.dp(this, 6));
+        tile.setPadding(Util.dp(this, 8), Util.dp(this, 12),
+                Util.dp(this, 8), Util.dp(this, 12));
+        tile.setBackground(Util.roundedStroke(theme.wash(color, 0.14f), Util.dp(this, 22),
+                color, Util.dp(this, 3)));
+        tile.setElevation(Util.dp(this, 3));
         tile.setClickable(true);
         tile.setOnClickListener(v -> {
             clickBee(v);
             v.postDelayed(action, 90);
         });
 
-        TextView icon = Util.text(this, emoji, 40, Color.WHITE);
+        TextView icon = Util.text(this, emoji, 30, theme.ink());
+        icon.setGravity(Gravity.CENTER);
         tile.addView(icon);
-        TextView text = Util.text(this, label, 15, Color.WHITE);
+
+        TextView text = Util.text(this, label, 14, theme.ink());
         text.setTypeface(null, android.graphics.Typeface.BOLD);
+        text.setGravity(Gravity.CENTER);
         tile.addView(text);
 
-        GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
-        lp.width = 0;
-        lp.height = Util.dp(this, 116);
-        lp.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-        lp.setMargins(Util.dp(this, 6), Util.dp(this, 6), Util.dp(this, 6), Util.dp(this, 6));
-        grid.addView(tile, lp);
+        if (sub != null) {
+            TextView subText = Util.text(this, sub, 12, theme.inkSoft());
+            subText.setGravity(Gravity.CENTER);
+            tile.addView(subText);
+        }
+        return tile;
     }
 
     private void clickBee(View v) {

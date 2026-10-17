@@ -70,7 +70,9 @@ public class ChildFeedbackTest {
     public void gamesAreSilentSoChildrenCanThink() {
         MainActivity host = launch();
         MainActivity.Screen[] games = {
-                new QuizGame(host), new SpellGame(host), new OddOneOutGame(host),
+                new QuizScreen(host, Content.unitById("bm-huruf")),
+                new SpellGame(host),
+                new OddOneOutGame(host),
                 new CountGame(host), new MemoryGame(host), new PatternGame(host),
                 new BubblePopGame(host), new SortGame(host), new MathGame(host),
                 new TraceGame(host), new JawiSpeakGame(host)};
@@ -84,7 +86,7 @@ public class ChildFeedbackTest {
     @Test
     public void learningScreensStillHaveATune() {
         MainActivity host = launch();
-        host.open(new LearnScreen(host, Content.LETTERS, LearnScreen.Mode.LETTER));
+        host.open(new LearnScreen(host, Content.unitById("bm-huruf")));
         assertNotEquals("a learning screen should not be silent",
                 MusicPlayer.SILENT, host.music().currentTrack());
         host.showHome();
@@ -123,13 +125,18 @@ public class ChildFeedbackTest {
     @Test
     public void quizNeverPrintsAPipeInAnOption() {
         MainActivity host = launch();
-        // The default quiz draws from LETTERS, NUMBERS and WORDS, which is where
-        // the raw "A|🍎" symbol used to leak onto the tiles.
+        // The ABC unit is where the raw "A|🍎" symbol used to leak onto tiles.
+        // The tile may show the letter, but never the picture's name: that would
+        // give the answer away and teach the wrong pairing.
         for (int i = 0; i < 12; i++) {
-            QuizGame quiz = new QuizGame(host);
+            QuizScreen quiz = new QuizScreen(host, Content.unitById("bm-huruf"));
             String shown = textsOf(quiz.build());
             assertFalse("a letter tile leaked its raw symbol: " + shown,
                     shown.contains("|"));
+            for (Content.Item item : Content.unitById("bm-huruf").items) {
+                assertFalse("the picture name leaked into a letter quiz: " + item.en,
+                        shown.contains(item.en) || shown.contains(item.ms));
+            }
         }
     }
 
@@ -322,14 +329,15 @@ public class ChildFeedbackTest {
     @Test
     public void abcScreenSaysTheLetterNotThePictureName() {
         MainActivity host = launch();
-        LearnScreen screen = new LearnScreen(host, Content.LETTERS, LearnScreen.Mode.LETTER);
+        LearnScreen screen = new LearnScreen(host, Content.unitById("bm-huruf"));
         screen.build();
-        // Walk the whole alphabet: the voice must be told "A", "B", "C", ...
-        // never "Apple", "Ball", "Cat".
-        for (Content.Item item : Content.LETTERS) {
+        // Walk the whole alphabet: the voice must be told the letter's name
+        // ("ei", "bi", "si"), never the picture's name ("Apple", "Ball").
+        for (Content.Item item : Content.unitById("bm-huruf").items) {
             String spoken = screen.spokenName();
-            assertEquals("letter mode must speak the glyph, not the word",
-                    Content.letterGlyph(item), spoken);
+            assertFalse("letter mode must not say the raw glyph", spoken.isEmpty());
+            assertTrue("letter name looks wrong for " + Content.letterGlyph(item)
+                            + ": " + spoken, spoken.matches("[a-z]{1,8}"));
             assertFalse("the picture's name leaked into the voice",
                     spoken.equals(item.name(Content.Lang.MS))
                             || spoken.equals(item.name(Content.Lang.EN)));
@@ -340,10 +348,11 @@ public class ChildFeedbackTest {
     @Test
     public void wordScreenStillSaysTheWholeWord() {
         MainActivity host = launch();
-        LearnScreen screen = new LearnScreen(host, Content.WORDS, LearnScreen.Mode.WORD);
+        Content.Unit unit = Content.unitById("bm-perkataan");
+        LearnScreen screen = new LearnScreen(host, unit);
         screen.build();
         // Reading practice is the opposite case: there the word itself is right.
-        for (Content.Item item : Content.WORDS) {
+        for (Content.Item item : unit.items) {
             assertEquals(item.word, screen.spokenName());
             screen.nextForTest();
         }
@@ -352,12 +361,13 @@ public class ChildFeedbackTest {
     @Test
     public void numberScreenSaysTheNumberAsAWord() {
         MainActivity host = launch();
-        LearnScreen screen = new LearnScreen(host, Content.NUMBERS, LearnScreen.Mode.NUMBER);
+        Content.Unit unit = Content.unitById("ma-nombor");
+        LearnScreen screen = new LearnScreen(host, unit);
         screen.build();
         // "satu" is recognised far better than the digit "1", and the emoji in
         // symbol must never reach the voice.
         String first = screen.spokenName();
-        assertEquals(Content.NUMBERS.get(0).name(Content.Lang.MS), first);
+        assertEquals(unit.items.get(0).name(Content.Lang.MS), first);
         assertFalse("an emoji reached the voice", first.matches(".*[\\uD800-\\uDFFF].*"));
     }
 
